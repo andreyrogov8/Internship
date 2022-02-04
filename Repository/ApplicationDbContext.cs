@@ -15,7 +15,7 @@ namespace Repository
 
         }
 
-        public DbSet<Bookings> Bookings { get; set; }
-        public DbSet<Countries> Countries { get; set; }        
+        public DbSet<Booking> Booking { get; set; }
+        public DbSet<Country> Country { get; set; }        
     }
 }

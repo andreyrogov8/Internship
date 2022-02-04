@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public  class Bookings:BaseEntity
+    public  class Booking : BaseEntity
     {
         public int CorrelationId { get; set; }
 
-        public string? BookingType { get; set; }
+        public BookingType Type{ get; set; }
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class Countries: BaseEntity
+    public  enum BookingType
     {
-        public string Name { get; set; }
+        Short,
+        Long,
+        Recurrence
     }
 }
