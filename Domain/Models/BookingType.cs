@@ -10,6 +10,6 @@ namespace Domain.Models
     {
         Short,
         Long,
-        Recurrence
+        Recurrent
     }
 }
