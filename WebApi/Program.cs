@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Repository;
+﻿using Repository;
+using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +15,9 @@ builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json")
     .AddJsonFile("appsettings.local.json");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+
+builder.Services.AddApplication();
+builder.Services.AddPersistence(builder.Configuration);
 
 
 
