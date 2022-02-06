@@ -17,7 +17,7 @@ builder.Configuration
     .AddJsonFile("appsettings.local.json");
 
 builder.Services.AddApplication();
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddRepository(builder.Configuration);
 
 
 

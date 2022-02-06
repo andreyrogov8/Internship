@@ -14,7 +14,6 @@ namespace Application
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            // register all services for Application layer
         }
     }
 }

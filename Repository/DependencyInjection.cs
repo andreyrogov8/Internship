@@ -12,7 +12,7 @@ namespace Repository
 {
     public static class DependencyInjection
     {
-        public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static void AddRepository(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -22,7 +22,6 @@ namespace Repository
                     b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
             });
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
         }
     }
 }
