@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 25.0.1700.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{72A918CB-BE02-4FFF-A410-C6EBA4ADAEE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{72A918CB-BE02-4FFF-A410-C6EBA4ADAEE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{BDE41313-F72B-4416-99DB-E4582EAB34A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{BDE41313-F72B-4416-99DB-E4582EAB34A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{768D4E22-123D-4452-88A7-FEFB456FABB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{AA421D75-AB84-4A60-ADFC-C7785D4C603B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{768D4E22-123D-4452-88A7-FEFB456FABB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{768D4E22-123D-4452-88A7-FEFB456FABB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{768D4E22-123D-4452-88A7-FEFB456FABB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{768D4E22-123D-4452-88A7-FEFB456FABB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
