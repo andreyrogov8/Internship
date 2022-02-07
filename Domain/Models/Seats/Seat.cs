@@ -6,7 +6,7 @@ namespace Domain.Models.Seats
     {
         public bool Status { get; set; }
         public int Number { get; set; }
-        public SeatTypes SeatType { get; set; }
+        public SeatType SeatType { get; set; }
 
         public List<SeatEquipments> SeatEquipments { get; set; }
     }

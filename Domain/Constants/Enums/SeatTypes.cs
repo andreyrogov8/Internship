@@ -1,6 +1,6 @@
 ﻿namespace Domain.Constants
 {
-    public enum SeatTypes : byte
+    public enum SeatType : byte
     {
         LongTerm = 1,
         ShortTerm = 2
