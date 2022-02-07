@@ -27,13 +27,13 @@ namespace Application.Features.CountryCQ
         }
         public async Task<GetAllCountryListQueryResponse> Handle(GetAllCountryListQueryRequest query, CancellationToken cancellationToken)
         {
-            var coutry = await _context.Country
+            var coutries = await _context.Country
                 .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
             return new GetAllCountryListQueryResponse
             { 
-                Results = coutry.ToList() 
+                Results = coutries.ToList() 
             };  
             
         }
