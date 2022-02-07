@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Application.Features.CountryCQ
 {
-    public class GetAllCountryListQueryRequest : IRequest <Responce>
+    public class GetAllCountryListQueryRequest : IRequest <GetAllCountryListQueryResponce>
     {
     }
 
-    public class GetAllCountryListQueryHandler : IRequestHandler<GetAllCountryListQueryRequest, Responce>
+    public class GetAllCountryListQueryHandler : IRequestHandler<GetAllCountryListQueryRequest, GetAllCountryListQueryResponce>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -24,18 +24,18 @@ namespace Application.Features.CountryCQ
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Responce> Handle(GetAllCountryListQueryRequest query, CancellationToken cancellationToken)
+        public async Task<GetAllCountryListQueryResponce> Handle(GetAllCountryListQueryRequest query, CancellationToken cancellationToken)
         {
             var countryList = await _context.Country.ToListAsync(cancellationToken);
 
-            var response = _mapper.Map<Responce>(countryList);
+            var response = _mapper.Map<GetAllCountryListQueryResponce>(countryList);
             return response;
         }
     }
 
-    public class Responce
+    public class GetAllCountryListQueryResponce
     {
-        public IEnumerable<CountryDto> Countries { get; set; }
+        public IEnumerable<CountryDto> Results { get; set; }
     }
     public class CountryDto 
     {

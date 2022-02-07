@@ -13,7 +13,7 @@ namespace Application.Profiles
     {
         public CountriesProfile()
         {
-            CreateMap<Country, Responce>();
+            CreateMap<Country, CountryDto>();
         }
     
         
