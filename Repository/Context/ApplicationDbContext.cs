@@ -16,10 +16,10 @@ namespace Repository
 
         }
 
-        public DbSet<Booking> Booking { get; set; }
-        public DbSet<Country> Country { get; set; }
-        public DbSet<Seat> Seat { get; set; }
-        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<Booking> Bookingings { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Seat> Seats { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
         public DbSet<SeatEquipments> SeatEquipments { get; set;}
     }
 }
