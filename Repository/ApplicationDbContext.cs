@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Seats;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace Repository
         }
 
         public DbSet<Booking> Booking { get; set; }
-        public DbSet<Country> Country { get; set; }        
+        public DbSet<Country> Country { get; set; }
+        public DbSet<Seat> Seat { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<SeatEquipments> SeatEquipments { get; set;}
     }
 }
