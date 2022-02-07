@@ -1,5 +1,4 @@
-﻿using Application.DTO;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Application.Features.CountryCQ
 {
-    public class GetAllCountryListQueryRequest : IRequest <IEnumerable<Responce>>
+    public class GetAllCountryListQueryRequest : IRequest <Responce>
     {
     }
 
-    public class GetAllCountryListQueryHandler : IRequestHandler<GetAllCountryListQueryRequest, IEnumerable<Responce>>
+    public class GetAllCountryListQueryHandler : IRequestHandler<GetAllCountryListQueryRequest, Responce>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
