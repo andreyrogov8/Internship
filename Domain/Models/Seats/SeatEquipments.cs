@@ -11,8 +11,8 @@ namespace Domain.Models.Seats
         public int SeatId { get; set; }
         public int  EquipmentId { get; set; }
 
-        public Seat seat { get; set; }
-        public Equipment equipment { get; set; }
+        public Seat Seat { get; set; }
+        public Equipment Equipment { get; set; }
 
 
     }

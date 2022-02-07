@@ -10,6 +10,6 @@ namespace Domain.Models.Seats
 
         public List<Equipment> Equipments { get; set; }
         public List<SeatEquipments> SeatEquipments { get; set; }
-        // public int FloorId{ get; set; }
+        public int FloorId{ get; set; }
     }
 }
