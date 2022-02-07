@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Constants;
 
 namespace Domain.Models.Seats
 {
@@ -10,6 +6,7 @@ namespace Domain.Models.Seats
     {
         public bool Status { get; set; }
         public int Number { get; set; }
+        public SeatTypes SeatType { get; set; }
 
         public List<Equipment> Equipments { get; set; }
         public List<SeatEquipments> SeatEquipments { get; set; }
