@@ -1,6 +1,6 @@
 ﻿using Application.Features.CountryCQ;
 using AutoMapper;
-using MediaBrowser.Model.Globalization;
+using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace Application.Profiles
     {
         public CountriesProfile()
         {
-            CreateMap<CountryList, Responce>();
+            CreateMap<Country, Responce>();
         }
     
         
