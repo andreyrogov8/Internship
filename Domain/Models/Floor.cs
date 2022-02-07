@@ -8,9 +8,8 @@ namespace Domain.Models
 {
     public class Floor : BaseEntity
     {
-        public int NumPlaces { get; set; }
-        public int FloorNum { get; set; }
-        public bool IsKitchenPresent { get; set; }
-        public bool IsMeetingRoomPresent { get; set; }
+        public int FloorNumber { get; set; }
+        public bool HasKitchen { get; set; }
+        public bool HasMeetingRoom { get; set; }
     }
 }
