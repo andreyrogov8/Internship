@@ -8,8 +8,6 @@ namespace Domain.Models.Seats
         public int Number { get; set; }
         public SeatTypes SeatType { get; set; }
 
-        public List<Equipment> Equipments { get; set; }
         public List<SeatEquipments> SeatEquipments { get; set; }
-        public int FloorId{ get; set; }
     }
 }

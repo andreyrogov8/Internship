@@ -2,7 +2,7 @@
 {
     public enum SeatTypes : byte
     {
-        LongTerm = 0,
-        ShortTerm = 1
+        LongTerm = 1,
+        ShortTerm = 2
     }
 }
