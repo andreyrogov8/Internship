@@ -11,7 +11,7 @@ namespace Repository
 {
     public static class DependencyInjection
     {
-        public static void AddRepository(this IServiceCollection services, IConfiguration configuration)
+        public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
             string connectionString = string.Empty;
             connectionString = configuration.GetConnectionString("DefaultConnection");
