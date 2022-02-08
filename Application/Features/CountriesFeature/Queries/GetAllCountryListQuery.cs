@@ -33,7 +33,7 @@ namespace Application.Features.CountryCQ
 
             return new GetAllCountryListQueryResponse
             { 
-                Results = coutries.ToList() 
+                Results = coutries
             };  
             
         }
