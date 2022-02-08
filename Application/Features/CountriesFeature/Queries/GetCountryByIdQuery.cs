@@ -24,28 +24,22 @@ namespace Application.Features.CountriesFeature.Queries
         public async Task<GetCountryByIdQueryResponse> Handle(GetCountryByIdQueryRequest request, CancellationToken cancellationToken)
         {
             var coutry = await _context.Country
-                .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetCountryByIdQueryResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (coutry == null)
             {
-                throw new DllNotFoundException(nameof(Country));
+                //Todo make custom exceprion 'throw new NotFoundException();'
             }
 
-            return new GetCountryByIdQueryResponse
-            {
-                Result = coutry
-            };
+            return coutry;
         }
     }
 
     public class GetCountryByIdQueryResponse
     {
-        public CountryDto Result { get; set; }
-    }
-    public class CountryDto
-    {
         public int Id { get; set; }
         public string Name { get; set; }
     }
+
 }
