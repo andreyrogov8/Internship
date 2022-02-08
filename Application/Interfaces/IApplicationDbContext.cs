@@ -1,5 +1,4 @@
 ﻿using Domain.Models;
-using Domain.Models.Seats;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
