@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Models
 {
-    public class Floor : BaseEntity
+    public class Map : BaseEntity
     {
+        public int OfficeId { get; set; }
         public int FloorNumber { get; set; }
         public bool HasKitchen { get; set; }
         public bool HasMeetingRoom { get; set; }

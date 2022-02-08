@@ -1,6 +1,6 @@
 ﻿namespace Domain.Enums
 {
-    public enum SeatType : byte
+    public enum WorkplaceType : byte
     {
         LongTerm = 1,
         ShortTerm = 2

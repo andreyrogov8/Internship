@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Profiles\**" />
+    <EmbeddedResource Remove="Profiles\**" />
+    <None Remove="Profiles\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
@@ -20,8 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\CountriesFeature\Commands\" />
-    <Folder Include="Profiles\" />
+    <Folder Include="Features\WorkplaceFeature\Commands\" />
   </ItemGroup>
 
 </Project>

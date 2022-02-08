@@ -14,7 +14,7 @@ namespace Application
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            services.AddAutoMapper(cfg => cfg.AddMaps(typeof(CountriesProfile).Assembly));
+            services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
         }
     }
 }

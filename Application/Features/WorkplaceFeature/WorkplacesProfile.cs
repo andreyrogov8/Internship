@@ -2,6 +2,7 @@
 using Application.Features.CountryCQ;
 using AutoMapper;
 using Domain.Models;
+using Domain.Models.Seats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Application.Profiles
 {
-    public class CountriesProfile : Profile
+    public class WorkplacesProfile : Profile
     {
-        public CountriesProfile()
+        public WorkplacesProfile()
         {
-            CreateMap<Country, CountryDto>();
-            CreateMap<Country, GetCountryByIdQueryResponse>();
+            CreateMap<Workplace, WorkplaceDto>();
+            CreateMap<Workplace, GetWorkplaceByIdQueryResponse>();
         }
     
         

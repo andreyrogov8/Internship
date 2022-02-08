@@ -8,11 +8,11 @@ namespace Domain.Models
 {
     public  class Booking : BaseEntity
     {
-        public int CorrelationId { get; set; }
-
-        public BookingType Type{ get; set; }
-
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public int WorkplaceId { get; set; }
+        public int UserId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public bool IsRecurring { get; set; }
+        public int Frequency { get; set; }
     }
 }

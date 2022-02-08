@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.Seats;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,10 @@ namespace Application.Interfaces
 {
     public interface IApplicationDbContext
     {
-        public DbSet <Country> Country { get; set; }
-        
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Workplace> Workplaces { get; set; }
+        public DbSet<Map> Floors { get; set; }
+        public DbSet<Office> Offices { get; set; }
+
     }
 }
