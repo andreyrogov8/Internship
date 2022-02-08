@@ -1,4 +1,5 @@
-﻿using Application.Features.CountryCQ;
+﻿using Application.Features.CountriesFeature.Queries;
+using Application.Features.CountryCQ;
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -14,6 +15,7 @@ namespace Application.Profiles
         public CountriesProfile()
         {
             CreateMap<Country, CountryDto>();
+            CreateMap<Country, GetCountryByIdQueryResponse>();
         }
     
         

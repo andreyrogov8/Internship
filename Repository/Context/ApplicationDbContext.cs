@@ -21,5 +21,9 @@ namespace Repository
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<SeatEquipments> SeatEquipments { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Floor> Floors { get; set; }
+        public DbSet<Office> Offices { get; set; }
+
     }
 }
