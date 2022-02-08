@@ -21,6 +21,11 @@ namespace Application.Features.CountriesFeature.Queries
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
+        public GetCountryByIdQueryHandler(IApplicationDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
         public async Task<GetCountryByIdQueryResponse> Handle(GetCountryByIdQueryRequest request, CancellationToken cancellationToken)
         {
             var coutry = await _context.Country
