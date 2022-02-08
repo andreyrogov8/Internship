@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Application.Features.CountryCQ
 {
-    public class GetAllCountryListQueryRequest : IRequest <Responce>
+    public class GetAllCountryListQueryRequest : IRequest <GetAllCountryListQueryResponse>
     {
     }
 
-    public class GetAllCountryListQueryHandler : IRequestHandler<GetAllCountryListQueryRequest, Responce>
+    public class GetAllCountryListQueryHandler : IRequestHandler<GetAllCountryListQueryRequest, GetAllCountryListQueryResponse>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -24,18 +25,23 @@ namespace Application.Features.CountryCQ
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Responce> Handle(GetAllCountryListQueryRequest query, CancellationToken cancellationToken)
+        public async Task<GetAllCountryListQueryResponse> Handle(GetAllCountryListQueryRequest query, CancellationToken cancellationToken)
         {
-            var countryList = await _context.Country.ToListAsync(cancellationToken);
+            var coutries = await _context.Country
+                .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken);
 
-            var response = _mapper.Map<Responce>(countryList);
-            return response;
+            return new GetAllCountryListQueryResponse
+            { 
+                Results = coutries.ToList() 
+            };  
+            
         }
     }
 
-    public class Responce
+    public class GetAllCountryListQueryResponse
     {
-        public IEnumerable<CountryDto> Countries { get; set; }
+        public IEnumerable<CountryDto> Results { get; set; }
     }
     public class CountryDto 
     {
