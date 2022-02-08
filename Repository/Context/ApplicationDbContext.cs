@@ -18,7 +18,7 @@ namespace Repository
 
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Workplace> Workplaces { get; set; }
-        public DbSet<Map> Floors { get; set; }
+        public DbSet<Map> Maps { get; set; }
         public DbSet<Office> Offices { get; set; }
 
     }

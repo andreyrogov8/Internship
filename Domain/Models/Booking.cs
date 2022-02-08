@@ -10,8 +10,8 @@ namespace Domain.Models
     {
         public int WorkplaceId { get; set; }
         public int UserId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
         public bool IsRecurring { get; set; }
         public int Frequency { get; set; }
     }
