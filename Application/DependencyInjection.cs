@@ -19,7 +19,6 @@ namespace Application
         {
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
             services.AddMediatR(Assembly.GetExecutingAssembly());
-            //services.AddMediatR(typeof(GetAllWorkplaceListQueryResponse).Assembly);
         }
     }
 }
