@@ -7,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Application.Profiles;
+using MediatR;
+using System.Reflection;
+using Application.Features.CountryCQ;
 
 namespace Application
 {
@@ -15,6 +18,8 @@ namespace Application
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            //services.AddMediatR(typeof(GetAllWorkplaceListQueryResponse).Assembly);
         }
     }
 }
