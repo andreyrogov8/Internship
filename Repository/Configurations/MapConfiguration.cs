@@ -20,10 +20,7 @@ namespace Persistence.Configurations
                 .WithMany(o => o.Maps)
                 .HasForeignKey(m => m.OfficeId);
 
-            //builder
-            //    .HasMany(m => m.Workplaces)
-            //    .WithOne(wp => wp.Map);
-
+            
         }
     }
 }
