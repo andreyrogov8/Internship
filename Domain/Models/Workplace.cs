@@ -1,10 +1,9 @@
 ﻿using Domain.Enums;
 
-namespace Domain.Models.Seats
+namespace Domain.Models
 {
     public class Workplace : BaseEntity
     {
-        public int MapId { get; set; }
         public int WorkplaceNumber { get; set; }
         public WorkplaceType WorkplaceType { get; set; }
         public bool NextToWindow { get; set; }
@@ -13,6 +12,9 @@ namespace Domain.Models.Seats
         public bool HasKeyboard { get; set; }
         public bool HasMouse { get; set; }
         public bool HasHeadset { get; set; }
+        public int MapId { get; set; }
+        public Map Map { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
 
     }
 }

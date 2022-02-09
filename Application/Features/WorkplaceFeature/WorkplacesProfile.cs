@@ -2,7 +2,6 @@
 using Application.Features.CountryCQ;
 using AutoMapper;
 using Domain.Models;
-using Domain.Models.Seats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
