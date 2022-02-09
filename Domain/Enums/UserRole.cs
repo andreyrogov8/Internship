@@ -4,10 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models
+namespace Domain.Enums
 {
-    public class Country : BaseEntity
+    public enum UserRole
     {
-        public string Name { get; set; }
+        User,
+        MapEditor,
+        Administrator,
+        Manager
     }
 }
