@@ -1,6 +1,6 @@
 ﻿using Application.Features.CountriesFeature.Queries;
 using Application.Features.CountryCQ;
-using Application.Features.MapFeatures.Queries;
+
 using AutoMapper;
 using Domain.Models;
 using System;
@@ -17,7 +17,6 @@ namespace Application.Profiles
         {
             CreateMap<Workplace, WorkplaceDto>();
             CreateMap<Workplace, GetWorkplaceByIdQueryResponse>();
-            CreateMap<Map, MapDto>();
         }
     
         

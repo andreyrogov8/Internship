@@ -29,14 +29,5 @@ namespace Repository
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer(@"Server = localhost; Database = internship; User = SA; Password =<YourStrong@Passw0rd>");
-        //    }
-        //}
     }
 }

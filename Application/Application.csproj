@@ -10,9 +10,7 @@
     <Compile Remove="Profiles\**" />
     <EmbeddedResource Remove="Profiles\**" />
     <None Remove="Profiles\**" />
-    <None Remove="Features\MapFeatures\" />
-    <None Remove="Features\MapFeatures\Commands\" />
-    <None Remove="Features\MapFeatures\Queries\" />
+
   </ItemGroup>
 
   <ItemGroup>
@@ -30,9 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Features\WorkplaceFeature\Commands\" />
-    <Folder Include="Features\MapFeatures\" />
-    <Folder Include="Features\MapFeatures\Commands\" />
-    <Folder Include="Features\MapFeatures\Queries\" />
+
   </ItemGroup>
 
 </Project>
