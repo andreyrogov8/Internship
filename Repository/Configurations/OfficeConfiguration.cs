@@ -13,9 +13,11 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Office> builder)
         {
-            builder
-                .HasMany(o => o.Maps)
-                .WithOne(m => m.Office);
+            //builder
+            //    .HasMany(o => o.Maps)
+            //    .WithOne(m => m.Office);
+            throw new NotImplementedException();    
+
         }
     }
 }

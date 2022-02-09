@@ -12,8 +12,8 @@ namespace Domain.Models
         public string TelegramId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime EmploymentStart { get; set; }
-        public DateTime EmploymentEnd { get; set; }
+        public DateTimeOffset EmploymentStart { get; set; }
+        public DateTimeOffset EmploymentEnd { get; set; }
         public int PrefferedWorkPlaceId { get; set; }
         public ICollection<Booking> Bookings { get; set; } 
         public ICollection<Vacation> Vacations { get; set; }

@@ -10,7 +10,7 @@ namespace Domain.Models
     {
         public int UserId { get; set; }
         public User User { get; set; }
-        public DateTime VacationStart { get; set; }
-        public DateTime VacationEnd { get; set; }
+        public DateTimeOffset VacationStart { get; set; }
+        public DateTimeOffset VacationEnd { get; set; }
     }
 }

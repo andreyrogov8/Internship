@@ -13,13 +13,14 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder
-                .HasMany(u => u.Bookings)
-                .WithOne(b => b.User);
+            //builder
+            //    .HasMany(u => u.Bookings)
+            //    .WithOne(b => b.User);
 
-            builder
-                .HasMany(u => u.Vacations)
-                .WithOne(v => v.User);
+            //builder
+            //    .HasMany(u => u.Vacations)
+            //    .WithOne(v => v.User);
+            throw new NotImplementedException();
         }
     }
 }
