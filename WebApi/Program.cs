@@ -1,5 +1,7 @@
 ﻿using Application;
+using Application.Features.CountryCQ;
 using Domain.Models;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository;
@@ -15,6 +17,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication();
+
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 {
