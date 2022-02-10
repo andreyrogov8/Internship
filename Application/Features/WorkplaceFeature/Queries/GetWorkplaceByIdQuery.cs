@@ -36,7 +36,6 @@ namespace Application.Features.CountriesFeature.Queries
             if (coutry == null)
             {
                 throw new NotFoundException(nameof(coutry), request.Id);
-                //Todo make custom exceprion 'throw new NotFoundException();'
             }
 
             return coutry;
