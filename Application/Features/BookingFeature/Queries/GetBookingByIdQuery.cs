@@ -2,14 +2,8 @@
 using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.BookingFeature.Queries
 {
@@ -52,12 +46,7 @@ namespace Application.Features.BookingFeature.Queries
         public bool IsRecurring { get; set; }
         public int Frequency { get; set; }
         public int WorkplaceId { get; set; }
-        public UserDto User { get; set; }
+        public string UserName { get; set; }
         
-    }
-    public class UserDto
-    {
-        public int Id { get; set; }
-        public string Username { get; set; }
     }
 }

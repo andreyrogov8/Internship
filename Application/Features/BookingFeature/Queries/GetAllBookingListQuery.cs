@@ -3,11 +3,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Features.BookingFeature.Queries
 {
@@ -47,13 +42,12 @@ namespace Application.Features.BookingFeature.Queries
     public class BookingDto
     {
         public int UserId { get; set; }
+        public string UserName { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public bool IsRecurring { get; set; }
         public int Frequency { get; set; }
         public int WorkplaceId { get; set; }
-        //public Workplace Workplace { get; set; }
-        //public User User { get; set; }
     }
 
 }
