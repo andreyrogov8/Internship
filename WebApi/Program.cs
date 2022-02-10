@@ -1,5 +1,6 @@
 ﻿using Application;
 using Application.Features.CountryCQ;
+using Application.Infrastructure;
 using Domain.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -28,7 +29,7 @@ builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json")
     .AddJsonFile("appsettings.local.json");
-
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
 
 
 
