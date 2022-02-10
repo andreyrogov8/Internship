@@ -17,14 +17,14 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<GetBookingListQueryResponse>> GetAll()
         {
             var result = await _mediator.Send(new GetBookingListQueryRequest());
             return Ok(result);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] GetBookingByIdQueryRequest request)
+        public async Task<ActionResult<GetBookingByIdQueryResponse>> GetById([FromRoute] GetBookingByIdQueryRequest request)
         {
             var result = await _mediator.Send(request);
             return Ok(result);

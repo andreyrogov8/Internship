@@ -51,9 +51,12 @@ namespace Application.Features.BookingFeature.Queries
         public bool IsRecurring { get; set; }
         public int Frequency { get; set; }
         public int WorkplaceId { get; set; }
-        public Workplace Workplace { get; set; }
-        public User User { get; set; }
+        public UserDto User { get; set; }
         
     }
-
+    public class UserDto
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+    }
 }

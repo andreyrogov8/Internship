@@ -15,6 +15,9 @@ namespace Application.Features.BookingFeature
         {
             CreateMap<Booking, BookingDto>();
             CreateMap<Booking, GetBookingByIdQueryResponse>();
+            CreateMap<User, UserDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.UserName));
         }
 
     }
