@@ -24,9 +24,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GetBookingByIdQueryResponse>> GetById([FromRoute] GetBookingByIdQueryRequest request)
+        public async Task<ActionResult<GetBookingByIdQueryResponse>> GetById(int id)
         {
-            var result = await _mediator.Send(request);
+            var result = await _mediator.Send(new GetBookingByIdQueryRequest { Id = id});
             return Ok(result);
         }
 
