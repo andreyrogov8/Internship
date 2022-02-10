@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Infrastructure;
+using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Models;
@@ -35,7 +36,7 @@ namespace Application.Features.BookingFeature.Queries
             
             if (booking == null)
             {
-                throw new Exception();
+                throw new NotFoundException(nameof(booking), request.Id);
             }
             return booking;
         }
