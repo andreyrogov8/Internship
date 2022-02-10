@@ -28,6 +28,12 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+            modelBuilder.Entity<Booking>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<Map>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<Office>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<User>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<Vacation>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<Workplace>().HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

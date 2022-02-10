@@ -15,5 +15,7 @@ namespace Application.Interfaces
         public DbSet<Map> Maps { get; set; }
         public DbSet<Office> Offices { get; set; }
 
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
     }
 }

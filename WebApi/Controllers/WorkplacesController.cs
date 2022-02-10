@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Features.CountriesFeature.Queries;
 using Application.Features.CountryCQ;
+using Application.Features.WorkplaceFeature.Commands;
 
 namespace WebApi.Controllers
 {
@@ -27,6 +28,13 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _mediator.Send(new GetWorkplaceByIdQueryRequest { Id = id } );
+            return Ok(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var result = await _mediator.Send(new DeleteWorkplaceCommandRequest { Id = id });
             return Ok(result);
         }
 
