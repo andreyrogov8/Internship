@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Infrastructure;
 
 namespace Application.Features.OfficeFeature.Commands
 {
@@ -29,7 +30,7 @@ namespace Application.Features.OfficeFeature.Commands
             var office = await _context.Offices.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (office == null)
             {
-                // trow custom excepttion throw new NotFoundException
+                throw new NotFoundException(nameof(office), request.Id);
             }
             office.IsDeleted = true;
             await _context.SaveChangesAsync(cancellationToken);

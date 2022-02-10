@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Infrastructure;
 using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -34,7 +35,7 @@ namespace Application.Features.OfficeFeature.Queries
 
             if (office == null)
             {
-                
+                throw new NotFoundException(nameof(office), request.Id);
             }
 
             return office;
