@@ -21,6 +21,7 @@ namespace Persistence.Configurations
                 .HasForeignKey(wp => wp.MapId)
                 .OnDelete(DeleteBehavior.Cascade); // should we apply to every entity?
 
+            builder.HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

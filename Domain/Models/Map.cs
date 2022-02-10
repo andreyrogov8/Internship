@@ -11,6 +11,7 @@ namespace Domain.Models
         public int FloorNumber { get; set; }
         public bool HasKitchen { get; set; }
         public bool HasMeetingRoom { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public int OfficeId { get; set; }
         public Office Office { get; set; }
         public ICollection<Workplace> Workplaces { get; set; }
