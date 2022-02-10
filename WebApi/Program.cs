@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using System.Configuration;
+using Persistence.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,11 +27,18 @@ builder.Configuration
     .AddJsonFile("appsettings.json")
     .AddJsonFile("appsettings.local.json");
 
-
-
-
+// after adding configuration
 
 var app = builder.Build();
+
+using (var serviceProvider = builder.Services.BuildServiceProvider())
+{
+    var scope = serviceProvider.CreateScope();
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
+    await ApplicationDbContextSeed.SeedEssentialsAsync(userManager, roleManager);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -46,4 +54,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
 
