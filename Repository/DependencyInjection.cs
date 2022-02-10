@@ -22,6 +22,7 @@ namespace Repository
                     options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+
         }
     }
 }
