@@ -12,5 +12,6 @@ namespace Domain.Models
         public User User { get; set; }
         public DateTimeOffset VacationStart { get; set; }
         public DateTimeOffset VacationEnd { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }

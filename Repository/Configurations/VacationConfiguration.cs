@@ -17,6 +17,8 @@ namespace Persistence.Configurations
                 .HasOne(v => v.User)
                 .WithMany(u => u.Vacations)
                 .HasForeignKey(v => v.UserId);
+
+            builder.HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }

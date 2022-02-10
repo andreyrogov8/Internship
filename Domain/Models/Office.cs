@@ -12,6 +12,7 @@ namespace Domain.Models
         public string Country { get; set; }
         public string City { get; set; }
         public string Address { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public bool HasFreeParking { get; set; }
         public ICollection<Map> Maps { get; set; }
     }

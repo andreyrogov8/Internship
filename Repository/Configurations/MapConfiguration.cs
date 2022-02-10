@@ -20,7 +20,8 @@ namespace Persistence.Configurations
                 .WithMany(o => o.Maps)
                 .HasForeignKey(m => m.OfficeId);
 
-            
+            builder.HasQueryFilter(p => !p.IsDeleted);
+
         }
     }
 }
