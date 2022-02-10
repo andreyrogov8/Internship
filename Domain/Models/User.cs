@@ -15,6 +15,7 @@ namespace Domain.Models
         public DateTimeOffset EmploymentStart { get; set; }
         public DateTimeOffset EmploymentEnd { get; set; }
         public int PrefferedWorkPlaceId { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public ICollection<Booking> Bookings { get; set; } 
         public ICollection<Vacation> Vacations { get; set; }
     }

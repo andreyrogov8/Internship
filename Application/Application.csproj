@@ -26,9 +26,13 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
   </ItemGroup>
 
+<<<<<<< asadbek/2
   <ItemGroup>
     <Folder Include="Features\BookingFeature\Commands\" />
     <Folder Include="Features\WorkplaceFeature\Commands\" />
   </ItemGroup>
+
+=======
+>>>>>>> main
 
 </Project>

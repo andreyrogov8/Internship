@@ -12,6 +12,7 @@ namespace Domain.Models
         public bool HasKeyboard { get; set; }
         public bool HasMouse { get; set; }
         public bool HasHeadset { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public int MapId { get; set; }
         public Map Map { get; set; }
         public ICollection<Booking> Bookings { get; set; }
