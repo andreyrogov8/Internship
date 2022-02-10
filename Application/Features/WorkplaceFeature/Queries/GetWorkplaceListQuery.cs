@@ -11,27 +11,27 @@ using System.Threading.Tasks;
 
 namespace Application.Features.CountryCQ
 {
-    public class GetAllWorkplaceListQueryRequest : IRequest <GetAllWorkplaceListQueryResponse>
+    public class GetWorkplaceListQueryRequest : IRequest <GetWorkplaceListQueryResponse>
     {
     }
 
-    public class GetAllWorkplaceListQueryHandler : IRequestHandler<GetAllWorkplaceListQueryRequest, GetAllWorkplaceListQueryResponse>
+    public class GetWorkplaceListQueryHandler : IRequestHandler<GetWorkplaceListQueryRequest, GetWorkplaceListQueryResponse>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
 
-        public GetAllWorkplaceListQueryHandler(IApplicationDbContext context, IMapper mapper)
+        public GetWorkplaceListQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
-        public async Task<GetAllWorkplaceListQueryResponse> Handle(GetAllWorkplaceListQueryRequest query, CancellationToken cancellationToken)
+        public async Task<GetWorkplaceListQueryResponse> Handle(GetWorkplaceListQueryRequest query, CancellationToken cancellationToken)
         {
             var workplaces = await _context.Workplaces
                 .ProjectTo<WorkplaceDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
-            return new GetAllWorkplaceListQueryResponse
+            return new GetWorkplaceListQueryResponse
             { 
                 Results = workplaces
             };  
@@ -39,12 +39,13 @@ namespace Application.Features.CountryCQ
         }
     }
 
-    public class GetAllWorkplaceListQueryResponse
+    public class GetWorkplaceListQueryResponse
     {
         public IEnumerable<WorkplaceDto> Results { get; set; }
     }
     public class WorkplaceDto
     {
+        public int Id { get; set; }
         public int WorkplaceNumber { get; set; }
         public bool NextToWindow { get; set; }
         public bool HasPC { get; set; }
