@@ -8,10 +8,10 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WorkplaceController : ControllerBase
+    public class WorkplacesController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public WorkplaceController(IMediator mediator)
+        public WorkplacesController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -19,7 +19,14 @@ namespace WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _mediator.Send(new GetAllWorkplaceListQueryRequest());
+            var result = await _mediator.Send(new GetWorkplaceListQueryRequest());
+            return Ok(result);
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetWorkplaceByIdQueryRequest { Id = id } );
             return Ok(result);
         }
 
