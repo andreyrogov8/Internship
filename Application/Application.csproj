@@ -26,4 +26,9 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\UserFeature\Commands\" />
+    <Folder Include="Features\WorkplaceFeature\Commands\" />
+  </ItemGroup>
+
 </Project>

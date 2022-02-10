@@ -1,4 +1,4 @@
-﻿using Application.Infrastructure;
+﻿using Application.Exceptions;
 using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
