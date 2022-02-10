@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Infrastructure;
+using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Models;
@@ -34,7 +35,7 @@ namespace Application.Features.CountriesFeature.Queries
 
             if (coutry == null)
             {
-                //Todo make custom exceprion 'throw new NotFoundException();'
+                throw new NotFoundException(nameof(coutry), request.Id);
             }
 
             return coutry;
