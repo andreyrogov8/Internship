@@ -10,6 +10,7 @@ using Application.Profiles;
 using MediatR;
 using System.Reflection;
 using Application.Features.CountryCQ;
+using Application.Features.BookingFeature;
 
 namespace Application
 {
@@ -18,6 +19,7 @@ namespace Application
         public static void AddApplication(this IServiceCollection services)
         {
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
+            services.AddAutoMapper(cfg => cfg.AddMaps(typeof(BookingProfile).Assembly));
             services.AddMediatR(Assembly.GetExecutingAssembly());
         }
     }
