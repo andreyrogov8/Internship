@@ -13,7 +13,7 @@ namespace Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-
+            builder.HasQueryFilter(p => !p.IsDeleted);
         }
     }
 }
