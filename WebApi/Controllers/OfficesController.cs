@@ -9,12 +9,10 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OfficeController : Controller
+    public class OfficesController : BaseController
     {
-        private readonly IMediator _mediator;
-        public OfficeController(IMediator mediator)
+        public OfficesController(IMediator mediator) : base(mediator)
         {
-            _mediator = mediator;
         }
 
         [HttpGet]
