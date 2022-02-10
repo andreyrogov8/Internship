@@ -11,11 +11,6 @@ namespace WebApi.Controllers
     [ApiController]
     public class WorkplacesController : BaseApiController
     {
-        //private readonly IMediator _mediator;
-        //public WorkplacesController(IMediator mediator)
-        //{
-        //    _mediator = mediator;
-        //}
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

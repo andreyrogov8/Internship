@@ -10,6 +10,7 @@ using Application.Profiles;
 using MediatR;
 using System.Reflection;
 using Application.Features.CountryCQ;
+using Application.Infrastructure;
 
 namespace Application
 {
@@ -19,6 +20,7 @@ namespace Application
         {
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
         }
     }
 }
