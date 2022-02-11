@@ -3,6 +3,7 @@ using Application.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Enums;
+using Domain.Models;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,7 @@ namespace Application.Features.WorkplaceFeature.Commands
         {
             public Validator()
             {
+                RuleFor(x => x.Id).NotEmpty().WithMessage("Id can not be empty");
                 RuleFor(x => x.WorkplaceType).IsInEnum().WithMessage("WorkplaceType must be LongTerm or ShortTerm");
                 RuleFor(x => x.WorkplaceNumber).NotEmpty().WithMessage("WorkplaceNumber can not be empty or 0");
                 RuleFor(x => x.MapId).NotEmpty().WithMessage("MapId can not be empty or 0");
@@ -62,17 +64,8 @@ namespace Application.Features.WorkplaceFeature.Commands
                 throw new ValidationException($"There is no Map with id = {workplace.MapId}");
             }
 
-            workplace.WorkplaceNumber = request.WorkplaceNumber;
-            workplace.WorkplaceType = request.WorkplaceType;
-            workplace.NextToWindow = request.NextToWindow;
-            workplace.HasPC = request.HasPC;
-            workplace.HasMonitor = request.HasMonitor;
-            workplace.HasKeyboard = request.HasKeyboard;
-            workplace.HasMouse = request.HasMouse;
-            workplace.HasHeadset = request.HasHeadset;
-            workplace.MapId = request.MapId;   
+            workplace=_mapper.Map(request, workplace);
 
-            _context.Workplaces.Update(workplace);
             await _context.SaveChangesAsync(cancellationToken);
 
             return _mapper.Map<UpdateWorkplaceCommandResponse>(workplace);
@@ -81,14 +74,6 @@ namespace Application.Features.WorkplaceFeature.Commands
     public class UpdateWorkplaceCommandResponse
     {
         public int Id { get; set; }
-        public int WorkplaceNumber { get; set; }
-        public WorkplaceType WorkplaceType { get; set; }
-        public bool NextToWindow { get; set; }
-        public bool HasPC { get; set; }
-        public bool HasMonitor { get; set; }
-        public bool HasKeyboard { get; set; }
-        public bool HasMouse { get; set; }
-        public bool HasHeadset { get; set; }
-        public int MapId { get; set; }
+
     }
 }

@@ -26,7 +26,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromBody] UpdateWorkplaceCommandRequest request)
         {
             return Ok(await Mediator.Send(request));
