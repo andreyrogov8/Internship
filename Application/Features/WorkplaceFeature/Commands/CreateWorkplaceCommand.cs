@@ -49,7 +49,7 @@ namespace Application.Features.WorkplaceFeature.Commands
         {
             var workplace = _mapper.Map<Workplace>(request);
 
-            if (_context.Maps.FirstOrDefault(x => x.Id == workplace.MapId) is null)
+            if (_context.Maps.AnyAsync(x => x.Id == workplace.MapId) is null)
             {
                 throw new ValidationException($"There is no Map with id = {workplace.MapId}");
             }
