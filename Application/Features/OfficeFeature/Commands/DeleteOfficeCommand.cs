@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Infrastructure;
 using Application.Exceptions;
+using FluentValidation;
 
 namespace Application.Features.OfficeFeature.Commands
 {
@@ -17,6 +18,13 @@ namespace Application.Features.OfficeFeature.Commands
         public class DeleteOfficeCommandRequest : IRequest<DeleteOfficeCommandResponse>
         {
             public int Id { get; set; }
+        }
+        public class Validator : AbstractValidator<DeleteOfficeCommandRequest>
+        {
+            public Validator()
+            {               
+                RuleFor(x => x.Id).NotEmpty().WithMessage("The office Id can't be empty or null!");
+            }
         }
 
         public class DeleteOfficeCommandHandler : IRequestHandler<DeleteOfficeCommandRequest, DeleteOfficeCommandResponse>

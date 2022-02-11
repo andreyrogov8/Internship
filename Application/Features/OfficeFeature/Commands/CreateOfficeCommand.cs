@@ -16,7 +16,6 @@ namespace Application.Features.OfficeFeature.Commands
     {
         public class CreateOfficeCommandRequest : IRequest<CreateOfficeCommandResponse>
         {
-            public int Id { get; set; }
             public string Name { get; set; }
             public string Country { get; set; }
             public string City { get; set; }
@@ -29,6 +28,9 @@ namespace Application.Features.OfficeFeature.Commands
             public Validator()
             {
                 RuleFor(x => x.Name).NotEmpty().WithMessage("The office name can't be empty or null!");
+                RuleFor(x => x.Country).NotEmpty().WithMessage("The office country can't be empty or null!");
+                RuleFor(x => x.City).NotEmpty().WithMessage("The office city can't be empty or null!");
+                RuleFor(x => x.Address).NotEmpty().WithMessage("The office address can't be empty or null!");
             }
         }
 

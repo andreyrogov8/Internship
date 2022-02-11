@@ -32,6 +32,10 @@ namespace Application.Features.OfficeFeature.Commands
             public Validator()
             {
                 RuleFor(x => x.Name).NotEmpty().WithMessage("The office name can't be empty or null!");
+                RuleFor(x => x.Country).NotEmpty().WithMessage("The office country can't be empty or null!");
+                RuleFor(x => x.City).NotEmpty().WithMessage("The office city can't be empty or null!");
+                RuleFor(x => x.Address).NotEmpty().WithMessage("The office address can't be empty or null!");
+                RuleFor(x => x.Id).NotEmpty().WithMessage("The office Id can't be empty or null!");
             }
         }
 
@@ -57,15 +61,13 @@ namespace Application.Features.OfficeFeature.Commands
                     throw new NotFoundException($"The office with the ID = {request.Id}");
                 }
 
-                office.IsDeleted = true;
+                office = _mapper.Map<Office>(request);
 
-                var newOffice = _mapper.Map<Office>(request);
-
-                _context.Offices.Add(newOffice);
+                _context.Offices.Update(office);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var response = _mapper.Map<UpdateOfficeCommandResponse>(newOffice);
+                var response = _mapper.Map<UpdateOfficeCommandResponse>(office);
 
                 return response;
             }
