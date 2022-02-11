@@ -26,6 +26,12 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreateWorkplaceCommandRequest request)
+        {
+            return Ok(await Mediator.Send(request));
+        }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
