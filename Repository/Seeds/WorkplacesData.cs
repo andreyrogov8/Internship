@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Persistence.Seeds
 {
-    public static class MapsData
+    public static class WorkplacesData
     {
 
-        public static List<Map> DefaultOffices = new List<Map>()
+        public static List<Workplace> DefaultOffices = new List<Workplace>()
         {
-            new Map()
+            new Workplace()
             {
                 Id = 1
             },
-            new Map()
+            new Workplace()
             {
                 Id = 1
             }
