@@ -1,4 +1,5 @@
-﻿using Application.Features.BookingFeature.Queries;
+﻿using Application.Features.BookingFeature.Commands;
+using Application.Features.BookingFeature.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,26 +8,28 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BookingsController : ControllerBase
+    public class BookingsController : BaseApiController
     {
-        private readonly IMediator _mediator;
-
-        public BookingsController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
 
         [HttpGet]
-        public async Task<ActionResult<GetBookingListQueryResponse>> GetAll()
+        public async Task<ActionResult<GetBookingListQueryResponse>> GetAllAsync()
         {
-            var result = await _mediator.Send(new GetBookingListQueryRequest());
+            var result = await Mediator.Send(new GetBookingListQueryRequest());
             return Ok(result);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GetBookingByIdQueryResponse>> GetById(int id)
+        public async Task<ActionResult<GetBookingByIdQueryResponse>> GetByIdAsync(int id)
         {
-            var result = await _mediator.Send(new GetBookingByIdQueryRequest { Id = id});
+            var result = await Mediator.Send(new GetBookingByIdQueryRequest { Id = id});
+            return Ok(result);
+        }
+
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<DeleteBookingCommandResponse>> DeleteAsync(int id)
+        {
+            var result = await Mediator.Send(new DeleteBookingCommandRequest { Id = id });
             return Ok(result);
         }
 
