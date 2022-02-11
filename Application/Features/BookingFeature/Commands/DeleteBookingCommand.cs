@@ -30,7 +30,7 @@ namespace Application.Features.BookingFeature.Commands
                 throw new NotFoundException(nameof(booking), request.Id);
             }
             booking.IsDeleted = true;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
             return new DeleteBookingCommandResponse
             {
                 Id = booking.Id
