@@ -52,6 +52,11 @@ namespace Application.Features.WorkplaceFeature.Commands
         }
         public async Task<UpdateWorkplaceCommandResponse> Handle(UpdateWorkplaceCommandRequest request, CancellationToken cancellationToken)
         {
+            if (_context.Maps.AnyAsync(x => x.Id == request.MapId) is null)
+            {
+                throw new ValidationException($"There is no Map with id = {request.MapId}");
+            }
+
             var workplace = await _context.Workplaces.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (workplace == null)
@@ -59,10 +64,7 @@ namespace Application.Features.WorkplaceFeature.Commands
                 throw new NotFoundException($"The workplace with the ID = {request.Id}");
             }
 
-            if (_context.Maps.AnyAsync(x => x.Id == workplace.MapId) is null)
-            {
-                throw new ValidationException($"There is no Map with id = {workplace.MapId}");
-            }
+
 
             workplace=_mapper.Map(request, workplace);
 
