@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,7 @@ namespace Application.Features.WorkplaceFeature.Commands
             var workplace = await _context.Workplaces.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
             if (workplace == null)
             {
-                // trow custom excepttion throw new NotFoundException
+                throw new NotFoundException($"Workplace with Id = {workplace.Id}");
             }
             workplace.IsDeleted = true;
             await _context.SaveChangesAsync(cancellationToken);
