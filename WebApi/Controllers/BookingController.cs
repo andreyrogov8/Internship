@@ -33,5 +33,12 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<CreateBookingCommandResponse>> PostAsync([FromBody] CreateBookingCommandRequest request)
+        {
+            var result = await Mediator.Send(request);
+            return Ok(result);
+        }
+
     }
 }

@@ -18,6 +18,10 @@ namespace Persistence.Configurations
                 .WithMany(wp => wp.Bookings)
                 .HasForeignKey(b => b.WorkplaceId);
 
+            //builder.Property(x => x.StartDate)
+            //    .HasDefaultValueSql("SYSDATETIMEOFFSET()");
+
+
             builder
                 .HasOne(b => b.User)
                 .WithMany(u => u.Bookings)
