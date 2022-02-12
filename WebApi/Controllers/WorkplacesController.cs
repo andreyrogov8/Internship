@@ -27,8 +27,12 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update([FromBody] UpdateWorkplaceCommandRequest request)
+        public async Task<IActionResult> Update(int id,[FromBody] UpdateWorkplaceCommandRequest request)
         {
+            if (request.Id != id)
+            {
+                return BadRequest("Id's from url and from body are different");
+            }
             return Ok(await Mediator.Send(request));
         }
 
