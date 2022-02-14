@@ -52,7 +52,8 @@ namespace Application.Features.WorkplaceFeature.Commands
         }
         public async Task<UpdateWorkplaceCommandResponse> Handle(UpdateWorkplaceCommandRequest request, CancellationToken cancellationToken)
         {
-            if (_context.Maps.AnyAsync(x => x.Id == request.MapId) is null)
+            var mapIdExistInMaps = await _context.Maps.AnyAsync(x => x.Id == request.MapId, cancellationToken);
+            if (!mapIdExistInMaps)
             {
                 throw new ValidationException($"There is no Map with id = {request.MapId}");
             }
