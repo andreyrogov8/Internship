@@ -45,15 +45,15 @@ namespace Application.Features.BookingFeature.Commands
         public async Task<CreateBookingCommandResponse> Handle(CreateBookingCommandRequest request, CancellationToken cancellationToken)
         {
 
-            var IsUserExistsWithThisId = await _userManager.Users.AnyAsync(user => user.Id == request.UserId, cancellationToken);
+            var isUserExistsWithThisId = await _userManager.Users.AnyAsync(user => user.Id == request.UserId, cancellationToken);
             
-            if (!IsUserExistsWithThisId)
+            if (!isUserExistsWithThisId)
             {
                 throw new NotFoundException($"There is no User with id={request.UserId}");
             }
-            var IsWorkPlaceExistsWithThisId = await _context.Workplaces.AnyAsync(w => w.Id == request.WorkplaceId, cancellationToken);
+            var isWorkPlaceExistsWithThisId = await _context.Workplaces.AnyAsync(w => w.Id == request.WorkplaceId, cancellationToken);
 
-            if (!IsWorkPlaceExistsWithThisId)
+            if (!isWorkPlaceExistsWithThisId)
             {
                 throw new NotFoundException($"There is no WorkPlace with id={request.WorkplaceId}");
             }
