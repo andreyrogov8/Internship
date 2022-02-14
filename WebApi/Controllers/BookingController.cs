@@ -39,6 +39,15 @@ namespace WebApi.Controllers
             var result = await Mediator.Send(request);
             return Ok(result);
         }
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<UpdateBookingCommandResponse>> Update(int id, [FromBody] UpdateBookingCommandRequest request)
+        {
+            if (request.Id != id)
+            {
+                return BadRequest("Id's from url and from body are different");
+            }
+            return Ok(await Mediator.Send(request));
+        }
 
     }
 }
