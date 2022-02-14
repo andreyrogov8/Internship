@@ -18,6 +18,8 @@ namespace Persistence.Configurations
                 .WithMany(wp => wp.Bookings)
                 .HasForeignKey(b => b.WorkplaceId);
 
+            
+
             builder
                 .HasOne(b => b.User)
                 .WithMany(u => u.Bookings)
