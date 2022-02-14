@@ -19,7 +19,6 @@ namespace WebApi.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] object update)
         {
-            // /start => register user
 
             var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
             var chat = upd.Message?.Chat;
@@ -27,7 +26,7 @@ namespace WebApi.Controllers
             if (chat == null) return BadRequest();
 
 
-            await _telegraBotClient.SendTextMessageAsync(chat.Id, "Hello from bot");
+            await _telegraBotClient.SendTextMessageAsync(chat.Id, "Hello from CheckInManager Application Layer Bot");
 
             return Ok();
         }

@@ -15,7 +15,7 @@ namespace Application
         {
             _botClient = new TelegramBotClient(_configuration["Token"]);
 
-            //var hook = $"{_configuration["Url"]}api/message/update";
+            //var hook = $"{_configuration["Url"]}api/bot/update";
             //await _botClient.SetWebhookAsync(hook);
 
             return _botClient;
