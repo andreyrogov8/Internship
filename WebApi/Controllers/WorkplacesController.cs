@@ -26,6 +26,16 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id,[FromBody] UpdateWorkplaceCommandRequest request)
+        {
+            if (request.Id != id)
+            {
+                return BadRequest("Id's from url and from body are different");
+            }
+            return Ok(await Mediator.Send(request));
+        }
+
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
