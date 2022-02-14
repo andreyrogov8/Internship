@@ -13,7 +13,6 @@ namespace Application.Profiles
             CreateMap<Workplace, WorkplaceDto>();
             CreateMap<Workplace, GetWorkplaceByIdQueryResponse>();
             CreateMap<Workplace, UpdateWorkplaceCommandResponse>();
-            CreateMap<Workplace, UpdateWorkplaceCommandRequest>();
             CreateMap<UpdateWorkplaceCommandRequest, Workplace>();
         }
     
