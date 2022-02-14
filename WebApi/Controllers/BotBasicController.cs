@@ -17,7 +17,7 @@ namespace WebApi.Controllers
             _telegraBotClient = telegramBot.GetBot().Result;
         }
         [HttpPost("update")]
-        public async Task<IActionResult> Update([FromBody] object update)
+        public async Task<IActionResult> Update([FromBody] Update update)
         {
 
             var upd = JsonConvert.DeserializeObject<Update>(update.ToString());

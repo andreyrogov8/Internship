@@ -16,7 +16,7 @@ namespace Application
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
             AssemblyScanner.FindValidatorsInAssembly(typeof(RequestValidationBehavior<,>).Assembly)
                 .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));
-            services.AddSingleton<TelegramBot>();
+            services.AddScoped<TelegramBot>();
         }
     }
 }
