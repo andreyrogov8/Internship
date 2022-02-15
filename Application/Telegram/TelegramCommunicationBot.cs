@@ -3,11 +3,11 @@ using Telegram.Bot;
 
 namespace Application
 {
-    public class TelegramBot 
+    public class TelegramCommunicationBot 
     {
         private readonly IConfiguration _configuration;
         private TelegramBotClient _botClient;
-        public TelegramBot(IConfiguration configuration)
+        public TelegramCommunicationBot(IConfiguration configuration)
         {
             _configuration = configuration;
         }

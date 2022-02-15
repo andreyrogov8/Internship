@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,22 +12,18 @@ namespace WebApi.Controllers
     [ApiController]
     public class BotBasicController : ControllerBase
     {
-        private readonly TelegramBotClient _telegraBotClient;
-        public BotBasicController(TelegramBot telegramBot)
+        private readonly ITelegramCommunicationService _telegramCommunicationService;
+        public BotBasicController(ITelegramCommunicationService telegramCommunicationService)
         {
-            _telegraBotClient = telegramBot.GetBot().Result;
+            _telegramCommunicationService = telegramCommunicationService;
         }
+
+
+
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] Update update)
         {
-
-            var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
-            var chat = upd.Message?.Chat;
-
-            if (chat == null) return BadRequest();
-
-
-            await _telegraBotClient.SendTextMessageAsync(chat.Id, "Hello from CheckInManager Application Layer Bot");
+            _telegramCommunicationService.GetMessage(update);
 
             return Ok();
         }
