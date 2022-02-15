@@ -10,5 +10,6 @@ namespace Application.Interfaces
     public interface ITelegramCommunicationService
     {
         public Task GetMessage(object update);
+        public Task Execute(Update update);
     }
 }
