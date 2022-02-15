@@ -30,17 +30,12 @@ namespace Application.TelegramBot
                 switch (update.Message.Text)
                 {
                     case "/start":
-                        await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "To get all workplaces use command /getworkplaces");
+                        await StartCommand(_telegraBotClient, update.Message);
                         break;
-                    case "/getworkplaces":
-                        var result = await _mediator.Send(new GetWorkplaceListQueryRequest());
-                        foreach (var item in result.Results)
-                        {
-                            await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, $"WorkplaceId:{item.Id},WorkplaceNumber:{item.WorkplaceNumber},");
-                        }
+                    case "getworkplaces":
+                        await SendWorkplaceList(_mediator, _telegraBotClient, update.Message);
                         break;
-                    case "/bookings":
-                        
+                    case "getbookings":                        
                         await SendBookingList(_mediator, _telegraBotClient, update.Message);
                         break;
                     default:
@@ -49,6 +44,63 @@ namespace Application.TelegramBot
                 }
                 return;
             }            
+        }
+        public static async Task<Message> StartCommand(TelegramBotClient bot, Message message)
+        {
+            var commandNames = new List<string>();
+            commandNames.Add("getworkplaces");
+            commandNames.Add("getbookings");
+            var rows = new List<KeyboardButton[]>();
+            var cols = new List<KeyboardButton>();
+            var counter = 0;
+            foreach (var name in commandNames)
+            {
+                counter++;
+                cols.Add(new KeyboardButton($"{name}"));
+                if (counter % 2 != 0) continue;
+                rows.Add(cols.ToArray());
+                cols = new List<KeyboardButton>();
+            }
+            if (cols.Count > 0)
+            {
+                rows.Add(cols.ToArray());
+            }
+            var rmk = new ReplyKeyboardMarkup(rows);
+            rmk.ResizeKeyboard = true;
+            return await bot.SendTextMessageAsync(
+                message.Chat.Id,
+                "Press Button",
+                replyMarkup: rmk
+                );
+        }
+        public static async Task<Message> SendWorkplaceList(IMediator mediator, TelegramBotClient bot, Message message)
+        {
+            var workplaceResponse = await mediator.Send(new GetWorkplaceListQueryRequest());
+
+            var workplaces = workplaceResponse.Results;
+            var rows = new List<KeyboardButton[]>();
+            var cols = new List<KeyboardButton>();
+            var counter = 0;
+            foreach (var workplace in workplaces)
+            {
+                counter++;
+                cols.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
+                if (counter % 2 != 0) continue;
+                rows.Add(cols.ToArray());
+                cols = new List<KeyboardButton>();
+            }
+            if (cols.Count > 0)
+            {
+                rows.Add(cols.ToArray());
+
+            }
+            var rmk = new ReplyKeyboardMarkup(rows);
+            rmk.ResizeKeyboard = true;
+            return await bot.SendTextMessageAsync(
+                message.Chat.Id,
+                "Workplace List",
+                replyMarkup: rmk
+                );
         }
         public static async Task<Message> SendBookingList(IMediator mediator, TelegramBotClient bot, Message message)
         {
@@ -84,7 +136,7 @@ namespace Application.TelegramBot
         {
             return await bot.SendTextMessageAsync(
                 message.Chat.Id,
-                "Hello, Right now we are working on features.\nAvailable commands:\n/start\n/getworkplaces\n/bookings"
+                "Hello, to start communication please use command /start"
                 );
         }
 
