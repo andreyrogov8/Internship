@@ -43,6 +43,7 @@ namespace Application.TelegramBot
                         
                         var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
                         await SendBookingList(_telegraBotClient, update.Message, bookingResponse);
+                        
                         break;
 
                 }
@@ -52,24 +53,24 @@ namespace Application.TelegramBot
         public static async Task<Message> SendBookingList(TelegramBotClient bot, Message message, GetBookingListQueryResponse bookingResponse)
         {
             var bookings = bookingResponse.Results;
-            var rows = new List<InlineKeyboardButton[]>();
-            var cols = new List<InlineKeyboardButton>();
+            var rows = new List<KeyboardButton[]>();
+            var cols = new List<KeyboardButton>();
             var counter = 0;
             foreach(var booking in bookings)
             {
                 counter++;
-                var keyboard = InlineKeyboardButton.WithCallbackData($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}", $"{booking.UserId}|{booking.WorkplaceId}");
-
-                cols.Add(keyboard);
+                cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
                 if (counter % 2 != 0) continue;
                 rows.Add(cols.ToArray());
-                cols = new List<InlineKeyboardButton>();
+                cols = new List<KeyboardButton>();
             }
             if (cols.Count > 0)
             {
                 rows.Add(cols.ToArray());
+
             }
-            var rmk = new InlineKeyboardMarkup(rows);
+            var rmk = new ReplyKeyboardMarkup(rows);
+            rmk.ResizeKeyboard = true;
             return await bot.SendTextMessageAsync(
                 message.Chat.Id,
                 "This is Booking List: ",
