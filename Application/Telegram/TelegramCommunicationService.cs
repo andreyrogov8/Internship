@@ -43,9 +43,10 @@ namespace Application.TelegramBot
                         
                         var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
                         await SendBookingList(_telegraBotClient, update.Message, bookingResponse);
-                        
                         break;
-
+                    default:
+                        await DefaultHandler(_telegraBotClient, update.Message);
+                        break;
                 }
                 return;
             }            
@@ -75,6 +76,14 @@ namespace Application.TelegramBot
                 message.Chat.Id,
                 "This is Booking List: ",
                 replyMarkup: rmk
+                );
+        }
+
+        public static async Task<Message> DefaultHandler(TelegramBotClient bot, Message message)
+        {
+            return await bot.SendTextMessageAsync(
+                message.Chat.Id,
+                "Hello, Right now we are working on features.\nAvailable commands:\n/start\n/getworkplaces\n/bookings"
                 );
         }
 
