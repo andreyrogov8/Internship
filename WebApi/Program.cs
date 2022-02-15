@@ -10,6 +10,7 @@ using System.Configuration;
 using WebApi.Filters;
 using Persistence.Context;
 using System.Text.Json.Serialization;
+using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication();
+
 
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
