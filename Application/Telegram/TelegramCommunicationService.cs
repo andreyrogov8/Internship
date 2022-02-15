@@ -41,8 +41,7 @@ namespace Application.TelegramBot
                         break;
                     case "/bookings":
                         
-                        var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
-                        await SendBookingList(_telegraBotClient, update.Message, bookingResponse);
+                        await SendBookingList(_mediator, _telegraBotClient, update.Message);
                         break;
                     default:
                         await DefaultHandler(_telegraBotClient, update.Message);
@@ -51,8 +50,10 @@ namespace Application.TelegramBot
                 return;
             }            
         }
-        public static async Task<Message> SendBookingList(TelegramBotClient bot, Message message, GetBookingListQueryResponse bookingResponse)
+        public static async Task<Message> SendBookingList(IMediator mediator, TelegramBotClient bot, Message message)
         {
+            var bookingResponse = await mediator.Send(new GetBookingListQueryRequest());
+
             var bookings = bookingResponse.Results;
             var rows = new List<KeyboardButton[]>();
             var cols = new List<KeyboardButton>();
