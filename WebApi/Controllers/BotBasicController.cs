@@ -21,7 +21,22 @@ namespace WebApi.Controllers
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] object update)
         {
-            await _telegramCommunicationService.GetMessage(update);
+
+            var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
+
+            if (upd?.Message?.Chat == null)
+            {
+                return BadRequest("Object is null, or Message is null, or Chat is null");
+            }
+
+            try
+            {
+                await _telegramCommunicationService.Execute(upd);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message.ToString());
+            }
 
             return Ok();
         }
