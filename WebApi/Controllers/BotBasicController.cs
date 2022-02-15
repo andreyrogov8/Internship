@@ -18,12 +18,10 @@ namespace WebApi.Controllers
             _telegramCommunicationService = telegramCommunicationService;
         }
 
-
-
         [HttpPost("update")]
         public async Task<IActionResult> Update([FromBody] Update update)
         {
-            _telegramCommunicationService.GetMessage(update);
+            await _telegramCommunicationService.GetMessage(update);
 
             return Ok();
         }
