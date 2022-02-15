@@ -28,18 +28,22 @@ namespace Application.TelegramBot
 
         public async Task Execute(Update update)
         {
-            if (update.Message != null && update.Message.Text.Contains("/start"))
+            if (update.Message != null)
             {
-                await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "To get all workplaces use command /getworkplaces");
-            }
-            if (update.Message != null && update.Message.Text.Contains("/getworkplaces"))
-            {
-                var result = await _mediator.Send(new GetWorkplaceListQueryRequest());
-                foreach (var item in result.Results)
+                switch (update.Message.Text)
                 {
-                    await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, $"WorkplaceId:{item.Id},WorkplaceNumber:{item.WorkplaceNumber},");
-                }                
-            }
+                    case "/start":
+                        await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "To get all workplaces use command /getworkplaces");
+                        return;
+                    case "/getworkplaces":
+                        var result = await _mediator.Send(new GetWorkplaceListQueryRequest());
+                        foreach (var item in result.Results)
+                        {
+                            await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, $"WorkplaceId:{item.Id},WorkplaceNumber:{item.WorkplaceNumber},");
+                        }
+                        return;
+                }
+            }            
         }
 
         public async Task GetMessage(object update)

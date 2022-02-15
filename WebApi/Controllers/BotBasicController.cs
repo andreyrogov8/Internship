@@ -26,7 +26,7 @@ namespace WebApi.Controllers
 
             if (upd?.Message?.Chat == null)
             {
-                return Ok();
+                return BadRequest("Object is null, or Message is null, or Chat is null");
             }
 
             try
