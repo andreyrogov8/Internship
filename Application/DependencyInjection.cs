@@ -20,9 +20,7 @@ namespace Application
             AssemblyScanner.FindValidatorsInAssembly(typeof(RequestValidationBehavior<,>).Assembly)
                 .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));
 
-            services.AddScoped<ITelegramCommunicationService, TelegramCommunicationService>();
-
-            
+            services.AddScoped<ITelegramCommunicationService, TelegramCommunicationService>();            
         }
     }
 }

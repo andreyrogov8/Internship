@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> Update([FromBody] Update update)
+        public async Task<IActionResult> Update([FromBody] object update)
         {
             await _telegramCommunicationService.GetMessage(update);
 

@@ -14,23 +14,19 @@ namespace Application.TelegramBot
 {
     public class TelegramCommunicationService : ITelegramCommunicationService
     {
-        private readonly IConfiguration _configuration;
         private readonly TelegramBotClient _telegraBotClient;
         public TelegramCommunicationService(IConfiguration configuration)
         {
-            _configuration = configuration;
-            _telegraBotClient = new TelegramBotClient(_configuration["Token"]);
+            _telegraBotClient = new TelegramBotClient(configuration["Token"]);
         }
 
-        public Task GetMessage(Update update)
+        public async Task GetMessage(object update)
         {
             var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
             var chat = upd.Message?.Chat;
 
             if (chat == null) throw new ValidationException($"No message");
-            _telegraBotClient.SendTextMessageAsync(chat.Id, "Hello from CheckInManager Application Layer Bot");
-
-            return Task.CompletedTask;
+            await _telegraBotClient.SendTextMessageAsync(chat.Id, "Hello from CheckInManager Application Layer Bot");
         }
 
     }
