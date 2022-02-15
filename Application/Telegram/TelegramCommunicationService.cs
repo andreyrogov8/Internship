@@ -29,7 +29,7 @@ namespace Application.TelegramBot
             {
                 switch (update.Message.Text)
                 {
-                    case "/start":
+                    case "Start":
                         await StartCommand(_telegraBotClient, update.Message);
                         break;
                     case "getworkplaces":
@@ -67,6 +67,7 @@ namespace Application.TelegramBot
             }
             var rmk = new ReplyKeyboardMarkup(rows);
             rmk.ResizeKeyboard = true;
+            rmk.OneTimeKeyboard = true;
             return await bot.SendTextMessageAsync(
                 message.Chat.Id,
                 "Press Button",
@@ -96,6 +97,7 @@ namespace Application.TelegramBot
             }
             var rmk = new ReplyKeyboardMarkup(rows);
             rmk.ResizeKeyboard = true;
+            rmk.OneTimeKeyboard = true;
             return await bot.SendTextMessageAsync(
                 message.Chat.Id,
                 "Workplace List",
@@ -125,6 +127,7 @@ namespace Application.TelegramBot
             }
             var rmk = new ReplyKeyboardMarkup(rows);
             rmk.ResizeKeyboard = true;
+            rmk.OneTimeKeyboard = true;
             return await bot.SendTextMessageAsync(
                 message.Chat.Id,
                 "This is Booking List: ",
@@ -134,10 +137,14 @@ namespace Application.TelegramBot
 
         public static async Task<Message> DefaultHandler(TelegramBotClient bot, Message message)
         {
-            return await bot.SendTextMessageAsync(
-                message.Chat.Id,
-                "Hello, to start communication please use command /start"
-                );
+            var rows = new List<KeyboardButton>();
+                rows.Add($"Start");
+
+            var keyboard = new ReplyKeyboardMarkup(rows);
+            keyboard.OneTimeKeyboard = true;
+            keyboard.ResizeKeyboard = true;
+            return await bot.SendTextMessageAsync(message.Chat.Id, "To start communication please press start button",
+                                     replyMarkup: keyboard);
         }
 
         public async Task GetMessage(object update)
