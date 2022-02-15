@@ -37,7 +37,7 @@ namespace Application.TelegramBot
                 var result = await _mediator.Send(new GetWorkplaceListQueryRequest());
                 foreach (var item in result.Results)
                 {
-                    await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, $"WorkplaceId:{item.Id},WorkplaceNumbre:{item.WorkplaceNumber},");
+                    await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, $"WorkplaceId:{item.Id},WorkplaceNumber:{item.WorkplaceNumber},");
                 }                
             }
         }
