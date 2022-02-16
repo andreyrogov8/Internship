@@ -28,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\MapFeature\Commands\" />
     <Folder Include="Features\UserFeature\Commands\" />
   </ItemGroup>
 
