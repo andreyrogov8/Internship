@@ -53,7 +53,10 @@ namespace Application.Features.BookingFeature.Commands
             }
             map = _mapper.Map(request, map);
             await _context.SaveChangesAsync(cancellationToken);
-            return _mapper.Map<UpdateMapCommandResponse>(map);
+            return new UpdateMapCommandResponse
+            {
+                Id = map.Id
+            };
         }
     }
 

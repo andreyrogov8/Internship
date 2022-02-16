@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.MapFeature.Queries
 {
-    public class GetMapByIdQueryRequest : IRequest<GetMapByIdQeryResponse>
+    public class GetMapByIdQueryRequest : IRequest<GetMapByIdQueryResponse>
     {
         public int Id { get; set; }
     }
-    public class GetMapByIdQueryHandler : IRequestHandler<GetMapByIdQueryRequest, GetMapByIdQeryResponse>
+    public class GetMapByIdQueryHandler : IRequestHandler<GetMapByIdQueryRequest, GetMapByIdQueryResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
@@ -21,10 +21,10 @@ namespace Application.Features.MapFeature.Queries
             _mapper = mapper;
             _context = context;
         }
-        public async Task<GetMapByIdQeryResponse> Handle(GetMapByIdQueryRequest request, CancellationToken cancellationToken)
+        public async Task<GetMapByIdQueryResponse> Handle(GetMapByIdQueryRequest request, CancellationToken cancellationToken)
         {
             var map = await _context.Maps
-                .ProjectTo<GetMapByIdQeryResponse>(_mapper.ConfigurationProvider)
+                .ProjectTo<GetMapByIdQueryResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(map => map.Id == request.Id, cancellationToken);
             if (map == null)
             {
@@ -34,7 +34,7 @@ namespace Application.Features.MapFeature.Queries
         }
     }
 
-    public class GetMapByIdQeryResponse
+    public class GetMapByIdQueryResponse
     {
         public int Id { get; set; }
         public int FloorNumber { get; set; }

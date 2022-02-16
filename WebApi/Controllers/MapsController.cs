@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<GetMapByIdQeryResponse>> GetByIdAsync(int id)
+        public async Task<ActionResult<GetMapByIdQueryResponse>> GetByIdAsync(int id)
         {
             var result = await Mediator.Send(new GetMapByIdQueryRequest { Id = id });
             return Ok(result);  

@@ -50,7 +50,7 @@ namespace Application.Features.MapFeature.Commands
                 throw new NotFoundException($"There is no Office with id ={ request.OfficeId }");
             }
             var map = _mapper.Map<Map>(request);
-            await _context.Maps.AddAsync(map, cancellationToken);
+            _context.Maps.Add(map);
             await _context.SaveChangesAsync(cancellationToken);
             return new CreateMapCommandResponse
             {

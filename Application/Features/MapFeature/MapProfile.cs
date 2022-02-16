@@ -14,7 +14,7 @@ namespace Application.Features.MapFeature
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Office.Country))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Office.City));
             
-            CreateMap<Map, GetMapByIdQeryResponse>()
+            CreateMap<Map, GetMapByIdQueryResponse>()
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Office.Country))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Office.City));
             
@@ -22,7 +22,6 @@ namespace Application.Features.MapFeature
 
             CreateMap<UpdateMapCommandRequest, Map>();
             
-            CreateMap<Map, UpdateMapCommandResponse>();
 
         }
     }
