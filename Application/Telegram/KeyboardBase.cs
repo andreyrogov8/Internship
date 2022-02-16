@@ -16,7 +16,7 @@ namespace Application.Telegram
         public KeyboardBase(TelegramBotClient bot, Message message)
         {
             _bot = bot;
-            _message = message; 
+            _message = message;
         }
         public static ReplyKeyboardMarkup BuildKeyboard(List<KeyboardButton> buttons, int numberOfColumns)
         {
