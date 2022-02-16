@@ -1,6 +1,8 @@
 ﻿using Application.Features.BookingFeature.Queries;
 using Application.Features.CountryCQ;
 using Application.Interfaces;
+using Application.Telegram;
+using Application.Telegram.Commands;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -30,130 +32,25 @@ namespace Application.TelegramBot
                 switch (update.Message.Text)
                 {
                     case "Start":
-                        await StartCommand(_telegraBotClient, update.Message);
+                        await new StartCommand(_telegraBotClient, update.Message).Send();
                         break;
                     case "getworkplaces":
-                        await SendWorkplaceList(_mediator, _telegraBotClient, update.Message);
+                        await new SendWorkplaceListCommand(_mediator, _telegraBotClient, update.Message).Send();
                         break;
-                    case "getbookings":                        
-                        await SendBookingList(_mediator, _telegraBotClient, update.Message);
+                    case "getbookings":
+                        await new SendBookingListCommand(_mediator, _telegraBotClient, update.Message).Send();
                         break;
                     default:
-                        await DefaultHandler(_telegraBotClient, update.Message);
+                        await new DefaultHandler(_telegraBotClient, update.Message).Send();
                         break;
                 }
                 return;
             }            
         }
-        public static async Task<Message> StartCommand(TelegramBotClient bot, Message message)
-        {
-            var commandNames = new List<string>();
-            commandNames.Add("getworkplaces");
-            commandNames.Add("getbookings");
-            var rows = new List<KeyboardButton[]>();
-            var cols = new List<KeyboardButton>();
-            var counter = 0;
-            foreach (var name in commandNames)
-            {
-                counter++;
-                cols.Add(new KeyboardButton($"{name}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
-            }
-            if (cols.Count > 0)
-            {
-                rows.Add(cols.ToArray());
-            }
-            var rmk = new ReplyKeyboardMarkup(rows);
-            rmk.ResizeKeyboard = true;
-            rmk.OneTimeKeyboard = true;
-            return await bot.SendTextMessageAsync(
-                message.Chat.Id,
-                "Press Button",
-                replyMarkup: rmk
-                );
-        }
-        public static async Task<Message> SendWorkplaceList(IMediator mediator, TelegramBotClient bot, Message message)
-        {
-            var workplaceResponse = await mediator.Send(new GetWorkplaceListQueryRequest());
 
-            var workplaces = workplaceResponse.Results;
-            var rows = new List<KeyboardButton[]>();
-            var cols = new List<KeyboardButton>();
-            var counter = 0;
-            foreach (var workplace in workplaces)
-            {
-                counter++;
-                cols.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
-            }
-            if (cols.Count > 0)
-            {
-                rows.Add(cols.ToArray());
 
-            }
-            var rmk = new ReplyKeyboardMarkup(rows);
-            rmk.ResizeKeyboard = true;
-            rmk.OneTimeKeyboard = true;
-            return await bot.SendTextMessageAsync(
-                message.Chat.Id,
-                "Workplace List",
-                replyMarkup: rmk
-                );
-        }
-        public static async Task<Message> SendBookingList(IMediator mediator, TelegramBotClient bot, Message message)
-        {
-            var bookingResponse = await mediator.Send(new GetBookingListQueryRequest());
 
-            var bookings = bookingResponse.Results;
-            var rows = new List<KeyboardButton[]>();
-            var cols = new List<KeyboardButton>();
-            var counter = 0;
-            foreach(var booking in bookings)
-            {
-                counter++;
-                cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
-            }
-            if (cols.Count > 0)
-            {
-                rows.Add(cols.ToArray());
-
-            }
-            var rmk = new ReplyKeyboardMarkup(rows);
-            rmk.ResizeKeyboard = true;
-            rmk.OneTimeKeyboard = true;
-            return await bot.SendTextMessageAsync(
-                message.Chat.Id,
-                "This is Booking List: ",
-                replyMarkup: rmk
-                );
-        }
-        public static async Task<Message> DefaultHandler(TelegramBotClient bot, Message message)
-        {
-            var rows = new List<KeyboardButton>();
-                rows.Add($"Start");
-
-            var keyboard = new ReplyKeyboardMarkup(rows);
-            keyboard.OneTimeKeyboard = true;
-            keyboard.ResizeKeyboard = true;
-            return await bot.SendTextMessageAsync(message.Chat.Id, "To start communication please press start button",
-                                     replyMarkup: keyboard);
-        }
-
-        public async Task GetMessage(object update)
-        {
-            var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
-            var chat = upd.Message?.Chat;
-
-            if (chat == null) throw new ValidationException($"No message");
-            await _telegraBotClient.SendTextMessageAsync(chat.Id, "Hello from CheckInManager Application Layer Bot");
-        }
+ 
 
     }
 }
