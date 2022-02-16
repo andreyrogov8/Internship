@@ -23,11 +23,8 @@ namespace Application.Telegram
             var workplaces = workplaceResponse.Results;
             foreach (var workplace in workplaces)
             {
-                counter++;
                 cols.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
+                if (Helper()) continue;
             }
             await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: _keyboard);
         }

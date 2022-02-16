@@ -25,5 +25,7 @@ namespace Application.Telegram
             _keyboard.ResizeKeyboard = true;
             _keyboard.OneTimeKeyboard = true;
         }
+ 
     }
+
 }

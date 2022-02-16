@@ -23,15 +23,21 @@ namespace Application.Telegram.Commands
             var bookings = bookingResponse.Results;
             foreach (var booking in bookings)
             {
-                counter++;
                 cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
+                if(Helper())continue;
             }
             await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: _keyboard);
         }
-
     }
 }
+
+//foreach (var booking in bookings)
+//{
+//    counter++;
+//    cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
+//    if (counter % 2 != 0) continue;
+//    rows.Add(cols.ToArray());
+//    cols = new List<KeyboardButton>();
+//}
+
 
