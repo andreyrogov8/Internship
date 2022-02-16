@@ -9,7 +9,7 @@ namespace Application.Telegram
 {
     public class KeyboardHelper
     {
-        public ReplyKeyboardMarkup BuildKeyboard(IEnumerable<KeyboardButton> buttons, int numberOfColumns)
+        public static ReplyKeyboardMarkup BuildKeyboard(List<KeyboardButton> buttons, int numberOfColumns)
         {
             int counter = 0;
             var rows = new List<KeyboardButton[]>();
@@ -17,6 +17,7 @@ namespace Application.Telegram
             foreach (var button in buttons)
             {
                 counter++;
+                cols.Add(button);
                 if (counter % numberOfColumns != 0) continue;
                 rows.Add(cols.ToArray());
                 cols = new List<KeyboardButton>();

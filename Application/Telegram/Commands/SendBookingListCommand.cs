@@ -21,12 +21,13 @@ namespace Application.Telegram.Commands
         {
             var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
             var bookings = bookingResponse.Results;
+            List<KeyboardButton> buttons = new();
             foreach (var booking in bookings)
             {
-                cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
-                if(Helper())continue;
+                buttons.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
             }
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: _keyboard);
+            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: replyKeyboard);
         }
     }
 }

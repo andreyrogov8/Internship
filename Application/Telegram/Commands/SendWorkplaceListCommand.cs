@@ -21,12 +21,15 @@ namespace Application.Telegram
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
+            var buttons = new List<KeyboardButton>();
+
             foreach (var workplace in workplaces)
             {
-                cols.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
-                if (Helper()) continue;
+                buttons.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
             }
-            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: _keyboard);
+            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+
+            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: replyKeyboard);
         }
 
     }
