@@ -9,15 +9,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram
 {
-    public abstract class KeyboardBase
+    public static class KeyboardHelper
     {
-        public TelegramBotClient _bot;
-        public Message _message;
-        public KeyboardBase(TelegramBotClient bot, Message message)
-        {
-            _bot = bot;
-            _message = message;
-        }
         public static ReplyKeyboardMarkup BuildKeyboard(List<KeyboardButton> buttons, int numberOfColumns)
         {
             int counter = 0;

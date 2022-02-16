@@ -9,14 +9,20 @@ using Application.Features.UserFeature.Queries;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
+using Application.Telegram;
 
 namespace Application.Telegram
 {
-    public class SendUserListCommand : CommandBase
+    public class SendUserListCommand
     {
-        public SendUserListCommand(IMediator mediator, TelegramBotClient bot, Message message) : base(mediator, bot, message)
+        public TelegramBotClient _bot;
+        public Message _message;
+        public readonly IMediator _mediator;
+        public SendUserListCommand(IMediator mediator, TelegramBotClient bot, Message message)
         {
-
+            _bot = bot;
+            _message = message;
+            _mediator = mediator;
         }
         public async Task Send()
         {
@@ -28,7 +34,7 @@ namespace Application.Telegram
             {
                 buttons.Add(new KeyboardButton($"Id: {user.Id}, Name: {user.FirstName} {user.LastName}"));
             }
-            var replyKeyboard = BuildKeyboard(buttons, 1);
+            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 1);
 
             await _bot.SendTextMessageAsync(_message.Chat.Id, "User List", replyMarkup: replyKeyboard);
         }
