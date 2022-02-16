@@ -12,12 +12,15 @@ namespace Application.Telegram.Commands
 
 
 
-    public class DefaultHandler : KeyboardBase
+    public class DefaultHandler
     {
+        public TelegramBotClient _bot;
+        public Message _message;
         List<string> commandNames = new List<string>();
-        public DefaultHandler(TelegramBotClient bot, Message message) : base(bot, message)
+        public DefaultHandler(TelegramBotClient bot, Message message)
         {
-    
+            _bot = bot;
+            _message = message;
         }
         public async Task Send()
         {
@@ -27,7 +30,7 @@ namespace Application.Telegram.Commands
             {
                 buttons.Add(new KeyboardButton($"{name}"));
             }
-            var replyKeyboard = BuildKeyboard(buttons, 1);
+            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 1);
             await _bot.SendTextMessageAsync(_message.Chat.Id, "To start communication please press start button", replyMarkup: replyKeyboard);
         }
     }
