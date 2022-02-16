@@ -17,19 +17,18 @@ namespace Application.Telegram.Commands
         {
 
         }
+
         public async Task Send()
         {
             commandNames.Add("getworkplaces");
             commandNames.Add("getbookings");
+            var buttons = new List<KeyboardButton>();
             foreach (var name in commandNames)
             {
-                counter++;
-                cols.Add(new KeyboardButton($"{name}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
+                buttons.Add(new KeyboardButton($"{name}"));
             }
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Press Button", replyMarkup: _keyboard);
+            var replyKeyboard = BuildKeyboard(buttons, 2);
+            await _bot.SendTextMessageAsync(_message.Chat.Id, "Press Button", replyMarkup: replyKeyboard);
         }
     }
 }

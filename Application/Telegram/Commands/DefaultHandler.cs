@@ -22,19 +22,13 @@ namespace Application.Telegram.Commands
         public async Task Send()
         {
             commandNames.Add("Start");
+            var buttons = new List<KeyboardButton>();
             foreach (var name in commandNames)
             {
-                counter++;
-                cols.Add(new KeyboardButton($"{name}"));
-                if (counter % 2 != 0) continue;
-                rows.Add(cols.ToArray());
-                cols = new List<KeyboardButton>();
+                buttons.Add(new KeyboardButton($"{name}"));
             }
-            if (cols.Count > 0)
-            {
-                rows.Add(cols.ToArray());
-            }
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "To start communication please press start button", replyMarkup: _keyboard);
+            var replyKeyboard = BuildKeyboard(buttons, 1);
+            await _bot.SendTextMessageAsync(_message.Chat.Id, "To start communication please press start button", replyMarkup: replyKeyboard);
         }
     }
 }

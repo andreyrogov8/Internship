@@ -27,7 +27,7 @@ namespace Application.Telegram
             {
                 buttons.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var replyKeyboard = BuildKeyboard(buttons, 2);
 
             await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: replyKeyboard);
         }

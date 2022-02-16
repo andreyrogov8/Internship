@@ -15,7 +15,6 @@ namespace Application.Telegram.Commands
     {
         public SendBookingListCommand(IMediator mediator, TelegramBotClient bot, Message message) : base(mediator, bot, message)
         {
-
         }
         public async Task Send()
         {
@@ -26,19 +25,12 @@ namespace Application.Telegram.Commands
             {
                 buttons.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var replyKeyboard = BuildKeyboard(buttons, 2);
             await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: replyKeyboard);
         }
     }
 }
 
-//foreach (var booking in bookings)
-//{
-//    counter++;
-//    cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
-//    if (counter % 2 != 0) continue;
-//    rows.Add(cols.ToArray());
-//    cols = new List<KeyboardButton>();
-//}
+
 
 
