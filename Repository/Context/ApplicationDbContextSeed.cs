@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Extensions;
 using Persistence.Seeds;
+using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Persistence.Context
 
         public static async Task SeedEssentialsAsync(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
-            if (! await roleManager.Roles.AnyAsync())
+            if (!await roleManager.Roles.AnyAsync())
             {
                 await roleManager.CreateAsync(new IdentityRole<int>(UserRole.Administrator.ToString()));
                 await roleManager.CreateAsync(new IdentityRole<int>(UserRole.User.ToString()));
@@ -27,7 +28,7 @@ namespace Persistence.Context
                 await roleManager.CreateAsync(new IdentityRole<int>(UserRole.MapEditor.ToString()));
             }
 
-            if (! await userManager.Users.AnyAsync())
+            if (!await userManager.Users.AnyAsync())
             {
                 foreach (var userSet in TestData.DefaultUsers)
                 {
@@ -47,6 +48,10 @@ namespace Persistence.Context
                     }
                 }
             }
+        }
+        public static async Task SeedDataAsync(ApplicationDbContext context, UserManager<User> userManager)
+        {
+            await DefaultTestData.FillDB(context, userManager);
         }
     }
 }
