@@ -14,6 +14,9 @@ namespace Application.Interfaces
         public DbSet<Workplace> Workplaces { get; set; }
         public DbSet<Map> Maps { get; set; }
         public DbSet<Office> Offices { get; set; }
+        public DbSet<Vacation> Vacations { get; set; }
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     }
 }

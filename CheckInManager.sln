@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Repository\Persistence.csproj", "{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{AA421D75-AB84-4A60-ADFC-C7785D4C603B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A92C18A1-947A-43B8-9A86-EA6EF10AF2F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA421D75-AB84-4A60-ADFC-C7785D4C603B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

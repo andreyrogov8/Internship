@@ -1,15 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
 using Application.Profiles;
 using MediatR;
 using System.Reflection;
-using Application.Features.CountryCQ;
+using Application.Infrastructure;
+using FluentValidation;
+using Application.Interfaces;
+using Application.TelegramBot;
+using Microsoft.Extensions.Configuration;
 
 namespace Application
 {
@@ -19,6 +16,11 @@ namespace Application
         {
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            AssemblyScanner.FindValidatorsInAssembly(typeof(RequestValidationBehavior<,>).Assembly)
+                .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));
+
+            services.AddScoped<ITelegramCommunicationService, TelegramCommunicationService>();            
         }
     }
 }
