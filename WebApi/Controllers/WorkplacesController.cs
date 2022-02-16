@@ -26,6 +26,13 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<ActionResult<CreateWorkplaceCommandResponse>> Create([FromBody] CreateWorkplaceCommandRequest request)
+        {
+            var result = await Mediator.Send(request);
+            return Ok(result);
+        }
+
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id,[FromBody] UpdateWorkplaceCommandRequest request)
         {

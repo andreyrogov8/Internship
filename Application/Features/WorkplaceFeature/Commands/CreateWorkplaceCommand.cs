@@ -55,7 +55,7 @@ namespace Application.Features.WorkplaceFeature.Commands
             }
             
 
-            _context.Workplaces.Add(workplace);
+            await _context.Workplaces.AddAsync(workplace, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
             return new CreateWorkplaceCommandResponse

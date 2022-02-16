@@ -134,7 +134,6 @@ namespace Application.TelegramBot
                 replyMarkup: rmk
                 );
         }
-
         public static async Task<Message> DefaultHandler(TelegramBotClient bot, Message message)
         {
             var rows = new List<KeyboardButton>();

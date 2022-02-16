@@ -14,6 +14,7 @@ namespace Application.Profiles
             CreateMap<Workplace, GetWorkplaceByIdQueryResponse>();
             CreateMap<Workplace, UpdateWorkplaceCommandResponse>();
             CreateMap<UpdateWorkplaceCommandRequest, Workplace>();
+            CreateMap<CreateWorkplaceCommandRequest, Workplace> ();
         }
     
         
