@@ -6,12 +6,19 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram.Commands
 {
-    public class SendCurrentUserBookingsCommand : CommandBase
+    public class SendCurrentUserBookingsCommand 
     {
-        public SendCurrentUserBookingsCommand(IMediator mediator, TelegramBotClient bot, Message message) : base(mediator, bot, message) 
+        public TelegramBotClient _bot;
+        public Message _message;
+        public readonly IMediator _mediator;
+        public SendCurrentUserBookingsCommand(IMediator mediator, TelegramBotClient bot, Message message)
         {
-
+            _bot = bot;
+            _message = message;
+            _mediator = mediator;
         }
+
+        
         public async Task Send()
         {
             var currentUserBookings = await _mediator.Send(new GetBookingListQueryRequest { TelegramId = _message.From.Id.ToString() });

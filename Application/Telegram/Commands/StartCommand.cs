@@ -10,13 +10,17 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram.Commands
 {
-    public class StartCommand : KeyboardBase
+    public class StartCommand
     {
+        public TelegramBotClient _bot;
+        public Message _message;
         List<string> commandNames = new List<string>();
-        public StartCommand(TelegramBotClient bot, Message message) : base (bot, message)
+        public StartCommand(TelegramBotClient bot, Message message)
         {
-
+            _bot = bot;
+            _message = message;
         }
+
         public async Task Send()
         {
             commandNames.Add("getworkplaces");

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram
 {
-    public class KeyboardHelper
+    public static class KeyboardHelper
     {
         public static ReplyKeyboardMarkup BuildKeyboard(List<KeyboardButton> buttons, int numberOfColumns)
         {
@@ -30,8 +32,10 @@ namespace Application.Telegram
             }
             var rmk = new ReplyKeyboardMarkup(rows);
             rmk.ResizeKeyboard = true;
+            rmk.OneTimeKeyboard = true;
 
             return rmk;
         }
     }
+
 }

@@ -11,11 +11,16 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram.Commands
 {
-    public class SendBookingListCommand : CommandBase
+    public class SendBookingListCommand
     {
-        public SendBookingListCommand(IMediator mediator, TelegramBotClient bot, Message message) : base(mediator, bot, message)
+        public TelegramBotClient _bot;
+        public Message _message;
+        public readonly IMediator _mediator;
+        public SendBookingListCommand(IMediator mediator, TelegramBotClient bot, Message message)
         {
-
+            _bot = bot;
+            _message = message;
+            _mediator = mediator;
         }
         public async Task Send()
         {
@@ -32,13 +37,6 @@ namespace Application.Telegram.Commands
     }
 }
 
-//foreach (var booking in bookings)
-//{
-//    counter++;
-//    cols.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
-//    if (counter % 2 != 0) continue;
-//    rows.Add(cols.ToArray());
-//    cols = new List<KeyboardButton>();
-//}
+
 
 
