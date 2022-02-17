@@ -29,16 +29,16 @@ namespace Application.Features.CountriesFeature.Queries
         }
         public async Task<GetWorkplaceByIdQueryResponse> Handle(GetWorkplaceByIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var coutry = await _context.Workplaces
+            var workplace = await _context.Workplaces
                 .ProjectTo<GetWorkplaceByIdQueryResponse>(_mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
-            if (coutry == null)
+            if (workplace == null)
             {
-                throw new NotFoundException(nameof(coutry), request.Id);
+                throw new NotFoundException(nameof(workplace), request.Id);
             }
 
-            return coutry;
+            return workplace;
         }
     }
 

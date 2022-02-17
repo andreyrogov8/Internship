@@ -9,6 +9,8 @@ using Repository;
 using System.Configuration;
 using WebApi.Filters;
 using Persistence.Context;
+using System.Text.Json.Serialization;
+using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,12 +19,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddMvc(options => {
     options.Filters.Add(typeof(CustomExceptionFilterAttribute));
-    });
+}).AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddPersistence(builder.Configuration);
 builder.Services.AddApplication();
+
 
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
