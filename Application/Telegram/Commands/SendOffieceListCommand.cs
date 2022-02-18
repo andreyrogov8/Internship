@@ -37,10 +37,9 @@ namespace Application.Telegram.Commands
             {
                 buttons.Add(new KeyboardButton($"Name: {office.Name}"));
             }
-            buttons.Add(new KeyboardButton($"SearchOfficeBy"));
             var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
 
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Workplace List", replyMarkup: replyKeyboard);
+            await _bot.SendTextMessageAsync(_message.Chat.Id, "Choose Office or type for filtering", replyMarkup: replyKeyboard);
         }
     }
 }

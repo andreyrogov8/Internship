@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Telegram;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -51,6 +52,7 @@ namespace Persistence.Seeds
                     },
                 }
             },
+            
         };
     }
 }

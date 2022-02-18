@@ -3,6 +3,8 @@ using Application.Features.CountryCQ;
 using Application.Interfaces;
 using Application.Telegram;
 using Application.Telegram.Commands;
+using Application.Telegram.Models;
+using Domain.Enums;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -26,35 +28,58 @@ namespace Application.TelegramBot
 
         public async Task Execute(Update update)
         {
+            //for testing
+            if (UserStateStorage.GetUserCurrentState(update.Message.From.Id)==null)
+            {
+                UserStateStorage.AddUser(5213829376, "StartingProcess",UserRole.User );
+            }
+            
             await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             if (update.Message != null)
             {
-                switch (update.Message.Text)
+                switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
                 {
-                    case "Start":
-                        await new StartCommand(_telegraBotClient, update.Message).Send();
-                        break;
-                    case "NewBooking":                       
-                        await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
-                        break;
-                    case "SearchOfficeBy":
-
-                        //await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message, null, 5).Send();
-                        break;                        
-                    case "getworkplaces":
-                        await new SendWorkplaceListCommand(_mediator, _telegraBotClient, update.Message).Send();
-                        break;
-                    case "getbookings":
-                        await new SendBookingListCommand(_mediator, _telegraBotClient, update.Message).Send();
-                        break;
-                    case "users":
-                        await new SendUserListCommand(_mediator, _telegraBotClient, update.Message).Send();
-                        break;
-                    default:
-                        await new DefaultHandler(_telegraBotClient, update.Message).Send();
-                        break;
+                    case "StartingProcess":
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, "SelectingAction");
+                        await new ProvideButtons(_telegraBotClient, update.Message).Send();
+                        return;
+                    case "SelectingAction":
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, "DecisionDone");
+                        List<string> buttons = new List<string>(){"New Booking","My Bookings"};
+                        await new ProvideButtons(_telegraBotClient, update.Message).Send(buttons);
+                        return;
+                    case "DecisionDone":
+                        {
+                            switch (update.Message.Text)
+                            {
+                                case "New Booking":
+                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, "StartingBooking");
+                                    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
+                                    return;
+                                case "My Bookings":
+                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, "CheckingBookings");
+                                    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
+                                    return;
+                            }
+                            return;
+                        }
+                    case "StartingBooking":
+                        if (update.Message.Text.Contains(":"))
+                        {
+                            //provide workplaces for this office
+                            UserStateStorage.UserStateUpdate(update.Message.From.Id, "SelectingWorkplace");
+                            await new ProvideButtons(_telegraBotClient, update.Message).Send();
+                        }
+                        else
+                        {
+                            //provide offices based on fiter condition
+                            UserStateStorage.UserStateUpdate(update.Message.From.Id, "StartingBooking");
+                            await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message, update.Message.Text).Send();
+                            return;
+                        }
+                        
+                        return;
                 }
-                return;
             }            
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Application.Telegram.Models
     public class UserInfo
     {
         public string CurrentState { get; set; }
-        public string Role { get; set; }
+        public UserRole Role { get; set; }
     }
 }
 

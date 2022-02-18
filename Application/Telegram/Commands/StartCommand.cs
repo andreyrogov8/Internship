@@ -14,18 +14,14 @@ namespace Application.Telegram.Commands
     {
         public TelegramBotClient _bot;
         public Message _message;
-        List<string> commandNames = new List<string>();
         public StartCommand(TelegramBotClient bot, Message message)
         {
             _bot = bot;
             _message = message;
         }
 
-        public async Task Send()
+        public async Task Send(List<string> commandNames)
         {
-            commandNames.Add("NewBooking");
-            commandNames.Add("getworkplaces");
-            commandNames.Add("getbookings");
             var buttons = new List<KeyboardButton>();
             foreach (var name in commandNames)
             {
