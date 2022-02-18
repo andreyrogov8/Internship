@@ -23,6 +23,7 @@ namespace Application.Telegram.Commands
 
         public async Task Send()
         {
+            commandNames.Add("NewBooking");
             commandNames.Add("getworkplaces");
             commandNames.Add("getbookings");
             var buttons = new List<KeyboardButton>();

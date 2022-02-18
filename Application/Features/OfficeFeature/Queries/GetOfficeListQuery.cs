@@ -13,6 +13,8 @@ namespace Application.Features.OfficeFeature.Queries
 {
     public class GetOfficeListQueryRequest : IRequest<GetOfficeListQueryResponse>
     {
+        public string SearchBy { get; set; }
+        public int Top  { get; set; } = 10;
     }
     public class GetOfficeListQueryHandler : IRequestHandler<GetOfficeListQueryRequest, GetOfficeListQueryResponse>
     {
@@ -27,8 +29,15 @@ namespace Application.Features.OfficeFeature.Queries
         public async Task<GetOfficeListQueryResponse> Handle(GetOfficeListQueryRequest query, CancellationToken cancellationToken)
         {
             var offices = await _context.Offices
-                .ProjectTo<OfficeDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<OfficeDto>(_mapper.ConfigurationProvider).Take(query.Top)
                 .ToListAsync(cancellationToken);
+            if (query.SearchBy is not null)
+            {
+                offices = offices.Where(x => x.Country.Contains(query.SearchBy)
+                                            || x.City.Contains(query.SearchBy)
+                                            || x.Name.Contains(query.SearchBy)).ToList();             
+            }
+
 
             return new GetOfficeListQueryResponse
             {
