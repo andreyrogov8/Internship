@@ -14,7 +14,7 @@ namespace Application.Features.OfficeFeature.Queries
     public class GetOfficeListQueryRequest : IRequest<GetOfficeListQueryResponse>
     {
         public string SearchBy { get; set; }
-        public int? ListQuantity { get; set; }
+        public int Top  { get; set; } = 10;
     }
     public class GetOfficeListQueryHandler : IRequestHandler<GetOfficeListQueryRequest, GetOfficeListQueryResponse>
     {
@@ -29,7 +29,7 @@ namespace Application.Features.OfficeFeature.Queries
         public async Task<GetOfficeListQueryResponse> Handle(GetOfficeListQueryRequest query, CancellationToken cancellationToken)
         {
             var offices = await _context.Offices
-                .ProjectTo<OfficeDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<OfficeDto>(_mapper.ConfigurationProvider).Take(query.Top)
                 .ToListAsync(cancellationToken);
             if (query.SearchBy is not null)
             {
@@ -38,10 +38,6 @@ namespace Application.Features.OfficeFeature.Queries
                                             || x.Name.Contains(query.SearchBy)).ToList();             
             }
 
-            if (query.ListQuantity.HasValue)
-            {
-                offices = offices.Take(Convert.ToInt32(query.ListQuantity)).ToList(); 
-            }
 
             return new GetOfficeListQueryResponse
             {

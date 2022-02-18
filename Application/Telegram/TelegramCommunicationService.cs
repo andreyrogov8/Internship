@@ -35,7 +35,7 @@ namespace Application.TelegramBot
                         await new StartCommand(_telegraBotClient, update.Message).Send();
                         break;
                     case "NewBooking":                       
-                        await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message,null,5).Send();
+                        await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
                         break;
                     case "SearchOfficeBy":
 

@@ -22,7 +22,6 @@ namespace Application
                 .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));
 
             services.AddScoped<ITelegramCommunicationService, TelegramCommunicationService>();
-            //services.AddSingleton<BaseCommand, SendOfficeListCommand>();
         }
     }
 }

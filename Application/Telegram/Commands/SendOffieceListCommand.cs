@@ -16,21 +16,19 @@ namespace Application.Telegram.Commands
         public TelegramBotClient _bot;
         public readonly IMediator _mediator;
         public string _searchBy;
-        public int? _listQuantity;
         public Message _message;
-        public SendOfficeListCommand(IMediator mediator, TelegramBotClient bot, Message message, string searchBy = null, int? listQuantity = null)
+        public SendOfficeListCommand(IMediator mediator, TelegramBotClient bot, Message message, string searchBy = null)
         {
             _bot = bot;
             _mediator = mediator;
             _message = message;
             _searchBy = searchBy;
-            _listQuantity = listQuantity;
+
         }
         public async Task Send()
         {
             var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest() {
                 SearchBy = _searchBy,
-                ListQuantity = _listQuantity
             });
             var offices = officeResponse.Results;
             var buttons = new List<KeyboardButton>();
