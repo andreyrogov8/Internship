@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Features.CountriesFeature.Queries;
 using Application.Features;
 using Application.Features.OfficeFeature.Queries;
-using Application.Features.OfficeFeature.Commands;
+using static Application.Features.OfficeFeature.Commands.DeleteOfficeCommand;
 
 namespace WebApi.Controllers
 {
