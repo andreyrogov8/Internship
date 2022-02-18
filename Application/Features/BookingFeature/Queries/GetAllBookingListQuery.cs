@@ -8,7 +8,7 @@ namespace Application.Features.BookingFeature.Queries
 {
     public class GetBookingListQueryRequest : IRequest<GetBookingListQueryResponse>
     {
-        public string? TelegramId { get; set; }   
+        public string TelegramId { get; set; }   
     }
 
     public class GetBookingListQueryHandler : IRequestHandler<GetBookingListQueryRequest, GetBookingListQueryResponse>
