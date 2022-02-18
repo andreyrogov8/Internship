@@ -7,6 +7,7 @@ using FluentValidation;
 using Application.Interfaces;
 using Application.TelegramBot;
 using Microsoft.Extensions.Configuration;
+using Application.Telegram.Commands;
 
 namespace Application
 {
@@ -20,7 +21,8 @@ namespace Application
             AssemblyScanner.FindValidatorsInAssembly(typeof(RequestValidationBehavior<,>).Assembly)
                 .ForEach(result => services.AddScoped(result.InterfaceType, result.ValidatorType));
 
-            services.AddScoped<ITelegramCommunicationService, TelegramCommunicationService>();            
+            services.AddScoped<ITelegramCommunicationService, TelegramCommunicationService>();
+            //services.AddSingleton<BaseCommand, SendOfficeListCommand>();
         }
     }
 }

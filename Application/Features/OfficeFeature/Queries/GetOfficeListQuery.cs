@@ -13,6 +13,8 @@ namespace Application.Features.OfficeFeature.Queries
 {
     public class GetOfficeListQueryRequest : IRequest<GetOfficeListQueryResponse>
     {
+        public string SearchBy { get; set; }
+        public int? ListQuantity { get; set; }
     }
     public class GetOfficeListQueryHandler : IRequestHandler<GetOfficeListQueryRequest, GetOfficeListQueryResponse>
     {
@@ -29,6 +31,17 @@ namespace Application.Features.OfficeFeature.Queries
             var offices = await _context.Offices
                 .ProjectTo<OfficeDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
+            if (query.SearchBy is not null)
+            {
+                offices = offices.Where(x => x.Country.Contains(query.SearchBy)
+                                            || x.City.Contains(query.SearchBy)
+                                            || x.Name.Contains(query.SearchBy)).ToList();             
+            }
+
+            if (query.ListQuantity.HasValue)
+            {
+                offices = offices.Take(Convert.ToInt32(query.ListQuantity)).ToList(); 
+            }
 
             return new GetOfficeListQueryResponse
             {

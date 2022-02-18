@@ -20,7 +20,8 @@ namespace Application.Telegram
         {
             _bot = bot;
             _message = message;
-            _mediator = mediator;   
+            _mediator = mediator;
+
         }
         public async Task Send()
         {

@@ -34,6 +34,13 @@ namespace Application.TelegramBot
                     case "Start":
                         await new StartCommand(_telegraBotClient, update.Message).Send();
                         break;
+                    case "NewBooking":                       
+                        await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message,null,5).Send();
+                        break;
+                    case "SearchOfficeBy":
+
+                        //await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message, null, 5).Send();
+                        break;                        
                     case "getworkplaces":
                         await new SendWorkplaceListCommand(_mediator, _telegraBotClient, update.Message).Send();
                         break;
@@ -53,7 +60,6 @@ namespace Application.TelegramBot
 
 
 
- 
 
     }
 }
