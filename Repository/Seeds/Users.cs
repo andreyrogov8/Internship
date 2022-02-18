@@ -16,7 +16,7 @@ namespace Persistence.Seeds
             {
                 new User
                 {
-                    TelegramId = Guid.NewGuid().ToString(),
+                    TelegramId = 991454142,
                     UserName = "user@gmail.com",
                     Email = "user@gmail.com",
                     EmailConfirmed = true,
@@ -28,7 +28,7 @@ namespace Persistence.Seeds
             
                 new User
                 {
-                    TelegramId = Guid.NewGuid().ToString(),
+                    TelegramId = 644230165,
                     UserName = "mapeditor@gmail.com",
                     Email = "mapeditor@gmail.com",
                     EmailConfirmed = true,
@@ -40,7 +40,7 @@ namespace Persistence.Seeds
             
                 new User
                 {
-                    TelegramId = Guid.NewGuid().ToString(),
+                    TelegramId = 131454142,
                     UserName = "admin@gmail.com",
                     Email = "admin@gmail.com",
                     EmailConfirmed = true,
@@ -52,7 +52,7 @@ namespace Persistence.Seeds
             
                 new User
                 {
-                    TelegramId = Guid.NewGuid().ToString(),
+                    TelegramId = 5213829376,
                     UserName = "manager@gmail.com",
                     Email = "manager@gmail.com",
                     EmailConfirmed = true,

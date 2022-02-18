@@ -9,7 +9,7 @@ namespace Domain.Models
 {
     public class User : IdentityUser<int>
     {
-        public string TelegramId { get; set; }
+        public long TelegramId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTimeOffset EmploymentStart { get; set; }
