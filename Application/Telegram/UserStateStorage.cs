@@ -15,7 +15,7 @@ namespace Application.Telegram
         {
             
         };
-        public static string GetUserCurrentState(long telegramId)
+        public static UserState GetUserCurrentState(long telegramId)
         {
             UserInfo currnetUserInfo;
             bool exist = userInfo.TryGetValue(telegramId, out currnetUserInfo);
@@ -23,7 +23,7 @@ namespace Application.Telegram
             {
                 return currnetUserInfo.CurrentState;
             }
-            return null;    
+            return UserState.StartingProcess;    
         }
 
         public static UserRole GetUserRole(long telegramId)
@@ -36,13 +36,13 @@ namespace Application.Telegram
             }
             return UserRole.User;
         }
-        public static void UserStateUpdate(long telegramId, string newState)
+        public static void UserStateUpdate(long telegramId, UserState newState)
         {
             UserRole currnetUserRole = GetUserRole(telegramId);
             userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole };
         }
 
-        public static void AddUser(long telegramId, string state, UserRole role)
+        public static void AddUser(long telegramId, UserState state, UserRole role)
         {
 
             userInfo.TryAdd(telegramId, new UserInfo() { CurrentState = state, Role = role });

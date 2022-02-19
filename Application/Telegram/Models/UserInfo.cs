@@ -9,7 +9,7 @@ namespace Application.Telegram.Models
 {
     public class UserInfo
     {
-        public string CurrentState { get; set; }
+        public UserState CurrentState { get; set; }
         public UserRole Role { get; set; }
     }
 }

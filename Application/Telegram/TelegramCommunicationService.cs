@@ -29,9 +29,9 @@ namespace Application.TelegramBot
         public async Task Execute(Update update)
         {
             //for testing
-            if (UserStateStorage.GetUserCurrentState(update.Message.From.Id)==null)
+            if (UserStateStorage.GetUserCurrentState(update.Message.From.Id) == UserState.StartingProcess)
             {
-                UserStateStorage.AddUser(5213829376, "StartingProcess",UserRole.User );
+                UserStateStorage.AddUser(5213829376, UserState.StartingProcess,UserRole.User );
             }
             
             await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
@@ -39,41 +39,41 @@ namespace Application.TelegramBot
             {
                 switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
                 {
-                    case "StartingProcess":
-                        UserStateStorage.UserStateUpdate(update.Message.From.Id, "SelectingAction");
+                    case UserState.StartingProcess:
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.SelectingAction);
                         await new ProvideButtons(_telegraBotClient, update.Message).Send();
                         return;
-                    case "SelectingAction":
-                        UserStateStorage.UserStateUpdate(update.Message.From.Id, "DecisionDone");
+                    case UserState.SelectingAction:
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.ActionIsSelected);
                         List<string> buttons = new List<string>(){"New Booking","My Bookings"};
                         await new ProvideButtons(_telegraBotClient, update.Message).Send(buttons);
                         return;
-                    case "DecisionDone":
+                    case UserState.ActionIsSelected:
                         {
                             switch (update.Message.Text)
                             {
                                 case "New Booking":
-                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, "StartingBooking");
+                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);
                                     await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
                                     return;
                                 case "My Bookings":
-                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, "CheckingBookings");
+                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.CheckingBookings);
                                     await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
                                     return;
                             }
                             return;
                         }
-                    case "StartingBooking":
+                    case UserState.StartingBooking:
                         if (update.Message.Text.Contains(":"))
                         {
                             //provide workplaces for this office
-                            UserStateStorage.UserStateUpdate(update.Message.From.Id, "SelectingWorkplace");
+                            UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.SelectingWorkplace);
                             await new ProvideButtons(_telegraBotClient, update.Message).Send();
                         }
                         else
                         {
                             //provide offices based on fiter condition
-                            UserStateStorage.UserStateUpdate(update.Message.From.Id, "StartingBooking");
+                            UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);
                             await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message, update.Message.Text).Send();
                             return;
                         }
