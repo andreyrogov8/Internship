@@ -8,7 +8,7 @@ namespace Application.Features.MapFeature.Queries
 {
     public class GetMapListQueryRequest : IRequest<GetMapListQueryResponse>
     {
-        public int? OfficeId { get; set; }
+        public string OfficeId { get; set; }
     }
     public class GetMapListQueryHandler : IRequestHandler<GetMapListQueryRequest, GetMapListQueryResponse>
     {
@@ -27,7 +27,7 @@ namespace Application.Features.MapFeature.Queries
                 .ToListAsync(cancellationToken);
             if (request.OfficeId != null)
             {
-                mapList = mapList.Where(x => x.OfficeId == request.OfficeId).ToList();
+                mapList = mapList.Where(x => x.OfficeId == Int32.Parse(request.OfficeId)).ToList();
             }
             return new GetMapListQueryResponse
             {

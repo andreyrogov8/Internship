@@ -15,31 +15,42 @@ namespace Application.Telegram.Commands
     {    
         public TelegramBotClient _bot;
         public readonly IMediator _mediator;
-        public string _searchBy;
-        public Message _message;
-        public SendOfficeListCommand(IMediator mediator, TelegramBotClient bot, Message message, string searchBy = null)
+        public SendOfficeListCommand(IMediator mediator, TelegramBotClient bot)
         {
             _bot = bot;
             _mediator = mediator;
-            _message = message;
-            _searchBy = searchBy;
 
         }
-        public async Task Send()
+        public async Task Send(CallbackQuery callbackQuery)
         {
-            var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest() {
-                SearchBy = _searchBy,
-            });
+            var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest());
             var offices = officeResponse.Results;
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
 
             foreach (var office in offices)
             {
-                buttons.Add(new KeyboardButton($"Name: {office.Name}"));
+                buttons.Add(new InlineKeyboardButton($"Name: {office.Name}") { CallbackData =  office.Id.ToString() });
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
 
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Choose Office or type for filtering", replyMarkup: replyKeyboard);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+        }
+        public async Task Send(Message message)
+        {
+            var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest()
+            {
+                SearchBy = message.Text,
+            });
+            var offices = officeResponse.Results;
+            var buttons = new List<InlineKeyboardButton>();
+
+            foreach (var office in offices)
+            {
+                buttons.Add(new InlineKeyboardButton($"Name: {office.Name}") { CallbackData = office.Id.ToString() });
+            }
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+
+            await _bot.SendTextMessageAsync(message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
         }
     }
 }

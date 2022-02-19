@@ -23,7 +23,7 @@ namespace Application.Telegram
             {
                 return currnetUserInfo.CurrentState;
             }
-            return UserState.StartingProcess;    
+            return UserState.ProcessNotStarted;    
         }
 
         public static UserRole GetUserRole(long telegramId)

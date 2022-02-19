@@ -14,28 +14,26 @@ namespace Application.Telegram.Commands
     public class SendMapListCommand
     {
         public TelegramBotClient _bot;
-        public Message _message;
         public readonly IMediator _mediator;
-        public SendMapListCommand(IMediator mediator, TelegramBotClient bot, Message message)
+        public SendMapListCommand(IMediator mediator, TelegramBotClient bot)
         {
             _bot = bot;
-            _message = message;
             _mediator = mediator;
 
         }
-        public async Task Send(int? officeId)
+        public async Task Send(CallbackQuery callbackQuery)
         {
-            var mapResponse = await _mediator.Send(new GetMapListQueryRequest() { OfficeId = officeId});
+            var mapResponse = await _mediator.Send(new GetMapListQueryRequest() { OfficeId = callbackQuery.Data});
             var maps = mapResponse.Results;
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
 
             foreach (var map in maps)
             {
-                buttons.Add(new KeyboardButton($"Floor: {map.FloorNumber}"));
+                buttons.Add(new InlineKeyboardButton($"Floor: {map.FloorNumber}") { CallbackData = map.OfficeId.ToString()});
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
 
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Choose Floor in Office", replyMarkup: replyKeyboard);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Floor in Office", replyMarkup: inlineKeyboard);
         }
 
     }

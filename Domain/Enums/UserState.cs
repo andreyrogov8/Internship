@@ -8,6 +8,7 @@ namespace Domain.Enums
 {
     public enum UserState
     {
+        ProcessNotStarted,
         StartingProcess,
         SelectingAction,
         ActionIsSelected,

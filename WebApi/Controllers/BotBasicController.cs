@@ -24,11 +24,6 @@ namespace WebApi.Controllers
 
             var upd = JsonConvert.DeserializeObject<Update>(update.ToString());
 
-            if (upd?.Message?.Chat == null)
-            {
-                return BadRequest("Object is null, or Message is null, or Chat is null");
-            }
-
             try
             {
                 await _telegramCommunicationService.Execute(upd);

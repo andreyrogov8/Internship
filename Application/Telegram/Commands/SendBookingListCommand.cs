@@ -26,13 +26,13 @@ namespace Application.Telegram.Commands
         {
             var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
             var bookings = bookingResponse.Results;
-            List<KeyboardButton> buttons = new();
+            List<InlineKeyboardButton> buttons = new();
             foreach (var booking in bookings)
             {
-                buttons.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
+                buttons.Add(new InlineKeyboardButton($"Owner: {booking.UserName}") { CallbackData = booking.WorkplaceId.ToString() });
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: replyKeyboard);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+            await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
         }
     }
 }

@@ -15,33 +15,33 @@ namespace Application.Telegram.Commands
     public class ProvideButtons
     {
         public TelegramBotClient _bot;
-        public Message _message;
+        //public CallbackQuery _callbackQuery;
         List<string> commandNames = new List<string>();
-        public ProvideButtons(TelegramBotClient bot, Message message)
+        public ProvideButtons(TelegramBotClient bot)
         {
             _bot = bot;
-            _message = message;
+            //_callbackQuery = callbackQuery;
         }
-        public async Task Send()
+
+        public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
         {
-            commandNames.Add("Start");
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
             foreach (var name in commandNames)
             {
-                buttons.Add(new KeyboardButton($"{name}"));
+                buttons.Add(new InlineKeyboardButton($"{name}") { CallbackData = name });
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 1);
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "To start communication please press start button", replyMarkup: replyKeyboard);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, numberOfColumns);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
         }
-        public async Task Send(List<string> commandNames)
+        public async Task Send(Message message, List<string> commandNames, int numberOfColumns)
         {
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
             foreach (var name in commandNames)
             {
-                buttons.Add(new KeyboardButton($"{name}"));
+                buttons.Add(new InlineKeyboardButton($"{name}") { CallbackData = name });
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Press Button", replyMarkup: replyKeyboard);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, numberOfColumns);
+            await _bot.SendTextMessageAsync(message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
         }
     }
 }

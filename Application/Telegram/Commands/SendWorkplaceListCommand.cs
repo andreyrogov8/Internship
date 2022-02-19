@@ -27,15 +27,15 @@ namespace Application.Telegram
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
 
             foreach (var workplace in workplaces)
             {
-                buttons.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
+                buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: { workplace.WorkplaceNumber }") { CallbackData = workplace.Id.ToString() });
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
 
-            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: replyKeyboard);
+            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
         }
 
     }
