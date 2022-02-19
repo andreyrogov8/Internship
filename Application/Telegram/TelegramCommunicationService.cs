@@ -39,26 +39,26 @@ namespace Application.TelegramBot
             {
                 switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
                 {
-                    case UserState.StartingProcess:
-                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.SelectingAction);
+                    case UserState.StartingProcess:                        
                         await new ProvideButtons(_telegraBotClient, update.Message).Send();
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.SelectingAction);
                         return;
-                    case UserState.SelectingAction:
-                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.ActionIsSelected);
+                    case UserState.SelectingAction:                        
                         List<string> buttons = new List<string>(){"New Booking","My Bookings"};
                         await new ProvideButtons(_telegraBotClient, update.Message).Send(buttons);
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.ActionIsSelected);
                         return;
                     case UserState.ActionIsSelected:
                         {
                             switch (update.Message.Text)
                             {
-                                case "New Booking":
+                                case "New Booking":                                    
+                                    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
                                     UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);
-                                    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
                                     return;
-                                case "My Bookings":
-                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.CheckingBookings);
+                                case "My Bookings":                                    
                                     await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
+                                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.CheckingBookings);
                                     return;
                             }
                             return;
@@ -66,19 +66,23 @@ namespace Application.TelegramBot
                     case UserState.StartingBooking:
                         if (update.Message.Text.Contains(":"))
                         {
-                            //provide workplaces for this office
-                            UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.SelectingWorkplace);
-                            await new ProvideButtons(_telegraBotClient, update.Message).Send();
+                            //provide workplaces for this office                            
+                            await new SendMapListCommand(_mediator, _telegraBotClient, update.Message).Send(1);
+                            UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.SelectingFloor);
                         }
                         else
                         {
                             //provide offices based on fiter condition
-                            UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);
                             await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message, update.Message.Text).Send();
+                            UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);                            
                             return;
                         }
-                        
                         return;
+                    case UserState.SelectingFloor:
+                        
+                        UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.ActionIsSelected);
+                        return;
+
                 }
             }            
         }
