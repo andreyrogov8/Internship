@@ -41,7 +41,9 @@ namespace Application.TelegramBot
             //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             switch (update.Type)
             {
-                case UpdateType.CallbackQuery:                    
+                case UpdateType.CallbackQuery:
+                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,
+                                                $"Button pressed at {DateTime.Now.ToString("h: mm:ss tt")} \n");
                     switch (UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id))
                     {
                         case UserState.StartingProcess:

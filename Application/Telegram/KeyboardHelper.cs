@@ -56,7 +56,6 @@ namespace Application.Telegram
 
             }
             var inlineKeyboard = new InlineKeyboardMarkup(rows);
-
             return inlineKeyboard;
         }
     }
