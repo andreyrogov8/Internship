@@ -1,13 +1,6 @@
 ﻿using Application.Telegram;
 using Domain.Enums;
 using Domain.Models;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Persistence.Seeds
 {
@@ -41,7 +34,7 @@ namespace Persistence.Seeds
                 {
                     new User
                     {
-                        TelegramId = Guid.NewGuid().ToString(),
+                        TelegramId = "644230165",
                         UserName = "superadmin@gmail.com",
                         Email = "superadmin@gmail.com",
                         EmailConfirmed = true,
