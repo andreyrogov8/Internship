@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Telegram;
+using Domain.Enums;
 using Domain.Models;
 
 namespace Persistence.Seeds
@@ -44,6 +45,7 @@ namespace Persistence.Seeds
                     },
                 }
             },
+            
         };
     }
 }
