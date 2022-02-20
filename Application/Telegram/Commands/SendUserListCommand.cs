@@ -10,6 +10,7 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Application.Telegram;
+using Application.Telegram.Keyboards;
 
 namespace Application.Telegram
 {
@@ -28,14 +29,7 @@ namespace Application.Telegram
         {
             var usersResponse = await _mediator.Send(new GetUserListQueryRequest());
             var users = usersResponse.Users;
-            var buttons = new List<KeyboardButton>();
-
-            foreach (var user in users)
-            {
-                buttons.Add(new KeyboardButton($"Id: {user.Id}, Name: {user.FirstName} {user.LastName}"));
-            }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 1);
-
+            var replyKeyboard = SendUserListKeyboard.BuildKeyboard(users);
             await _bot.SendTextMessageAsync(_message.Chat.Id, "User List", replyMarkup: replyKeyboard);
         }
 

@@ -47,6 +47,9 @@ namespace Application.TelegramBot
                     case "getbookings":
                         await new SendBookingListCommand(_mediator, _telegraBotClient, update.Message).Send();
                         break;
+                    case "/myBookings":
+                        await new SendCurrentUserBookingsCommand(_mediator, _telegraBotClient, update.Message).Send();
+                        break;
                     case "users":
                         await new SendUserListCommand(_mediator, _telegraBotClient, update.Message).Send();
                         break;

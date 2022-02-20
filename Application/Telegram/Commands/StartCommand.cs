@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Telegram.Keyboards;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +27,8 @@ namespace Application.Telegram.Commands
             commandNames.Add("NewBooking");
             commandNames.Add("getworkplaces");
             commandNames.Add("getbookings");
-            var buttons = new List<KeyboardButton>();
-            foreach (var name in commandNames)
-            {
-                buttons.Add(new KeyboardButton($"{name}"));
-            }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            commandNames.Add("/myBookings");
+            var replyKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames);
             await _bot.SendTextMessageAsync(_message.Chat.Id, "Press Button", replyMarkup: replyKeyboard);
         }
     }
