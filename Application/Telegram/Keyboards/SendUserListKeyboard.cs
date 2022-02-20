@@ -5,16 +5,16 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendUserListKeyboard
     {
-        public static ReplyKeyboardMarkup BuildKeyboard(IEnumerable<UserDTO> users)
+        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<UserDTO> users)
         {
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
 
             foreach (var user in users)
             {
-                buttons.Add(new KeyboardButton($"Id: {user.Id}, Name: {user.FirstName} {user.LastName}"));
+                buttons.Add(new InlineKeyboardButton($"Name: {user.FirstName} {user.LastName}") { CallbackData = user.Id.ToString()});
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 1);
-            return replyKeyboard;
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 1);
+            return inlineKeyboard;
         }
     }
 }

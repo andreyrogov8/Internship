@@ -1,4 +1,5 @@
 ﻿using Application.Features.MapFeature.Queries;
+using Application.Telegram.Keyboards;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,7 @@ namespace Application.Telegram.Commands
         {
             var mapResponse = await _mediator.Send(new GetMapListQueryRequest() { OfficeId = callbackQuery.Data});
             var maps = mapResponse.Results;
-            var buttons = new List<InlineKeyboardButton>();
-
-            foreach (var map in maps)
-            {
-                buttons.Add(new InlineKeyboardButton($"Floor: {map.FloorNumber}") { CallbackData = map.OfficeId.ToString()});
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
-
+            var inlineKeyboard = SendMapListKeyboard.BuildKeyboard(maps);
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Floor in Office", replyMarkup: inlineKeyboard);
         }
 

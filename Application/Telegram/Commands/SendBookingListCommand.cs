@@ -27,12 +27,7 @@ namespace Application.Telegram.Commands
         {
             var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
             var bookings = bookingResponse.Results;
-            List<InlineKeyboardButton> buttons = new();
-            foreach (var booking in bookings)
-            {
-                buttons.Add(new InlineKeyboardButton($"Owner: {booking.UserName}") { CallbackData = booking.WorkplaceId.ToString() });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
             await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
         }
     }

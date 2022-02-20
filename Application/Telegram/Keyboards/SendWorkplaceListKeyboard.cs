@@ -5,16 +5,16 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendWorkplaceListKeyboard
     {
-        public static ReplyKeyboardMarkup BuildKeyboard(IEnumerable<WorkplaceDto> workplaces)
+        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<WorkplaceDto> workplaces)
         {
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
 
             foreach (var workplace in workplaces)
             {
-                buttons.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
+                buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: {workplace.WorkplaceNumber}") { CallbackData = workplace.Id.ToString()});
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
-            return replyKeyboard;
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+            return inlineKeyboard;
         }
     }
 }

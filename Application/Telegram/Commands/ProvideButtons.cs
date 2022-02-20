@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Telegram.Keyboards;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,22 +24,12 @@ namespace Application.Telegram.Commands
 
         public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
         {
-            var buttons = new List<InlineKeyboardButton>();
-            foreach (var name in commandNames)
-            {
-                buttons.Add(new InlineKeyboardButton($"{name}") { CallbackData = name });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, numberOfColumns);
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
         }
         public async Task Send(Message message, List<string> commandNames, int numberOfColumns)
         {
-            var buttons = new List<InlineKeyboardButton>();
-            foreach (var name in commandNames)
-            {
-                buttons.Add(new InlineKeyboardButton($"{name}") { CallbackData = name });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, numberOfColumns);
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
             await _bot.SendTextMessageAsync(message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
         }
     }

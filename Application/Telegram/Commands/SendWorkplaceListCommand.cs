@@ -26,14 +26,7 @@ namespace Application.Telegram
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
-            var buttons = new List<InlineKeyboardButton>();
-
-            foreach (var workplace in workplaces)
-            {
-                buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: { workplace.WorkplaceNumber }") { CallbackData = workplace.Id.ToString() });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
-
+            var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
             await _bot.SendTextMessageAsync(message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
         }
 
@@ -41,14 +34,7 @@ namespace Application.Telegram
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data});
             var workplaces = workplaceResponse.Results;
-            var buttons = new List<InlineKeyboardButton>();
-
-            foreach (var workplace in workplaces)
-            {
-                buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: { workplace.WorkplaceNumber }") { CallbackData = workplace.Id.ToString() });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
-
+            var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Workplace List", replyMarkup: inlineKeyboard);
         }
 

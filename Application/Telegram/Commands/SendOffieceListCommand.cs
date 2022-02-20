@@ -1,4 +1,5 @@
 ﻿using Application.Features.OfficeFeature.Queries;
+using Application.Telegram.Keyboards;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,7 @@ namespace Application.Telegram.Commands
         {
             var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest());
             var offices = officeResponse.Results;
-            var buttons = new List<InlineKeyboardButton>();
-
-            foreach (var office in offices)
-            {
-                buttons.Add(new InlineKeyboardButton($"Name: {office.Name}") { CallbackData =  office.Id.ToString() });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
-
+            var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
         }
         public async Task Send(Message message)
@@ -42,14 +36,7 @@ namespace Application.Telegram.Commands
                 SearchBy = message.Text,
             });
             var offices = officeResponse.Results;
-            var buttons = new List<InlineKeyboardButton>();
-
-            foreach (var office in offices)
-            {
-                buttons.Add(new InlineKeyboardButton($"Name: {office.Name}") { CallbackData = office.Id.ToString() });
-            }
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
-
+            var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
             await _bot.SendTextMessageAsync(message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
         }
     }

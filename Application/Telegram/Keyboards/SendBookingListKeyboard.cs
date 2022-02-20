@@ -5,15 +5,15 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendBookingListKeyboard
     {
-        public static ReplyKeyboardMarkup BuildKeyboard(List<BookingDto> bookings)
+        public static InlineKeyboardMarkup BuildKeyboard(List<BookingDto> bookings)
         {
-            List<KeyboardButton> buttons = new();
+            List<InlineKeyboardButton> buttons = new();
             foreach (var booking in bookings)
             {
-                buttons.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
+                buttons.Add(new InlineKeyboardButton($"Owner: {booking.UserName}") { CallbackData = booking.WorkplaceId.ToString() });
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
-            return replyKeyboard;
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+            return inlineKeyboard;
         }
     }
 }
