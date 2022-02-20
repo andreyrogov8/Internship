@@ -8,7 +8,7 @@ namespace Application.Features.BookingFeature.Queries
 {
     public class GetBookingListQueryRequest : IRequest<GetBookingListQueryResponse>
     {
-        public string TelegramId { get; set; }   
+        public long? TelegramId { get; set; }   
     }
 
     public class GetBookingListQueryHandler : IRequestHandler<GetBookingListQueryRequest, GetBookingListQueryResponse>
@@ -25,7 +25,7 @@ namespace Application.Features.BookingFeature.Queries
         public async Task<GetBookingListQueryResponse> Handle(GetBookingListQueryRequest request, CancellationToken cancellationToken)
         {
             var bookingList = new List<BookingDto>();
-            if (!string.IsNullOrEmpty(request.TelegramId))
+            if (request.TelegramId != null)
             {
                 bookingList = await _context.Bookings
                     .Where(book => book.User.TelegramId == request.TelegramId)
