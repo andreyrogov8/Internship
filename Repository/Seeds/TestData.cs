@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Telegram;
+using Domain.Enums;
 using Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,7 @@ namespace Persistence.Seeds
                         await userManager.AddToRoleAsync(ur.User, ur.Role);
                     }
                 }
+<<<<<<< HEAD
             }
         }
 
@@ -95,5 +97,10 @@ namespace Persistence.Seeds
                 await context.SaveChangesAsync();
             }
         }
+=======
+            },
+            
+        };
+>>>>>>> main
     }
 }

@@ -28,9 +28,15 @@ namespace Application.Telegram
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
-            var replyKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
+            var buttons = new List<InlineKeyboardButton>();
 
-            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: replyKeyboard);
+            foreach (var workplace in workplaces)
+            {
+                buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: { workplace.WorkplaceNumber }") { CallbackData = workplace.Id.ToString() });
+            }
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+
+            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
         }
 
     }
