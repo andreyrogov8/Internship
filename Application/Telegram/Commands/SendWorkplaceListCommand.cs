@@ -1,4 +1,5 @@
 ﻿using Application.Features.CountryCQ;
+using Application.Telegram.Keyboards;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,7 @@ namespace Application.Telegram
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
-            var buttons = new List<KeyboardButton>();
-
-            foreach (var workplace in workplaces)
-            {
-                buttons.Add(new KeyboardButton($"Id: {workplace.Id}, WorkplaceNumber: {workplace.WorkplaceNumber}"));
-            }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var replyKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
 
             await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: replyKeyboard);
         }
