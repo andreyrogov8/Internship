@@ -13,6 +13,7 @@ namespace Application.Features.CountryCQ
 {
     public class GetWorkplaceListQueryRequest : IRequest <GetWorkplaceListQueryResponse>
     {
+        public string MapId { get; set; }
     }
 
     public class GetWorkplaceListQueryHandler : IRequestHandler<GetWorkplaceListQueryRequest, GetWorkplaceListQueryResponse>
@@ -31,6 +32,10 @@ namespace Application.Features.CountryCQ
                 .ProjectTo<WorkplaceDto>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
 
+            if (query.MapId is not null)
+            {
+                workplaces = workplaces.Where(x => x.MapId == Int32.Parse(query.MapId)).ToList();
+            }
             return new GetWorkplaceListQueryResponse
             { 
                 Results = workplaces
@@ -53,5 +58,7 @@ namespace Application.Features.CountryCQ
         public bool HasKeyboard { get; set; }
         public bool HasMouse { get; set; }
         public bool HasHeadset { get; set; }
+        
+        public int MapId { get; set; } 
     }
 }

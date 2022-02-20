@@ -15,12 +15,10 @@ namespace Application.Telegram.Commands
     public class ProvideButtons
     {
         public TelegramBotClient _bot;
-        //public CallbackQuery _callbackQuery;
         List<string> commandNames = new List<string>();
         public ProvideButtons(TelegramBotClient bot)
         {
             _bot = bot;
-            //_callbackQuery = callbackQuery;
         }
 
         public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)

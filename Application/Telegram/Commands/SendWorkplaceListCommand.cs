@@ -15,16 +15,14 @@ namespace Application.Telegram
     public class SendWorkplaceListCommand
     {
         public TelegramBotClient _bot;
-        public Message _message;
         public readonly IMediator _mediator;
-        public SendWorkplaceListCommand(IMediator mediator,TelegramBotClient bot, Message message)
+        public SendWorkplaceListCommand(IMediator mediator,TelegramBotClient bot)
         {
             _bot = bot;
-            _message = message;
             _mediator = mediator;
 
         }
-        public async Task Send()
+        public async Task Send(Message message)
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
@@ -36,7 +34,22 @@ namespace Application.Telegram
             }
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
 
-            await _bot.SendTextMessageAsync(_message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
+            await _bot.SendTextMessageAsync(message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
+        }
+
+        public async Task SendListByMapId(CallbackQuery callbackQuery)
+        {
+            var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data});
+            var workplaces = workplaceResponse.Results;
+            var buttons = new List<InlineKeyboardButton>();
+
+            foreach (var workplace in workplaces)
+            {
+                buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: { workplace.WorkplaceNumber }") { CallbackData = workplace.Id.ToString() });
+            }
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Workplace List", replyMarkup: inlineKeyboard);
         }
 
     }
