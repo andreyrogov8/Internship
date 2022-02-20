@@ -71,7 +71,7 @@ namespace Application.TelegramBot
                             UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingFloor);
                             return;
                         case UserState.SelectingFloor:
-                            //not done, provide workplaces for this floor id
+                            await new SendWorkplaceListCommand(_mediator, _telegraBotClient).SendListByMapId(update.CallbackQuery);
                             UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingWorkplace);
                             return;
 
