@@ -29,8 +29,8 @@ namespace Application.Telegram
         {
             var usersResponse = await _mediator.Send(new GetUserListQueryRequest());
             var users = usersResponse.Users;
-            var replyKeyboard = SendUserListKeyboard.BuildKeyboard(users);
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "User List", replyMarkup: replyKeyboard);
+            var inlineKeyboard = SendUserListKeyboard.BuildKeyboard(users);
+            await _bot.SendTextMessageAsync(_message.Chat.Id, "User List", replyMarkup: inlineKeyboard);
         }
 
     }

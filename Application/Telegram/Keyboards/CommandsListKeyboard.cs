@@ -4,15 +4,15 @@ namespace Application.Telegram.Keyboards
 {
     public static class CommandsListKeyboard
     {
-        public static ReplyKeyboardMarkup BuildKeyboard(List<string> commandNames)
+        public static InlineKeyboardMarkup BuildKeyboard(List<string> commandNames, int columns)
         {
-            var buttons = new List<KeyboardButton>();
+            var buttons = new List<InlineKeyboardButton>();
             foreach (var name in commandNames)
             {
-                buttons.Add(new KeyboardButton(name));
+                buttons.Add(new InlineKeyboardButton(name) { CallbackData = name});
             }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
-            return replyKeyboard;
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
+            return inlineKeyboard;
         }
     }
 }
