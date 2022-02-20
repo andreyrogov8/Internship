@@ -50,8 +50,7 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
     var context = services.GetService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<User>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
-    await ApplicationDbContextSeed.SeedEssentialsAsync(userManager, roleManager);
-    await ApplicationDbContextSeed.SeedDataAsync(context, userManager);
+    await ApplicationDbContextSeed.SeedDataAsync(context, userManager, roleManager);
 }
 
 // Configure the HTTP request pipeline.

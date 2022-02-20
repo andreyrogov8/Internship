@@ -16,42 +16,15 @@ namespace Persistence.Context
 {
     public class ApplicationDbContextSeed
     {
-        public static IEnumerable<object> DefaultUsers { get; private set; }
-
-        public static async Task SeedEssentialsAsync(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
+        public static async Task SeedDataAsync(ApplicationDbContext context, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
-            if (!await roleManager.Roles.AnyAsync())
-            {
-                await roleManager.CreateAsync(new IdentityRole<int>(UserRole.Administrator.ToString()));
-                await roleManager.CreateAsync(new IdentityRole<int>(UserRole.User.ToString()));
-                await roleManager.CreateAsync(new IdentityRole<int>(UserRole.Manager.ToString()));
-                await roleManager.CreateAsync(new IdentityRole<int>(UserRole.MapEditor.ToString()));
-            }
-
-            if (!await userManager.Users.AnyAsync())
-            {
-                foreach (var userSet in TestData.DefaultUsers)
-                {
-                    foreach (var user in userSet.Value)
-                    {
-                        var result = await userManager.CreateAsync(user, TestData.DefaultPassword);
-                        if (result.Succeeded)
-                        {
-                            await userManager.AddToRoleAsync(user, userSet.Key.ToString());
-                            // hardcoding for now
-                            if (userSet.Key == UserRole.Administrator)
-                            {
-                                var role = await roleManager.FindByNameAsync(UserRole.Administrator.ToString());
-                                await roleManager.AddPermissionClaim(role, "Workspace");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        public static async Task SeedDataAsync(ApplicationDbContext context, UserManager<User> userManager)
-        {
-            await DefaultTestData.FillDB(context, userManager);
+            await TestData.AddRoles(roleManager);
+            await TestData.AddUsers(userManager, roleManager);
+            await TestData.AddOffices(context);
+            await TestData.AddMaps(context);
+            await TestData.AddWorkplaces(context);
+            await TestData.AddBookings(context);
+            await TestData.AddVacations(context);
         }
     }
 }

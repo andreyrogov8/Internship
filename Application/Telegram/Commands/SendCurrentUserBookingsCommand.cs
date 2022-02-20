@@ -22,7 +22,7 @@ namespace Application.Telegram.Commands
         
         public async Task Send()
         {
-            var currentUserBookings = await _mediator.Send(new GetBookingListQueryRequest { TelegramId = _message.From.Id.ToString() });
+            var currentUserBookings = await _mediator.Send(new GetBookingListQueryRequest { TelegramId = _message.From.Id });
             var bookings = currentUserBookings.Results;
             var replyKeyboard = SendCurrentUserBookingsListKeyboard.BuildKeyboard(bookings);
             await _bot.SendTextMessageAsync(_message.Chat.Id, $"@{_message.From.Username}'s booking list: ", replyMarkup: replyKeyboard);
