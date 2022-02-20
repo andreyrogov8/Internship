@@ -1,4 +1,5 @@
 ﻿using Application.Features.BookingFeature.Queries;
+using Application.Telegram.Keyboards;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,7 @@ namespace Application.Telegram.Commands
         {
             var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
             var bookings = bookingResponse.Results;
-            List<KeyboardButton> buttons = new();
-            foreach (var booking in bookings)
-            {
-                buttons.Add(new KeyboardButton($"Owner: {booking.UserName}, Work Place ID: {booking.WorkplaceId}"));
-            }
-            var replyKeyboard = KeyboardHelper.BuildKeyboard(buttons, 2);
+            var replyKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
             await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: replyKeyboard);
         }
     }
