@@ -1,14 +1,8 @@
 ﻿using Application.Features.BookingFeature.Queries;
 using Application.Telegram.Keyboards;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram.Commands
 {
@@ -22,14 +16,7 @@ namespace Application.Telegram.Commands
             _bot = bot;
             _mediator = mediator;
         }
-        public async Task Send(Message message)
-        {
-            var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
-            var bookings = bookingResponse.Results;
-            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
-            await _bot.SendTextMessageAsync(message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
-        }
-
+        
 
         public async Task Send(CallbackQuery callbackQuery)
         {
