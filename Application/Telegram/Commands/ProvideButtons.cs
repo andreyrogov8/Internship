@@ -25,7 +25,7 @@ namespace Application.Telegram.Commands
         public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
         {
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,$"You clicked: {callbackQuery.Data} \n Press Button", replyMarkup: inlineKeyboard);
         }
         public async Task Send(Message message, List<string> commandNames, int numberOfColumns)
         {

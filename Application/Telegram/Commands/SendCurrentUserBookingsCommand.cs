@@ -3,7 +3,6 @@ using Application.Telegram.Keyboards;
 using MediatR;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram.Commands
 {

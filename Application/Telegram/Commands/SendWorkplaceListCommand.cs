@@ -1,4 +1,5 @@
 ﻿using Application.Features.CountryCQ;
+using Application.Features.MapFeature.Queries;
 using Application.Telegram.Keyboards;
 using MediatR;
 using System;
@@ -35,7 +36,9 @@ namespace Application.Telegram
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data});
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Workplace List", replyMarkup: inlineKeyboard);
+            var map = await _mediator.Send(new GetMapByIdQueryRequest() { Id = Int32.Parse(callbackQuery.Data) });
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose floor: {map.FloorNumber} \n" +
+                                                                        $"Please choose workplace", replyMarkup: inlineKeyboard);
         }
 
     }

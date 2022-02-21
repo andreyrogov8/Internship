@@ -42,11 +42,11 @@ namespace Application.TelegramBot
             switch (update.Type)
             {
                 case UpdateType.CallbackQuery:
-                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,
-                                                $"Button pressed at {DateTime.Now.ToString("h: mm:ss tt")} \n");
+                    await _telegraBotClient.DeleteMessageAsync(update.CallbackQuery.Message.Chat.Id, update.CallbackQuery.Message.MessageId);
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;
                 case UpdateType.Message:
+                    //await _telegraBotClient.DeleteMessageAsync();
                     await UpdateMessage.Handle(update, _telegraBotClient, _mediator);
                     return;
             }

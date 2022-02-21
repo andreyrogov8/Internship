@@ -27,7 +27,7 @@ namespace Application.Telegram.Commands
             var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest());
             var offices = officeResponse.Results;
             var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose: {callbackQuery.Data} \n Choose Office or type for filtering", replyMarkup: inlineKeyboard);
         }
         public async Task Send(Message message)
         {
