@@ -18,7 +18,18 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id:int}")]
+
+        [HttpGet("currentUser/{telegramId:long}")]
+        public async Task<ActionResult<GetBookingListQueryResponse>> GetAllByTelegramIdAsync(long telegramId)
+        {
+            var result = await Mediator.Send(new GetBookingListQueryRequest
+            {
+                TelegramId = telegramId
+            });
+            return Ok(result);
+        }
+
+            [HttpGet("{id:int}")]
         public async Task<ActionResult<GetBookingByIdQueryResponse>> GetByIdAsync(int id)
         {
             var result = await Mediator.Send(new GetBookingByIdQueryRequest { Id = id});

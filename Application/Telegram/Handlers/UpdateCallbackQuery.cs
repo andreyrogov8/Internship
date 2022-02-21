@@ -19,7 +19,7 @@ namespace Application.Telegram.Handlers
             {
                 case UserState.StartingProcess:
                     await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                     return;
                 case UserState.SelectingAction:
@@ -30,21 +30,52 @@ namespace Application.Telegram.Handlers
                                 await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
                                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingBooking);
                                 return;
-                                //case "My Bookings":
-                                //    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
-                                //    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
-                                //    return;
+                            case "My Bookings":
+                                await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookings(update.CallbackQuery);
+                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
+                                return;
+                            case string when update.CallbackQuery.Data.Contains("goBack"):
+                                await telegraBotClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"goBack clicked in {UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id)}");
+
+                                await new ProvideButtons(telegraBotClient).Send(
+                                    update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
+                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
+                                return;
                         }
                         return;
                     }
                 case UserState.StartingBooking:
-                    await new SendMapListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingFloor);
-                    return;
+                    switch(update.CallbackQuery.Data)
+                    {
+                        case string when update.CallbackQuery.Data.Contains("goBack"):
+                            await new ProvideButtons(telegraBotClient).Send(
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
+                            return;
+                        default:
+                            await telegraBotClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"goBack clicked in {UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id)}");
+
+                            await new SendMapListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingFloor);
+                            return;
+            }
+                    
                 case UserState.SelectingFloor:
-                    await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapId(update.CallbackQuery);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingWorkplace);
-                    return;
+                    switch(update.CallbackQuery.Data)
+                    {
+                        case string when update.CallbackQuery.Data.Contains("goBack"):
+                            await telegraBotClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"goBack clicked in {UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id)}");
+                            await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingBooking);
+                            return;
+
+                        default:
+                            await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapId(update.CallbackQuery);
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingWorkplace);
+                            return;
+
+                    }
+
 
             }
         }

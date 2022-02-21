@@ -1,4 +1,5 @@
 ﻿using Application.Telegram.Keyboards;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace Application.Telegram.Commands
             _bot = bot;
         }
 
-        public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
+        public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns, UserState currentState)
         {
-            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns, currentState);
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
         }
         public async Task Send(Message message, List<string> commandNames, int numberOfColumns)

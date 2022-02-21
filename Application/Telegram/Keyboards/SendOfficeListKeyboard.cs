@@ -10,7 +10,7 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendOfficeListKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<OfficeDto> offices)
+        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<OfficeDto> offices, string stateName="defaultState")
         {
             var buttons = new List<InlineKeyboardButton>();
 
@@ -18,6 +18,8 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton($"Name: {office.Name}") { CallbackData = office.Id.ToString() });
             }
+            buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack|{stateName}" });
+
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;
         }

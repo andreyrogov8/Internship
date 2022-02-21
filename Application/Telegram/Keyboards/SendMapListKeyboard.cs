@@ -10,7 +10,7 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendMapListKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<MapDTO> maps)
+        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<MapDTO> maps, string stateName="defaultState")
         {
             var buttons = new List<InlineKeyboardButton>();
 
@@ -18,6 +18,8 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton($"Floor: {map.FloorNumber}") { CallbackData = map.OfficeId.ToString() });
             }
+            buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack|{stateName}" });
+
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;
         }
