@@ -16,7 +16,7 @@ namespace Application.Telegram.Keyboards
 
             foreach (var map in maps)
             {
-                buttons.Add(new InlineKeyboardButton($"Floor: {map.FloorNumber}") { CallbackData = map.OfficeId.ToString() });
+                buttons.Add(new InlineKeyboardButton($"Floor: {map.FloorNumber}") { CallbackData = $"{map.Id}|{map.OfficeId}" });
             }
             buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack|{stateName}" });
 

@@ -32,7 +32,7 @@ namespace Application.Telegram
 
         public async Task SendListByMapId(CallbackQuery callbackQuery)
         {
-            var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data});
+            var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data.Split("|")[0]});
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Workplace List", replyMarkup: inlineKeyboard);
