@@ -31,7 +31,11 @@ namespace Application.TelegramBot
         public async Task Execute(Update update)
         {
             if (update.Message != null && !await Authentication.Authenticate(update, _mediator))
+            {
+                await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "You are not authorized to use this bot");
                 return;
+            }
+                
 
             //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             switch (update.Type)

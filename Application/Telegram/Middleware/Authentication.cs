@@ -18,13 +18,18 @@ namespace Application.Telegram.Middleware
             if (isAuthorized)
                 return true;
 
-            var user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = update.Message.From.Id });           
-            if (user == null)
+            GetUserByIdQueryResponse user = null;
+            try
+            {
+                user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = update.Message.From.Id });
+                UserRole role = (UserRole)Enum.Parse(typeof(UserRole), user.Roles.First());
+                UserStateStorage.AddUser(update.Message.From.Id, UserState.ProcessNotStarted, role);
+                return true;
+            } 
+            catch (Exception)
+            {
                 return false;
-
-            UserRole role = (UserRole) Enum.Parse(typeof(UserRole), user.Roles.First());
-            UserStateStorage.AddUser(update.Message.From.Id, UserState.ProcessNotStarted, role);
-            return true;
+            }
         }
     }
 }
