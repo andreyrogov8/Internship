@@ -13,7 +13,8 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: {workplace.WorkplaceNumber}") { CallbackData = workplace.Id.ToString()});
             }
-            buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack" });
+            buttons.AddBackButton();
+
 
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;

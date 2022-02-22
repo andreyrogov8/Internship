@@ -18,7 +18,7 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton($"Floor: {map.FloorNumber}") { CallbackData = $"{map.Id}" });
             }
-            buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack" });
+            buttons.AddBackButton();
 
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;

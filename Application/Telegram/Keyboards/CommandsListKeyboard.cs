@@ -14,9 +14,10 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton(name) { CallbackData = name});
             }
+
             if (!isStart)
             {
-                buttons.Add((new InlineKeyboardButton("◀️Go Back") { CallbackData = "goBack" }));
+                buttons.AddBackButton();
             }
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
 

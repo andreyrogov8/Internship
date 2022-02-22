@@ -51,6 +51,11 @@ namespace Application.Telegram
             var inlineKeyboard = new InlineKeyboardMarkup(rows);
             return inlineKeyboard;
         }
+        public static List<InlineKeyboardButton> AddBackButton(this List<InlineKeyboardButton> buttons)
+        {
+            buttons.Add((new InlineKeyboardButton("◀️Go Back") { CallbackData = "goBack" }));
+            return buttons;
+        }
     }
 
 }
