@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Telegram;
 using Application.Telegram.Commands;
 using Application.Telegram.Handlers;
+using Application.Telegram.Middleware;
 using Application.Telegram.Models;
 using Domain.Enums;
 using MediatR;
@@ -29,15 +30,9 @@ namespace Application.TelegramBot
 
         public async Task Execute(Update update)
         {
-            //for testing
-            if (update.Message !=null)
-            {
-                if (UserStateStorage.GetUserCurrentState(update.Message.From.Id) == UserState.ProcessNotStarted)
-                {
-                    UserStateStorage.AddUser(5213829376, UserState.ProcessNotStarted, UserRole.User);
-                }
-            }
-            
+            if (update.Message != null && !await Authentication.Authenticate(update, _mediator))
+                return;
+
             //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             switch (update.Type)
             {
