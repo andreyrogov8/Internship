@@ -39,7 +39,6 @@ namespace Application.TelegramBot
             }
             
 
-            //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             switch (update.Type)
             {
                 case UpdateType.CallbackQuery:
