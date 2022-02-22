@@ -38,6 +38,7 @@ namespace Application.TelegramBot
                 }
             }
             
+
             //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             switch (update.Type)
             {
@@ -46,7 +47,6 @@ namespace Application.TelegramBot
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;
                 case UpdateType.Message:
-                    //await _telegraBotClient.DeleteMessageAsync();
                     await UpdateMessage.Handle(update, _telegraBotClient, _mediator);
                     return;
             }
