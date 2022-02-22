@@ -28,19 +28,20 @@ namespace Application.Telegram
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
-            await _bot.SendTextMessageAsync(message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
+            var currentMessage = await _bot.SendTextMessageAsync(message.Chat.Id,"Workplace List",replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(message.From.Id, currentMessage.MessageId);
         }
 
         public async Task SendListByMapId(CallbackQuery callbackQuery)
         {
-            var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data});
+            var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() { MapId = callbackQuery.Data });
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
             var map = await _mediator.Send(new GetMapByIdQueryRequest() { Id = Int32.Parse(callbackQuery.Data) });
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose floor: {map.FloorNumber} \n" +
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose floor: {map.FloorNumber} \n" +
                                                                         $"Please choose workplace", replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
-
     }
 }
 

@@ -29,8 +29,9 @@ namespace Application.Telegram.Commands
             var maps = mapResponse.Results;
             var inlineKeyboard = SendMapListKeyboard.BuildKeyboard(maps);
             var office = await _mediator.Send(new GetOfficeByIdQueryRequest() { Id = Int32.Parse(callbackQuery.Data) });   
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose office: {office.Name} \n " +
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose office: {office.Name} \n " +
                                                             $"Choose Floor in Office", replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
 
     }
