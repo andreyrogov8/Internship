@@ -5,7 +5,7 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendWorkplaceListKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<WorkplaceDto> workplaces, string stateName="defaultState")
+        public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<WorkplaceDto> workplaces)
         {
             var buttons = new List<InlineKeyboardButton>();
 
@@ -13,7 +13,7 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton($"WorkplaceNumber: {workplace.WorkplaceNumber}") { CallbackData = workplace.Id.ToString()});
             }
-            buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack|{stateName}" });
+            buttons.Add(new InlineKeyboardButton($"◀️Go Back") { CallbackData = $"goBack" });
 
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;

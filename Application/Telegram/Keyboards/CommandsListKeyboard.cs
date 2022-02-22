@@ -7,18 +7,18 @@ namespace Application.Telegram.Keyboards
     {
         public static InlineKeyboardMarkup BuildKeyboard(List<string> commandNames, int columns, bool isStart=false)
         {
-            if (!isStart)
-            {
-                commandNames.Add("◀️Go Back");
-            }
+            
 
             var buttons = new List<InlineKeyboardButton>();
             foreach (var name in commandNames)
             {
                 buttons.Add(new InlineKeyboardButton(name) { CallbackData = name});
             }
+            if (!isStart)
+            {
+                buttons.Add((new InlineKeyboardButton("◀️Go Back") { CallbackData = "goBack" }));
+            }
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
-            inlineKeyboard.InlineKeyboard.ToList().Last().ToList().Last().CallbackData = $"goBack";
 
             return inlineKeyboard;
         }
