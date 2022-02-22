@@ -31,11 +31,14 @@ namespace Application.Features.UserFeature.Queries
         public async Task<GetUserByIdQueryResponse> Handle(GetUserByIdQueryRequest request, CancellationToken cancellationToken)
         {
             User appUser = null;
-            if (request.Id != null)
-                appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
-
             if (request.TelegramId != null)
+            {
                 appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.TelegramId == request.TelegramId, cancellationToken);
+            }
+            else if (request.Id != null)
+            {
+                appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+            }
 
             if (appUser == null)
             {
