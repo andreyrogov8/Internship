@@ -1,11 +1,6 @@
 ﻿using Application.Telegram.Commands;
 using Domain.Enums;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -19,7 +14,7 @@ namespace Application.Telegram.Handlers
             {
                 case UserState.StartingProcess:
                     await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                     return;
                 case UserState.SelectingAction:
@@ -38,7 +33,7 @@ namespace Application.Telegram.Handlers
                                 await telegraBotClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"goBack clicked in {UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id)}");
 
                                 await new ProvideButtons(telegraBotClient).Send(
-                                    update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
+                                    update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
                                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                                 return;
                         }
@@ -50,7 +45,7 @@ namespace Application.Telegram.Handlers
                         // user decided to go back to main menu from list of maps (floors)
                         case string when update.CallbackQuery.Data.Contains("goBack"):
                             await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
                             UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                             return;
                         default:
@@ -84,7 +79,7 @@ namespace Application.Telegram.Handlers
                         case string when update.CallbackQuery.Data.Contains("goBack"):
                             await telegraBotClient.SendTextMessageAsync(update.CallbackQuery.From.Id, $"goBack clicked in {UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id)}");
                             await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2, UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id));
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
                             UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                             return;
                         default :

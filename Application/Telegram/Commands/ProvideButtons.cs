@@ -23,14 +23,14 @@ namespace Application.Telegram.Commands
             _bot = bot;
         }
 
-        public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns, UserState currentState)
-        {
-            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns, currentState);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
-        }
-        public async Task Send(Message message, List<string> commandNames, int numberOfColumns)
+        public async Task Send(CallbackQuery callbackQuery, List<string> commandNames, int numberOfColumns)
         {
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
+        }
+        public async Task Send(Message message, List<string> commandNames, int numberOfColumns, bool isStart=false)
+        {
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns, isStart);
             await _bot.SendTextMessageAsync(message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);
         }
     }

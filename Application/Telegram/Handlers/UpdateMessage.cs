@@ -19,7 +19,7 @@ namespace Application.Telegram.Handlers
             {
                 case UserState.ProcessNotStarted:
                     await new ProvideButtons(telegraBotClient).Send(
-                                    update.Message, new List<string>() { "Start" }, 1);
+                                    update.Message, new List<string>() { "Start" }, 1, isStart: true);
                     UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
                     return;
                 case UserState.StartingBooking:
