@@ -18,8 +18,18 @@ namespace Application.Features.VacationFeature.Commands
 
     public class CreateVacationCommandValidator : AbstractValidator<CreateVacationCommandRequest>
     {
-        public CreateVacationCommandValidator()
+        private readonly UserManager<User> _userManager;
+
+        public CreateVacationCommandValidator(UserManager<User>userManager)
         {
+            _userManager = userManager;
+
+            bool IsUserExists(int userId)
+            {
+                var userExists = _userManager.Users.Any(user => user.Id == userId);
+                return userExists;
+            }
+            RuleFor(x => x.UserId).Must(IsUserExists).WithMessage(x => $"There is no User with id=({x.UserId})");
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(r => r.VacationStart)
                .NotEmpty()
@@ -46,12 +56,6 @@ namespace Application.Features.VacationFeature.Commands
         public async Task<CreateVacationCommandResponse> Handle(CreateVacationCommandRequest request, CancellationToken cancellationToken)
         {
 
-            var isUserExistsWithThisId = await _userManager.Users.AnyAsync(user => user.Id == request.UserId, cancellationToken);
-
-            if (!isUserExistsWithThisId)
-            {
-                throw new NotFoundException($"There is no User with id={request.UserId}");
-            }
            
             var vacation = _mapper.Map<Vacation>(request);
             _context.Vacations.Add(vacation);

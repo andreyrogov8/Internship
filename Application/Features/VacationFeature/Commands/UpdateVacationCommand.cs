@@ -21,8 +21,19 @@ namespace Application.Features.VacationFeature.Commands
 
     public class UpdateVacationCommandValidator : AbstractValidator<UpdateVacationCommandRequest>
     {
-        public UpdateVacationCommandValidator()
+        private readonly UserManager<User> _userManager;
+
+        public UpdateVacationCommandValidator(UserManager<User> userManager)
         {
+            _userManager = userManager;
+
+            bool IsUserExists(int userId)
+            {
+                var userExists = _userManager.Users.Any(user => user.Id == userId);
+                return userExists;
+            }
+
+            RuleFor(x => x.UserId).Must(IsUserExists).WithMessage(x => $"There is no User with id=({x.UserId})");
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(r => r.VacationStart)
                .NotEmpty()
@@ -32,6 +43,7 @@ namespace Application.Features.VacationFeature.Commands
             .NotEmpty().WithMessage("End date is required")
             .GreaterThan(r => r.VacationStart)
                             .WithMessage("End date must after Start date");
+
         }
     }
 
