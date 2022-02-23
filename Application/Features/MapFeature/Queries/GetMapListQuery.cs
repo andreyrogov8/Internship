@@ -43,6 +43,7 @@ namespace Application.Features.MapFeature.Queries
 
     public class MapDTO
     {
+        public int Id { get; set; }
         public int FloorNumber { get; set; }
         public bool HasKitchen { get; set; }
         public bool HasMeetingRoom { get; set; }
