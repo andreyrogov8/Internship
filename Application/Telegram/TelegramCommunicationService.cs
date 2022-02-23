@@ -41,8 +41,11 @@ namespace Application.TelegramBot
             switch (update.Type)
             {
                 case UpdateType.CallbackQuery:
-                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,
-                                                $"Button pressed at {DateTime.Now.ToString("h: mm:ss tt")} \n");
+                    if (update.CallbackQuery.Data.Contains("BACK"))
+                    {                        
+                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
+                            (UserState)Enum.Parse(typeof(UserState), update.CallbackQuery.Data.Substring(4)));
+                    }
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;
                 case UpdateType.Message:

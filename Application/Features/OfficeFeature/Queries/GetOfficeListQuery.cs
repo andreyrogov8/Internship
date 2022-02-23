@@ -28,22 +28,21 @@ namespace Application.Features.OfficeFeature.Queries
         }
         public async Task<GetOfficeListQueryResponse> Handle(GetOfficeListQueryRequest query, CancellationToken cancellationToken)
         {
-            var offices = await _context.Offices
-                .ProjectTo<OfficeDto>(_mapper.ConfigurationProvider).Take(query.Top)
-                .ToListAsync(cancellationToken);
+            var offices = _context.Offices.AsQueryable();
+
             if (query.SearchBy is not null)
             {
                 offices = offices.Where(x => x.Country.Contains(query.SearchBy)
                                             || x.City.Contains(query.SearchBy)
-                                            || x.Name.Contains(query.SearchBy)).ToList();             
+                                            || x.Name.Contains(query.SearchBy));             
             }
 
 
             return new GetOfficeListQueryResponse
             {
-                Results = offices
+                Results = await offices.ProjectTo<OfficeDto>(_mapper.ConfigurationProvider).Take(query.Top)
+                            .ToListAsync(cancellationToken)
             };
-
         }
     }
 

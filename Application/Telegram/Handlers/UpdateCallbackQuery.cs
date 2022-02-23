@@ -15,11 +15,12 @@ namespace Application.Telegram.Handlers
     {
         public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
         {
+            await TelegramMessages.Delete(telegraBotClient, update.CallbackQuery.From.Id);
             switch (UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id))
             {
                 case UserState.StartingProcess:
                     await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "BACKProcessNotStarted" }, 2);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                     return;
                 case UserState.SelectingAction:
@@ -27,8 +28,10 @@ namespace Application.Telegram.Handlers
                         switch (update.CallbackQuery.Data)
                         {
                             case "New Booking":
-                                await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
-                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingBooking);
+                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.BookingIsSelected);
+                                await new ProvideButtons(telegraBotClient).Send(
+                                    update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
+
                                 return;
                                 //case "My Bookings":
                                 //    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
@@ -37,6 +40,10 @@ namespace Application.Telegram.Handlers
                         }
                         return;
                     }
+                case UserState.BookingIsSelected:
+                    await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingBooking);
+                    return;
                 case UserState.StartingBooking:
                     await new SendMapListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingFloor);

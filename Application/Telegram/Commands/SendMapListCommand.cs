@@ -1,4 +1,5 @@
 ﻿using Application.Features.MapFeature.Queries;
+using Application.Features.OfficeFeature.Queries;
 using Application.Telegram.Keyboards;
 using MediatR;
 using System;
@@ -27,7 +28,11 @@ namespace Application.Telegram.Commands
             var mapResponse = await _mediator.Send(new GetMapListQueryRequest() { OfficeId = callbackQuery.Data});
             var maps = mapResponse.Results;
             var inlineKeyboard = SendMapListKeyboard.BuildKeyboard(maps);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Floor in Office", replyMarkup: inlineKeyboard);
+            var office = await _mediator.Send(new GetOfficeByIdQueryRequest() { Id = Int32.Parse(callbackQuery.Data) });   
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id
+                , callbackQuery.Data.Contains("BACK") ? " Choose Floor in Office" : $"You choose office: {office.Name} \n Choose Floor in Office"
+                , replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
 
     }

@@ -28,17 +28,17 @@ namespace Application.Features.CountryCQ
         }
         public async Task<GetWorkplaceListQueryResponse> Handle(GetWorkplaceListQueryRequest query, CancellationToken cancellationToken)
         {
-            var workplaces = await _context.Workplaces
-                .ProjectTo<WorkplaceDto>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+
+            var workplaces = _context.Workplaces.AsQueryable();
 
             if (query.MapId is not null)
             {
-                workplaces = workplaces.Where(x => x.MapId == Int32.Parse(query.MapId)).ToList();
+                workplaces = workplaces.Where(x => x.MapId == Int32.Parse(query.MapId));
             }
             return new GetWorkplaceListQueryResponse
-            { 
-                Results = workplaces
+            {
+                Results = await workplaces.ProjectTo<WorkplaceDto>(_mapper.ConfigurationProvider)
+                            .ToListAsync(cancellationToken)
             };  
             
         }
