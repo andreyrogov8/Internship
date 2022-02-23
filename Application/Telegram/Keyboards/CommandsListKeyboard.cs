@@ -9,7 +9,15 @@ namespace Application.Telegram.Keyboards
             var buttons = new List<InlineKeyboardButton>();
             foreach (var name in commandNames)
             {
-                buttons.Add(new InlineKeyboardButton(name) { CallbackData = name});
+                if (name.Contains("BACK"))
+                {
+                    buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = name });
+                }
+                else
+                {
+                    buttons.Add(new InlineKeyboardButton(name) { CallbackData = name});
+                }
+                
             }
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
             return inlineKeyboard;

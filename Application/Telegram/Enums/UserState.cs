@@ -13,6 +13,7 @@ namespace Domain.Enums
         SelectingAction,
         ActionIsSelected,
         EnteringVacation,
+        BookingIsSelected,
         StartingBooking,
         CheckingBookings,
         SelectingFloor,
