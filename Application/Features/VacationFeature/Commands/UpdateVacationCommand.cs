@@ -23,17 +23,26 @@ namespace Application.Features.VacationFeature.Commands
     {
         private readonly UserManager<User> _userManager;
 
-        public UpdateVacationCommandValidator(UserManager<User> userManager)
+        private readonly IApplicationDbContext _context;
+        public UpdateVacationCommandValidator(UserManager<User> userManager, IApplicationDbContext context)
         {
             _userManager = userManager;
+            _context = context;
 
             bool IsUserExists(int userId)
             {
                 var userExists = _userManager.Users.Any(user => user.Id == userId);
                 return userExists;
             }
+            bool IsVacationExists(int vacationId)
+            {
+                var vacationExists = _context.Vacations.Any(vacation => vacation.Id == vacationId);
+                return vacationExists;
+            }
 
             RuleFor(x => x.UserId).Must(IsUserExists).WithMessage(x => $"There is no User with id=({x.UserId})");
+            RuleFor(x => x.Id).Must(IsVacationExists).WithMessage(x => $"There is no Vacation with id=({x.Id})");
+
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(r => r.VacationStart)
                .NotEmpty()
@@ -61,18 +70,9 @@ namespace Application.Features.VacationFeature.Commands
         }
         public async Task<UpdateVacationCommandResponse> Handle(UpdateVacationCommandRequest request, CancellationToken cancellationToken)
         {
-            var isUserExistsWithThisId = await _userManager.Users.AnyAsync(user => user.Id == request.UserId, cancellationToken);
-
-            if (!isUserExistsWithThisId)
-            {
-                throw new NotFoundException($"There is no User with id={request.UserId}");
-            }
             
             var vacation = await _context.Vacations.FirstOrDefaultAsync(vacation => vacation.Id == request.Id, cancellationToken);
-            if (vacation == null)
-            {
-                throw new NotFoundException(nameof(vacation), request.Id);
-            }
+            
             vacation = _mapper.Map(request, vacation);
             await _context.SaveChangesAsync(cancellationToken);
             return _mapper.Map<UpdateVacationCommandResponse>(vacation);
