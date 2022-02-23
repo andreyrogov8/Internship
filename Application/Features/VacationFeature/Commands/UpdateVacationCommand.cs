@@ -24,7 +24,14 @@ namespace Application.Features.VacationFeature.Commands
         public UpdateVacationCommandValidator()
         {
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
+            RuleFor(r => r.VacationStart)
+               .NotEmpty()
+               .WithMessage("Vacation Date is Required");
 
+            RuleFor(r => r.VacationEnd)
+            .NotEmpty().WithMessage("End date is required")
+            .GreaterThan(r => r.VacationStart)
+                            .WithMessage("End date must after Start date");
         }
     }
 
