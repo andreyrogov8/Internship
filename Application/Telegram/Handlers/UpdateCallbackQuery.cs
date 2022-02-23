@@ -32,8 +32,12 @@ namespace Application.Telegram.Handlers
                                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingBooking);
                                 return;
                             case "New Vacation":
-                                await new CreateVacationCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                                await new CreateVacationCommand(mediator, telegraBotClient).Send(callbackQuery:update.CallbackQuery);
                                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringVacation);
+                                return;
+                            case "My Bookings":
+                                await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookings(update.CallbackQuery);
+                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
                                 return;
                                 //case "My Bookings":
                                 //    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();

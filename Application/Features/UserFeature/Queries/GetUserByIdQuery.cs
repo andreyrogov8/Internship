@@ -14,7 +14,8 @@ namespace Application.Features.UserFeature.Queries
 {
     public class GetUserByIdQueryRequest : IRequest<GetUserByIdQueryResponse>
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
+        public long? TelegramId { get; set; }
     }
 
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQueryRequest, GetUserByIdQueryResponse>
@@ -29,10 +30,18 @@ namespace Application.Features.UserFeature.Queries
         }
         public async Task<GetUserByIdQueryResponse> Handle(GetUserByIdQueryRequest request, CancellationToken cancellationToken)
         {
-            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+            User appUser = null;
+            if (request.Id.HasValue)
+            {
+                appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == request.Id, cancellationToken);
+            }
+            else if (request.TelegramId.HasValue)
+            {
+                appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.TelegramId == request.TelegramId, cancellationToken);
+            }
             if (appUser == null)
             {
-                throw new NotFoundException(nameof(User), request.Id);
+                throw new NotFoundException(nameof(User), request.Id.HasValue ? request.Id : request.TelegramId);
             }
 
             var roles = await _userManager.GetRolesAsync(appUser);

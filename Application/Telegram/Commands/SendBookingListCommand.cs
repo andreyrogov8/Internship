@@ -15,21 +15,32 @@ namespace Application.Telegram.Commands
     public class SendBookingListCommand
     {
         public TelegramBotClient _bot;
-        public Message _message;
         public readonly IMediator _mediator;
-        public SendBookingListCommand(IMediator mediator, TelegramBotClient bot, Message message)
+        public SendBookingListCommand(IMediator mediator, TelegramBotClient bot)
         {
             _bot = bot;
-            _message = message;
             _mediator = mediator;
         }
-        public async Task Send()
+        public async Task Send(CallbackQuery callbackQuery)
         {
             var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
             var bookings = bookingResponse.Results;
             var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
-            await _bot.SendTextMessageAsync(_message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
         }
+
+        public async Task SendCurrentUserBookings(CallbackQuery callbackQuery)
+        {
+            var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest
+            {
+                TelegramId = callbackQuery.From.Id
+            });
+
+            var bookings = bookingResponse.Results;
+            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
+            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
+        }
+
     }
 }
 

@@ -34,8 +34,8 @@ namespace Application.TelegramBot
             {
                 if (UserStateStorage.GetUserCurrentState(update.Message.From.Id) == UserState.ProcessNotStarted)
                 {
-                    UserStateStorage.AddUser(5213829376, UserState.ProcessNotStarted, UserRole.User );
-                    UserStateStorage.AddRecordToUserMessages(5213829376, new List<int>());
+                    UserStateStorage.AddUser(update.Message.From.Id, UserState.ProcessNotStarted, UserRole.User );
+                    UserStateStorage.AddRecordToUserMessages(update.Message.From.Id, new List<int>());
                 }
             }
                        

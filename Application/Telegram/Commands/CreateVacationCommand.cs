@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿using Application.Features.UserFeature.Queries;
+using Application.Features.VacationFeature.Commands;
+using Application.Telegram.Keyboards;
+using Domain.Enums;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +25,36 @@ namespace Application.Telegram.Commands
             _bot = bot;
 
         }
-        public async Task Send(CallbackQuery callbackQuery, bool enteredDate = false)
+        public async Task Send(Message message=null, CallbackQuery callbackQuery=null, bool enteredDate = false)
         {
-            if (!enteredDate)
+            if (!enteredDate && callbackQuery is not null)
             {
                 await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Enter your starting date and Ending date as the following format: <code>year/month/day, year/month/day</code>\n first one will be starting and second one will be your ending date of vacation.", ParseMode.Html);
                 return;
             }
+            else if (enteredDate && message is not null)
+            {
+                var messageText = message.Text;
+                var DateTexts = messageText.Split(',');
+                var startAndEndDates = new List<DateTimeOffset>();
+                for (var i=0; i< 2;i ++)
+                {
+                    var year = int.Parse(DateTexts[i].Split('/')[0]);
+                    var month = int.Parse(DateTexts[i].Split('/')[1]);
+                    var date = int.Parse(DateTexts[i].Split('/')[2]);
+
+                    var Date = new DateTimeOffset(new DateTime(year, month, date));
+                    startAndEndDates.Add(Date);
+                }
+                var user = await _mediator.Send(new GetUserByIdQueryRequest{ TelegramId = message.From.Id});
+                var vacation = await _mediator.Send(new CreateVacationCommandRequest { UserId=user.Id, VacationStart= startAndEndDates[0], VacationEnd = startAndEndDates[1]});
+                var commandNames = new List<string> { "New Booking", "New Vacation", "My Bookings" };
+                var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, 2);
+                await _bot.SendTextMessageAsync(message.Chat.Id, "Your vacation has been created.", replyMarkup:inlineKeyboard);
+                UserStateStorage.UserStateUpdate(message.From.Id, UserState.SelectingAction);
+                return;
+            }
+
 
             
         }
