@@ -29,7 +29,9 @@ namespace Application.Telegram.Commands
         {
             if (!enteredDate && callbackQuery is not null)
             {
-                await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Enter your starting date and Ending date as the following format: <code>year/month/day, year/month/day</code>\n first one will be starting and second one will be your ending date of vacation.", ParseMode.Html);
+                var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Enter your starting date and Ending date as the following format: <code>year/month/day, year/month/day</code>\n first one will be starting and second one will be your ending date of vacation.", ParseMode.Html);
+                UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
+
                 return;
             }
             else if (enteredDate && message is not null)
@@ -48,10 +50,11 @@ namespace Application.Telegram.Commands
                 }
                 var user = await _mediator.Send(new GetUserByIdQueryRequest{ TelegramId = message.From.Id});
                 var vacation = await _mediator.Send(new CreateVacationCommandRequest { UserId=user.Id, VacationStart= startAndEndDates[0], VacationEnd = startAndEndDates[1]});
-                var commandNames = new List<string> { "New Booking", "New Vacation", "My Bookings" };
+                var commandNames = new List<string> { "New Booking", "New Vacation", "My Bookings", "BACKProcessNotStarted" };
                 var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, 2);
-                await _bot.SendTextMessageAsync(message.Chat.Id, "Your vacation has been created.", replyMarkup:inlineKeyboard);
+                var currentMessage = await _bot.SendTextMessageAsync(message.Chat.Id, "Your vacation has been created.", replyMarkup:inlineKeyboard);
                 UserStateStorage.UserStateUpdate(message.From.Id, UserState.SelectingAction);
+                UserStateStorage.AddMessage(message.From.Id, currentMessage.MessageId);
                 return;
             }
 

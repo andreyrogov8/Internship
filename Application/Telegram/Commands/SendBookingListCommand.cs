@@ -38,7 +38,8 @@ namespace Application.Telegram.Commands
 
             var bookings = bookingResponse.Results;
             var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
 
     }

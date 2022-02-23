@@ -43,9 +43,10 @@ namespace Application.TelegramBot
             {
                 case UpdateType.CallbackQuery:
                     if (update.CallbackQuery.Data.Contains("BACK"))
-                    {                        
+                    {
+                        UserState testState = (UserState)Enum.Parse(typeof(UserState), update.CallbackQuery.Data.Substring(4));
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
-                            (UserState)Enum.Parse(typeof(UserState), update.CallbackQuery.Data.Substring(4)));
+                            testState);
                     }
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;
