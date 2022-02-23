@@ -12,7 +12,11 @@ namespace Domain.Enums
         StartingProcess,
         SelectingAction,
         ActionIsSelected,
+//<<<<<<< HEAD
         EnteringVacation,
+//=======
+        BookingIsSelected,
+//>>>>>>> 74d1b966129b914500759bc880d2dfae938ae129
         StartingBooking,
         CheckingBookings,
         SelectingFloor,
