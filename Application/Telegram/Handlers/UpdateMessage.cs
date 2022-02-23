@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-
+using Application.Telegram.Commands;
 namespace Application.Telegram.Handlers
 {
     public static class UpdateMessage
@@ -18,9 +18,10 @@ namespace Application.Telegram.Handlers
             switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
             {
                 case UserState.ProcessNotStarted:
-                    await new ProvideButtons(telegraBotClient).Send(
-                                    update.Message, new List<string>() { "Start" }, 1);
+                    //await new ProvideButtons(telegraBotClient).Send(
+                    //                update.Message, new List<string>() { "Start" }, 1);
                     UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
+                    await new StartCommand(mediator, telegraBotClient).Handle(update);
                     return;
                 case UserState.StartingBooking:
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);

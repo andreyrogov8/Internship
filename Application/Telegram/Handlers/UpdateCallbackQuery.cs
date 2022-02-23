@@ -19,7 +19,7 @@ namespace Application.Telegram.Handlers
             {
                 case UserState.StartingProcess:
                     await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings" }, 2);
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation"}, 2);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                     return;
                 case UserState.SelectingAction:
@@ -29,6 +29,10 @@ namespace Application.Telegram.Handlers
                             case "New Booking":
                                 await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
                                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingBooking);
+                                return;
+                            case "New Vacation":
+                                await new CreateVacationCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringVacation);
                                 return;
                                 //case "My Bookings":
                                 //    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
@@ -44,6 +48,9 @@ namespace Application.Telegram.Handlers
                 case UserState.SelectingFloor:
                     await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapId(update.CallbackQuery);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingWorkplace);
+                    return;
+                case UserState.EnteringVacation:
+
                     return;
 
             }
