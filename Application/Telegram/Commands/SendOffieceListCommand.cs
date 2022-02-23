@@ -27,7 +27,8 @@ namespace Application.Telegram.Commands
             var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest());
             var offices = officeResponse.Results;
             var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+            var currnetMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"You choose: {callbackQuery.Data} \n Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currnetMessage.MessageId);
         }
         public async Task Send(Message message)
         {
@@ -37,7 +38,8 @@ namespace Application.Telegram.Commands
             });
             var offices = officeResponse.Results;
             var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
-            await _bot.SendTextMessageAsync(message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+            var currnetMessage = await _bot.SendTextMessageAsync(message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+            UserStateStorage.AddMessage(message.From.Id, currnetMessage.MessageId);
         }
     }
 }

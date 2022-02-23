@@ -15,6 +15,7 @@ namespace Application.Telegram.Handlers
     {
         public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
         {
+            await TelegramMessages.Delete(telegraBotClient, update.CallbackQuery.From.Id);
             switch (UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id))
             {
                 case UserState.StartingProcess:
