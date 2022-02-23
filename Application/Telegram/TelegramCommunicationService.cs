@@ -41,7 +41,12 @@ namespace Application.TelegramBot
                        
             switch (update.Type)
             {
-                case UpdateType.CallbackQuery:                    
+                case UpdateType.CallbackQuery:
+                    if (update.CallbackQuery.Data.Contains("BACK"))
+                    {                        
+                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
+                            (UserState)Enum.Parse(typeof(UserState), update.CallbackQuery.Data.Substring(4)));
+                    }
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;
                 case UpdateType.Message:
