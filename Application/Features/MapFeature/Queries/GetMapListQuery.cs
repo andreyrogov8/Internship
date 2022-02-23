@@ -22,16 +22,15 @@ namespace Application.Features.MapFeature.Queries
         }
         public async Task<GetMapListQueryResponse> Handle(GetMapListQueryRequest request, CancellationToken cancellationToken)
         {
-            var mapList = await _context.Maps
-                .ProjectTo<MapDTO>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+            var mapList = _context.Maps.AsQueryable();
             if (request.OfficeId != null)
             {
-                mapList = mapList.Where(x => x.OfficeId == Int32.Parse(request.OfficeId)).ToList();
+                mapList = mapList.Where(x => x.OfficeId == Int32.Parse(request.OfficeId));
             }
             return new GetMapListQueryResponse
             {
-                Results = mapList
+                Results = await mapList.ProjectTo<MapDTO>(_mapper.ConfigurationProvider)
+                                .ToListAsync(cancellationToken)
             };
         }
     }

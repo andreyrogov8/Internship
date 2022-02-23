@@ -34,16 +34,14 @@ namespace Application.TelegramBot
             {
                 if (UserStateStorage.GetUserCurrentState(update.Message.From.Id) == UserState.ProcessNotStarted)
                 {
-                    UserStateStorage.AddUser(5213829376, UserState.ProcessNotStarted, UserRole.User);
+                    UserStateStorage.AddUser(5213829376, UserState.ProcessNotStarted, UserRole.User );
+                    UserStateStorage.AddRecordToUserMessages(5213829376, new List<int>());
                 }
             }
-            
-            //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
+                       
             switch (update.Type)
             {
-                case UpdateType.CallbackQuery:
-                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id,
-                                                $"Button pressed at {DateTime.Now.ToString("h: mm:ss tt")} \n");
+                case UpdateType.CallbackQuery:                    
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;
                 case UpdateType.Message:
