@@ -31,14 +31,13 @@ namespace Application.Telegram.Commands
 
             var booking = UserStateStorage.userInfo[callbackQuery.From.Id].Booking;
             var currentEndDate = booking.EndDate;
-            Console.WriteLine($"<<<<<<<<<<< END DATE MoNTH: {month},  >>>>>>>>>>>>>");
             booking.EndDate = new DateTimeOffset(
                 DateTimeOffset.UtcNow.Year,
                 month,
                 currentEndDate.Day,
                 0, 0, 0,
                 currentEndDate.Offset);
-            Console.WriteLine($"Start Date: {booking.StartDate}, End Date: {booking.EndDate}");
+
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
     }

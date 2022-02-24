@@ -30,7 +30,7 @@ namespace Application.Telegram.Commands
                 callbackQuery.Message.Chat.Id,
                 "Please select start date day",
                 replyMarkup: inlineKeyboard);
-            Console.WriteLine($"<<<<<<<<<<< Start Date MONTH: {month}");
+
             var booking = UserStateStorage.userInfo[callbackQuery.From.Id].Booking;
             var currentStartDate = booking.StartDate;
             booking.StartDate = new DateTimeOffset(
@@ -39,8 +39,6 @@ namespace Application.Telegram.Commands
                 currentStartDate.Day,
                 0, 0, 0, 
                 currentStartDate.Offset);
-            Console.WriteLine($"<<<<<<<<<<< Start Date MONTH: {booking.StartDate.Month}");
-            Console.WriteLine($"<<<<<<<<<<< Start Date MONTH: {UserStateStorage.userInfo[callbackQuery.From.Id].Booking.StartDate.Month}");
 
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }

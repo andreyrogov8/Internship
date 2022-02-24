@@ -31,7 +31,6 @@ namespace Application.Telegram.Commands
 
             var booking = UserStateStorage.userInfo[callbackQuery.From.Id].Booking;
             var currentStartDate = booking.StartDate;
-            Console.WriteLine($"<<<<<<<<<<<< Start Date DAY: {day}, Start Date MONTH: {currentStartDate.Month} >>>>>>>>>>>>>>");
             booking.StartDate = new DateTimeOffset(
                 DateTimeOffset.UtcNow.Year,
                 currentStartDate.Month,
