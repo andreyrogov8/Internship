@@ -31,6 +31,7 @@ namespace Application.Features.UserFeature.Queries
         public async Task<GetUserByIdQueryResponse> Handle(GetUserByIdQueryRequest request, CancellationToken cancellationToken)
         {
             User appUser = null;
+
             if (request.TelegramId != null)
             {
                 appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.TelegramId == request.TelegramId, cancellationToken);
@@ -42,7 +43,7 @@ namespace Application.Features.UserFeature.Queries
 
             if (appUser == null)
             {
-                throw new NotFoundException(nameof(User), request.Id);
+                throw new NotFoundException(nameof(User), request.Id.HasValue ? request.Id : request.TelegramId);
             }
 
             var roles = await _userManager.GetRolesAsync(appUser);
