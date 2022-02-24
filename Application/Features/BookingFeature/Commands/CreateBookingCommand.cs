@@ -11,7 +11,7 @@ namespace Application.Features.BookingFeature.Commands
 {
     public class CreateBookingCommandRequest : IRequest<CreateBookingCommandResponse>
     {
-        public int UserId { get; set; }
+        public long TelegramId { get; set; }
         public DateTimeOffset StartDate { get; set; }
 
         public DateTimeOffset EndDate { get; set; }
@@ -24,19 +24,19 @@ namespace Application.Features.BookingFeature.Commands
     {
         public CreateBookingCommandValidator()
         {
-            RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
+            RuleFor(x => x.TelegramId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(x => x.WorkplaceId).NotEmpty().WithMessage("WorkplaceId must not be blank");
             RuleFor(x => x.IsRecurring).Must(x => x == false || x == true).WithMessage("IsRecurring should be whether true or false");
             RuleFor(x => x.Frequency).InclusiveBetween(1, 30).WithMessage("Frequency of booking must be range of 1 and 30");
         }
     }
-    public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommandRequest, CreateBookingCommandResponse>
+    public class CreateBookingCommandHandler : UpsertBookingCommand, IRequestHandler<CreateBookingCommandRequest, CreateBookingCommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
-        public CreateBookingCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager)
+        public CreateBookingCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager) : base(context)
         {
             _mapper = mapper;
             _context = context;
@@ -45,11 +45,11 @@ namespace Application.Features.BookingFeature.Commands
         public async Task<CreateBookingCommandResponse> Handle(CreateBookingCommandRequest request, CancellationToken cancellationToken)
         {
 
-            var isUserExistsWithThisId = await _userManager.Users.AnyAsync(user => user.Id == request.UserId, cancellationToken);
+            var isUserExistsWithThisId = await _userManager.Users.AnyAsync(user => user.TelegramId == request.TelegramId, cancellationToken);
             
             if (!isUserExistsWithThisId)
             {
-                throw new NotFoundException($"There is no User with id={request.UserId}");
+                throw new NotFoundException($"There is no User with id={request.TelegramId}");
             }
             var isWorkPlaceExistsWithThisId = await _context.Workplaces.AnyAsync(w => w.Id == request.WorkplaceId, cancellationToken);
 
@@ -57,6 +57,10 @@ namespace Application.Features.BookingFeature.Commands
             {
                 throw new NotFoundException($"There is no WorkPlace with id={request.WorkplaceId}");
             }
+
+            EnsureWorkplaceIsFree(request.WorkplaceId, request.StartDate, request.EndDate);
+            EnsureUserHasNotBookingThisTime(request.TelegramId, request.StartDate, request.EndDate);
+
             var booking = _mapper.Map<Booking>(request);
             await _context.Bookings.AddAsync(booking, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
