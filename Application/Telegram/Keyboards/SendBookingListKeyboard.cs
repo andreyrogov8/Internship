@@ -12,6 +12,8 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton($"Owner: {booking.UserName}") { CallbackData = booking.WorkplaceId.ToString() });
             }
+            buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = "BACKStartingProcess" });
+
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;
         }
