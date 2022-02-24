@@ -16,6 +16,10 @@ namespace Domain.Enums
         StartingBooking,
         CheckingBookings,
         SelectingFloor,
-        SelectingWorkplace
+        SelectingWorkplace,
+        SelectingStartDateMonth,
+        SelectingStartDateDay,
+        SelectingEndDateMonth,
+        SelectingEndDateDay,
     }
 }
