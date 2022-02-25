@@ -10,7 +10,7 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendDateMonthKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard()
+        public static InlineKeyboardMarkup BuildKeyboard(string callBackData)
         {
             List<InlineKeyboardButton> buttons = new();
             List<string> months = new() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
@@ -19,7 +19,7 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton(month.value) { CallbackData = (month.i + 1).ToString() });
             }
-            buttons.Add(new InlineKeyboardButton($"BACK") { CallbackData = "BACKBookingIsSelected" });
+            buttons.Add(new InlineKeyboardButton($"BACK") { CallbackData = callBackData });
 
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
             return inlineKeyboard;

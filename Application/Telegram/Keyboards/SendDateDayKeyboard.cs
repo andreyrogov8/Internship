@@ -9,7 +9,7 @@ namespace Application.Telegram.Keyboards
 {
     public static class SendDateDayKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard(int month)
+        public static InlineKeyboardMarkup BuildKeyboard(int month, string callBackData)
         {
             List<InlineKeyboardButton> buttons = new();
             int numberOfDays = DateTime.DaysInMonth(DateTimeOffset.UtcNow.Year, month);
@@ -17,7 +17,7 @@ namespace Application.Telegram.Keyboards
             {
                 buttons.Add(new InlineKeyboardButton(day.ToString()) { CallbackData = day.ToString() });
             }
-            buttons.Add(new InlineKeyboardButton($"BACK") { CallbackData = "BACKBookingIsSelected" });
+            buttons.Add(new InlineKeyboardButton($"BACK") { CallbackData = callBackData });
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 7);
             return inlineKeyboard;
         }
