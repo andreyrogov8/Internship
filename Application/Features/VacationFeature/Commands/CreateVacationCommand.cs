@@ -41,13 +41,13 @@ namespace Application.Features.VacationFeature.Commands
                             .WithMessage("End date must after Start date");
         }
     }
-    public class CreateVacationCommandHandler : IRequestHandler<CreateVacationCommandRequest, CreateVacationCommandResponse>
+    public class CreateVacationCommandHandler : UpsertVacationCommand, IRequestHandler<CreateVacationCommandRequest, CreateVacationCommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
-        public CreateVacationCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager)
+        public CreateVacationCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager) : base(context)
         {
             _mapper = mapper;
             _context = context;
@@ -55,8 +55,8 @@ namespace Application.Features.VacationFeature.Commands
         }
         public async Task<CreateVacationCommandResponse> Handle(CreateVacationCommandRequest request, CancellationToken cancellationToken)
         {
-
-           
+            EnsureTheUserHasNotVacationInThisTime(request.UserId, request.VacationStart, request.VacationEnd);
+            
             var vacation = _mapper.Map<Vacation>(request);
             _context.Vacations.Add(vacation);
             await _context.SaveChangesAsync(cancellationToken);

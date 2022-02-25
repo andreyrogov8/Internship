@@ -34,15 +34,9 @@ namespace Application.Features.VacationFeature.Commands
                 var userExists = _userManager.Users.Any(user => user.Id == userId);
                 return userExists;
             }
-            bool IsVacationExists(int vacationId)
-            {
-                var vacationExists = _context.Vacations.Any(vacation => vacation.Id == vacationId);
-                return vacationExists;
-            }
+            
 
             RuleFor(x => x.UserId).Must(IsUserExists).WithMessage(x => $"There is no User with id=({x.UserId})");
-            RuleFor(x => x.Id).Must(IsVacationExists).WithMessage(x => $"There is no Vacation with id=({x.Id})");
-
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(r => r.VacationStart)
                .NotEmpty()
@@ -56,13 +50,13 @@ namespace Application.Features.VacationFeature.Commands
         }
     }
 
-    public class UpdateVacationgCommandHandler : IRequestHandler<UpdateVacationCommandRequest, UpdateVacationCommandResponse>
+    public class UpdateVacationgCommandHandler : UpsertVacationCommand, <UpdateVacationCommandRequest, UpdateVacationCommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
-        public UpdateVacationgCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager)
+        public UpdateVacationgCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager) : base(context)
         {
             _mapper = mapper;
             _context = context;
@@ -72,7 +66,12 @@ namespace Application.Features.VacationFeature.Commands
         {
             
             var vacation = await _context.Vacations.FirstOrDefaultAsync(vacation => vacation.Id == request.Id, cancellationToken);
-            
+            if (vacation == null)
+            {
+                throw new NotFoundException(nameof(vacation), request.Id);
+            }
+            //EnsureTheUserHasNotVacationInThisTime(request.UserId, request.VacationStart, request.VacationEnd);
+
             vacation = _mapper.Map(request, vacation);
             await _context.SaveChangesAsync(cancellationToken);
             return _mapper.Map<UpdateVacationCommandResponse>(vacation);
