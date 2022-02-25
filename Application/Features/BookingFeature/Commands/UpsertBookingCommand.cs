@@ -31,7 +31,7 @@ namespace Application.Features.BookingFeature.Commands
         {
             var hasBooking = await _context.Bookings.AnyAsync(x => 
                            (x.UserId == telegramId && (x.StartDate < startDate) && (startDate < x.EndDate))
-                        || (x.UserId == telegramId && (x.StartDate < endDate) && (endDate < x.EndDate))).Any();
+                        || (x.UserId == telegramId && (x.StartDate < endDate) && (endDate < x.EndDate)));
 
             if (hasBooking)
             {
