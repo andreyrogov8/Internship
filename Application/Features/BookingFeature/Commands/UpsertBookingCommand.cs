@@ -1,11 +1,7 @@
 ﻿
 using Application.Interfaces;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.BookingFeature.Commands
 {
@@ -17,12 +13,12 @@ namespace Application.Features.BookingFeature.Commands
         {
             _context = context;
         }
-        public void EnsureWorkplaceIsFree(int workplaceId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureWorkplaceIsFree(int workplaceId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
-            var busy = _context.Bookings.Where(x => 
+            var busy = await _context.Bookings.AnyAsync(x => 
                           (x.WorkplaceId == workplaceId && (x.StartDate < startDate) && (startDate < x.EndDate ))
                         ||(x.WorkplaceId == workplaceId && (x.StartDate < endDate) && (endDate < x.EndDate))
-                        ).Any();
+                        );
 
             if (busy)
             {
@@ -31,9 +27,9 @@ namespace Application.Features.BookingFeature.Commands
             }
         }
 
-        public void EnsureUserHasNotBookingThisTime(long telegramId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureUserHasNotBookingThisTime(long telegramId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
-            var hasBooking = _context.Bookings.Where(x => 
+            var hasBooking = await _context.Bookings.AnyAsync(x => 
                            (x.UserId == telegramId && (x.StartDate < startDate) && (startDate < x.EndDate))
                         || (x.UserId == telegramId && (x.StartDate < endDate) && (endDate < x.EndDate))).Any();
 
