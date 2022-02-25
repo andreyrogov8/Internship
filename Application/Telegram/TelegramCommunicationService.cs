@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Telegram;
 using Application.Telegram.Commands;
 using Application.Telegram.Handlers;
+using Application.Telegram.Middleware;
 using Application.Telegram.Models;
 using Domain.Enums;
 using MediatR;
@@ -29,23 +30,23 @@ namespace Application.TelegramBot
 
         public async Task Execute(Update update)
         {
-            //for testing
-            if (update.Message !=null)
+            if (update.Message != null && !await Authentication.Authenticate(update, _mediator))
             {
-                if (UserStateStorage.GetUserCurrentState(update.Message.From.Id) == UserState.ProcessNotStarted)
-                {
-                    UserStateStorage.AddUser(644230165, UserState.ProcessNotStarted, UserRole.User );
-                    UserStateStorage.AddRecordToUserMessages(644230165, new List<int>());
-                }
+
+                await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "You are not authorized to use this bot");
+                return;
             }
-                       
+                
+
+            //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
             switch (update.Type)
             {
                 case UpdateType.CallbackQuery:
                     if (update.CallbackQuery.Data.Contains("BACK"))
-                    {                        
+                    {
+                        UserState testState = (UserState)Enum.Parse(typeof(UserState), update.CallbackQuery.Data.Substring(4));
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
-                            (UserState)Enum.Parse(typeof(UserState), update.CallbackQuery.Data.Substring(4)));
+                            testState);
                     }
                     await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
                     return;

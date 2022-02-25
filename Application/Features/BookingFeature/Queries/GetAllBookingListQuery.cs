@@ -24,25 +24,17 @@ namespace Application.Features.BookingFeature.Queries
 
         public async Task<GetBookingListQueryResponse> Handle(GetBookingListQueryRequest request, CancellationToken cancellationToken)
         {
-            var bookingList = new List<BookingDto>();
+            var bookingList = _context.Bookings.AsQueryable();
             if (request.TelegramId.HasValue)
             {
-                bookingList = await _context.Bookings
-                    .Where(book => book.User.TelegramId == request.TelegramId)
-                    .ProjectTo<BookingDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+                bookingList = bookingList
+                    .Where(book => book.User.TelegramId == request.TelegramId);
             }
-            else
-            {
-                bookingList = await _context.Bookings
-                .ProjectTo<BookingDto>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
-
-            }
-
             return new GetBookingListQueryResponse
             {
-                Results = bookingList
+                Results = await bookingList
+                .ProjectTo<BookingDto>(_mapper.ConfigurationProvider)
+                .ToListAsync(cancellationToken)
             };
         }
     }

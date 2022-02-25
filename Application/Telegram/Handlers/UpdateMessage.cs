@@ -19,14 +19,15 @@ namespace Application.Telegram.Handlers
             switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
             {
                 case UserState.ProcessNotStarted:
-                    //await new ProvideButtons(telegraBotClient).Send(
-                    //                update.Message, new List<string>() { "Start" }, 1);
-                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
+                   UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
                     await new StartCommand(mediator, telegraBotClient).Handle(update);
                     return;
                 case UserState.StartingBooking:
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);
                     UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);
+                    return;
+                case UserState.EnteringVacation:
+                    await new CreateVacationCommand(mediator, telegraBotClient).Send(message : update.Message, enteredDate:true);
                     return;
             }
         }

@@ -20,7 +20,7 @@ namespace Application.Telegram.Handlers
             {
                 case UserState.StartingProcess:
                     await new ProvideButtons(telegraBotClient).Send(
-                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "BACKProcessNotStarted", "New Vacation" }, 2);
+                        update.CallbackQuery, new List<string>() { "New Booking", "My Bookings",  "New Vacation", "BACKProcessNotStarted" }, 2);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                     return;
                 case UserState.SelectingAction:
@@ -34,13 +34,14 @@ namespace Application.Telegram.Handlers
 
                                 return;
                             case "New Vacation":
-                                await new CreateVacationCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                                await new CreateVacationCommand(mediator, telegraBotClient).Send(callbackQuery:update.CallbackQuery);
                                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringVacation);
                                 return;
-                                //case "My Bookings":
-                                //    await new SendOfficeListCommand(_mediator, _telegraBotClient, update.Message).Send();
-                                //    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
-                                //    return;
+                            case "My Bookings":
+                                await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookings(update.CallbackQuery);
+                                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
+                                return;
+                                
                         }
                         return;
                     }
@@ -56,8 +57,24 @@ namespace Application.Telegram.Handlers
                     await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapId(update.CallbackQuery);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingWorkplace);
                     return;
+                case UserState.SelectingWorkplace:
+                    await new SendStartDateMonthCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingStartDateMonth);
+                    return;
+                case UserState.SelectingStartDateMonth:
+                    await new SendStartDateDayCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingStartDateDay);
+                    return;
+                case UserState.SelectingStartDateDay:
+                    await new SendEndDateMonthCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingEndDateMonth);
+                    return;
+                case UserState.SelectingEndDateMonth:
+                    await new SendEndDateDayCommand(mediator, telegraBotClient).Send(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingEndDateDay);
+                    return;
+                // in the next state => set the day of 'userInfo[telegramId].Booking.EndDate'
                 case UserState.EnteringVacation:
-
                     return;
 
             }
