@@ -14,22 +14,23 @@ namespace Application.Features.VacationFeature.Commands
         {
             _context = context;
         }
-        public void EnsureTheUserHasNotVacationInThisTime(int userId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureTheUserHasNotVacationInThisTime(int userId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
         {
-            
+
             var userHasVacationInThisTime = true;
-            userHasVacationInThisTime  = _context.Vacations.Where(v => 
-            (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd >= endDate)) ||
-            (v.UserId == userId && (v.VacationStart <= startDate) && (v.VacationEnd >= startDate) && (v.VacationEnd <= endDate)) ||
-            (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate)) ||
-            (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate))
-            ).Any();
-            Console.WriteLine(userHasVacationInThisTime);
+            userHasVacationInThisTime = await _context.Vacations.AnyAsync(v =>
+           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd >= endDate)) ||
+           (v.UserId == userId && (v.VacationStart <= startDate) && (v.VacationEnd >= startDate) && (v.VacationEnd <= endDate)) ||
+           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate)) ||
+           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate)),
+            cancellationToken);
 
             if (userHasVacationInThisTime)
             {
                 throw new ValidationException($"You have already had vacation in this period {startDate.ToString()} {endDate.ToString()}");
             }
         }
-    }
+    } 
 }
+        
+
