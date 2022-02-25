@@ -50,7 +50,7 @@ namespace Application.Features.VacationFeature.Commands
         }
     }
 
-    public class UpdateVacationgCommandHandler : UpsertVacationCommand, <UpdateVacationCommandRequest, UpdateVacationCommandResponse>
+    public class UpdateVacationgCommandHandler : UpsertVacationCommand, IRequestHandler<UpdateVacationCommandRequest, UpdateVacationCommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
