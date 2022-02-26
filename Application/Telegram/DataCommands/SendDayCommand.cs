@@ -11,34 +11,25 @@ using Telegram.Bot.Types;
 
 namespace Application.Telegram.Commands
 {
-    public class SendStartDateDayCommand
+    public class SendDayCommand
     {
         public TelegramBotClient _bot;
         public readonly IMediator _mediator;
-        public SendStartDateDayCommand(IMediator mediator, TelegramBotClient bot)
+        public SendDayCommand(IMediator mediator, TelegramBotClient bot)
         {
             _bot = bot;
             _mediator = mediator;
 
         }
 
-        public async Task Send(CallbackQuery callbackQuery)
+        public async Task Send(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData)
         {
             int month = Int32.Parse(callbackQuery.Data);
-            var inlineKeyboard = SendDateDayKeyboard.BuildKeyboard(month);
+            var inlineKeyboard = SendDateDayKeyboard.BuildKeyboard(month, backButtonCallBackData);
             var currentMessage = await _bot.SendTextMessageAsync(
                 callbackQuery.Message.Chat.Id,
-                "Please select start date day",
+                outputText,
                 replyMarkup: inlineKeyboard);
-
-            var booking = UserStateStorage.userInfo[callbackQuery.From.Id].Booking;
-            var currentStartDate = booking.StartDate;
-            booking.StartDate = new DateTimeOffset(
-                DateTimeOffset.UtcNow.Year,
-                month, 
-                currentStartDate.Day,
-                0, 0, 0, 
-                currentStartDate.Offset);
 
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
