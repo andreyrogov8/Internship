@@ -66,8 +66,8 @@ namespace Application.Features.BookingFeature.Commands
                 throw new NotFoundException(nameof(booking), request.Id);
             }
 
-            EnsureWorkplaceIsFree(request.WorkplaceId, request.StartDate, request.EndDate);
-            EnsureUserHasNotBookingThisTime(request.TelegramId, request.StartDate, request.EndDate);
+            await EnsureWorkplaceIsFree(request.WorkplaceId, request.StartDate, request.EndDate);
+            await EnsureUserHasNotBookingThisTime(request.TelegramId, request.StartDate, request.EndDate);
 
             booking = _mapper.Map(request, booking);
             await _context.SaveChangesAsync(cancellationToken);

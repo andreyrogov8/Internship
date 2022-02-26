@@ -58,8 +58,8 @@ namespace Application.Features.BookingFeature.Commands
                 throw new NotFoundException($"There is no WorkPlace with id={request.WorkplaceId}");
             }
 
-            EnsureWorkplaceIsFree(request.WorkplaceId, request.StartDate, request.EndDate);
-            EnsureUserHasNotBookingThisTime(request.TelegramId, request.StartDate, request.EndDate);
+            await EnsureWorkplaceIsFree(request.WorkplaceId, request.StartDate, request.EndDate);
+            await EnsureUserHasNotBookingThisTime(request.TelegramId, request.StartDate, request.EndDate);
 
             var booking = _mapper.Map<Booking>(request);
             await _context.Bookings.AddAsync(booking, cancellationToken);
