@@ -44,13 +44,18 @@ namespace Application.Telegram
         public static void UserStateUpdate(long telegramId, UserState newState)
         {
             UserRole currnetUserRole = GetUserRole(telegramId);
-            userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole };
+            userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole,
+                                                    MapId = userInfo[telegramId].MapId, Booking = userInfo[telegramId].Booking };
         }
-
+        //public static void UserMapIdUpdate(long telegramId, int mapId)
+        //{
+        //    UserRole currnetUserRole = GetUserRole(telegramId);
+        //    userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole, Booking = userInfo[telegramId].Booking };
+        //}
         public static void AddUser(long telegramId, UserState state, UserRole role)
         {
 
-            userInfo.TryAdd(telegramId, new UserInfo() { CurrentState = state, Role = role});
+            userInfo.TryAdd(telegramId, new UserInfo() { CurrentState = state, Role = role, MapId = 0});
         }
 
         public static void AddRecordToUserMessages(long telegramId, List<int> messageList)
@@ -63,15 +68,12 @@ namespace Application.Telegram
             userMessageList.Add(messageId);
             userMessages[telegramId] = userMessageList;
         }
-
         public static void RemoveMessages(long telegramId)
         {
             var userMessageList = GetUserMessages(telegramId);
             userMessageList.Clear();
             userMessages[telegramId] = userMessageList;
-        }
-        
-
+        }        
         public static List<int> GetUserMessages(long telegramId)
         {
             List<int> userMessageList;

@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Features.BookingFeature.Commands;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,13 @@ namespace Application.Telegram.Models
     {
         public UserState CurrentState { get; set; }
         public UserRole Role { get; set; }
+
+        public int  MapId { get; set; }
+        public CreateBookingCommandRequest Booking { get; set; } = new CreateBookingCommandRequest 
+        { 
+            StartDate = DateTimeOffset.UtcNow,
+            EndDate = DateTimeOffset.UtcNow,
+        };
     }
 }
 

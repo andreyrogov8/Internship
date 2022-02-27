@@ -22,9 +22,9 @@ namespace Application.Telegram.Handlers
                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
                     await new StartCommand(mediator, telegraBotClient).Handle(update);
                     return;
-                case UserState.StartingBooking:
+                case UserState.NewBookingIsSelectedStartingBooking:
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);
-                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingBooking);
+                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
                     return;
                 case UserState.EnteringVacation:
                     await new CreateVacationCommand(mediator, telegraBotClient).Send(message : update.Message, enteredDate:true);

@@ -7,16 +7,28 @@ using System.Threading.Tasks;
 namespace Domain.Enums
 {
     public enum UserState
-    {
+    {   
+        //Common States
         ProcessNotStarted,
         StartingProcess,
         SelectingAction,
         ActionIsSelected,
-        EnteringVacation,
-        BookingIsSelected,
-        StartingBooking,
+
+        //New Booking States
+        NewBookingIsSelected,
+        NewBookingIsSelectedStartingBooking,
+        NewBookingIsSelectedSelectingFloor,
+        NewBookingIsSelectedSelectingWorkplace,
+        NewBookingIsSelectedSelectingStartDateMonth,
+        NewBookingIsSelectedSelectingStartDateDay,
+        NewBookingIsSelectedSelectingEndDateMonth,
+        NewBookingIsSelectedelectingEndDateDay,
+        
+        //Checking Bookig States
         CheckingBookings,
-        SelectingFloor,
-        SelectingWorkplace
+
+        //Vacation States
+        EnteringVacation,
+
     }
 }
