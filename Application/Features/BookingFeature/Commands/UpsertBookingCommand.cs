@@ -13,7 +13,7 @@ namespace Application.Features.BookingFeature.Commands
         {
             _context = context;
         }
-        public async Task EnsureWorkplaceIsFree(int workplaceId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureWorkplaceIsFreeAsync(int workplaceId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
             var busy = await _context.Bookings.AnyAsync(x => 
                           (x.WorkplaceId == workplaceId && (x.StartDate < startDate) && (startDate < x.EndDate ))
@@ -27,7 +27,7 @@ namespace Application.Features.BookingFeature.Commands
             }
         }
 
-        public async Task EnsureUserHasNotBookingThisTime(long telegramId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureUserHasNotBookingThisTimeAsync(long telegramId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
             var hasBooking = await _context.Bookings.AnyAsync(x => 
                            (x.UserId == telegramId && (x.StartDate < startDate) && (startDate < x.EndDate))
