@@ -59,11 +59,10 @@ namespace Application.Telegram.Commands
             }
             catch
             {
-                var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "There was problems, seems you entered some wrong dates! Please, retry again!");
+                var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "There were problems, seems you have another vacation in this period or your vacations are crossed! Please, retry again!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
-                await new ProvideButtons(_bot).Send(
-                callbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "BACKProcessNotStarted" }, 2);
-                UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.SelectingAction);
+                await new SendMonthCommand(_mediator, _bot).Send(callbackQuery, "Please select start date month", "BACKStartingProcess");
+                UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
                 return;
             }
 

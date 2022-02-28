@@ -39,7 +39,6 @@ namespace Application.Telegram.MainActions
                 case UserState.NewVacationIsSelectedEndDateDay:
                     DateHelper.VacationEndDayUpdater(update.CallbackQuery, ref user);
                     await new CreateVacationCommand(mediator, telegramBotClient).Send(update.CallbackQuery);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingProcess);
                     return;
 
 
