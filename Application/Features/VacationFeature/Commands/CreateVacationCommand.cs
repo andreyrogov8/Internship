@@ -33,7 +33,7 @@ namespace Application.Features.VacationFeature.Commands
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(r => r.VacationStart)
                .NotEmpty()
-               .WithMessage("Vacation Date is Required");
+               .WithMessage("Vacation Start Date is Required");
 
             RuleFor(r => r.VacationEnd)
             .NotEmpty().WithMessage("End date is required")
@@ -41,13 +41,13 @@ namespace Application.Features.VacationFeature.Commands
                             .WithMessage("End date must after Start date");
         }
     }
-    public class CreateVacationCommandHandler : IRequestHandler<CreateVacationCommandRequest, CreateVacationCommandResponse>
+    public class CreateVacationCommandHandler : UpsertVacationCommand, IRequestHandler<CreateVacationCommandRequest, CreateVacationCommandResponse>
     {
         private readonly IMapper _mapper;
         private readonly IApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
 
-        public CreateVacationCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager)
+        public CreateVacationCommandHandler(IMapper mapper, IApplicationDbContext context, UserManager<User> userManager) : base(context)
         {
             _mapper = mapper;
             _context = context;
@@ -55,8 +55,8 @@ namespace Application.Features.VacationFeature.Commands
         }
         public async Task<CreateVacationCommandResponse> Handle(CreateVacationCommandRequest request, CancellationToken cancellationToken)
         {
-
-           
+            await EnsureTheUserHasNotVacationInThisTimeAsync(request.UserId, request.VacationStart, request.VacationEnd, cancellationToken);
+            
             var vacation = _mapper.Map<Vacation>(request);
             _context.Vacations.Add(vacation);
             await _context.SaveChangesAsync(cancellationToken);

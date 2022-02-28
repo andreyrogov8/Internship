@@ -44,8 +44,13 @@ namespace Application.Telegram
         public static void UserStateUpdate(long telegramId, UserState newState)
         {
             UserRole currnetUserRole = GetUserRole(telegramId);
-            userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole,
-                                                    MapId = userInfo[telegramId].MapId, Booking = userInfo[telegramId].Booking };
+            userInfo[telegramId] = new UserInfo() { 
+                CurrentState = newState, 
+                Role = currnetUserRole,
+                MapId = userInfo[telegramId].MapId, 
+                UserDates = userInfo[telegramId].UserDates,
+                WorkPlaceId = userInfo[telegramId].WorkPlaceId,
+            };
         }
         //public static void UserMapIdUpdate(long telegramId, int mapId)
         //{

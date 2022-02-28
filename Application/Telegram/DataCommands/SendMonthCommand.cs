@@ -22,7 +22,7 @@ namespace Application.Telegram.Commands
 
         }
         
-        public async Task Send(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData)
+        public async Task SendAsync(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData)
         {
             var inlineKeyboard = SendDateMonthKeyboard.BuildKeyboard(backButtonCallBackData);
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,

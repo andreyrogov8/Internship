@@ -9,6 +9,6 @@ namespace Application.Interfaces
 {
     public interface ITelegramCommunicationService
     {
-        public Task Execute(Update update);
+        public Task ExecuteAsync(Update update);
     }
 }

@@ -9,7 +9,7 @@ namespace Application.Telegram
 {
     public static class TelegramMessages
     {
-        public static async Task Delete(TelegramBotClient telegraBotClient, long telegramId)
+        public static async Task DeleteAsync(TelegramBotClient telegraBotClient, long telegramId)
         {
             var messages = UserStateStorage.GetUserMessages(telegramId);
             foreach (int message in messages)
