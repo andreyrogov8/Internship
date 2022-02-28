@@ -50,7 +50,8 @@ namespace Application.Telegram
                 Role = currnetUserRole,
                 MapId = userInfo[telegramId].MapId, 
                 UserDates = userInfo[telegramId].UserDates,
-                Booking = userInfo[telegramId].Booking,
+                WorkplaceId = userInfo[telegramId].WorkplaceId,
+                UserId = userInfo[telegramId].UserId
             };
         }
 
@@ -62,13 +63,8 @@ namespace Application.Telegram
                 CurrentState = state,
                 Role = role,
                 MapId = 0,
-                Booking = new CreateBookingCommandRequest()
-                {
-                    UserId = userId,
-                    StartDate = DateTimeOffset.UtcNow,
-                    EndDate = DateTimeOffset.UtcNow,
-
-                }
+                UserId = userId,
+                WorkplaceId=0,
             });
         }
 

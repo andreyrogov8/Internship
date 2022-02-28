@@ -29,7 +29,7 @@ namespace Application.Telegram.MainActions
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
                     return;
                 case UserState.NewBookingIsSelectedSelectingStartDateMonth:
-                    await new SendDayCommand(mediator, telegraBotClient).Sendasync(update.CallbackQuery, "Please select start date day", "BACKNewBookingIsSelected");
+                    await new SendDayCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select start date day", "BACKNewBookingIsSelected");
                     DateHelper.StartMonthUpdater(update.CallbackQuery, ref user);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateDay);
                     return;
@@ -39,7 +39,7 @@ namespace Application.Telegram.MainActions
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
                     return;
                 case UserState.NewBookingIsSelectedSelectingEndDateMonth:
-                    await new SendDayCommand(mediator, telegraBotClient).Sendasync(update.CallbackQuery, "Please select end date day", "BACKNewBookingIsSelected");
+                    await new SendDayCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select end date day", "BACKNewBookingIsSelected");
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingWorkplace);
                     return;
@@ -51,7 +51,7 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedFinishingBooking:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].Booking.WorkplaceId = Int32.Parse(update.CallbackQuery.Data);
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].WorkplaceId = Int32.Parse(update.CallbackQuery.Data);                    
                     await new FinishBookingCommand(mediator, telegraBotClient).Execute(update.CallbackQuery);                    
                     return;
 

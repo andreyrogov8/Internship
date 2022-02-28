@@ -21,9 +21,11 @@ namespace Application.Telegram.Models
         public UserState CurrentState { get; set; }
         public UserRole Role { get; set; }
 
+        public int UserId { get; set; }
         public int MapId { get; set; }
+        public int WorkplaceId { get; set; }
         public DateInfo UserDates { get; set; } = new DateInfo();
-        public CreateBookingCommandRequest Booking { get; set; }
+        //public CreateBookingCommandRequest Booking { get; set; }
 
     }
 }

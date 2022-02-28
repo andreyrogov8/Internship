@@ -64,7 +64,7 @@ namespace Application.Features.BookingFeature.Commands
             var booking = _mapper.Map<Booking>(request);
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync(cancellationToken);
-            return _mapper.Map<CreateBookingCommandResponse>(_context.Bookings.Include(x => x.Workplace.Map.Office).FirstOrDefault());
+            return _mapper.Map<CreateBookingCommandResponse>(_context.Bookings.Include(x => x.Workplace.Map.Office).Where(x=>x.Id == booking.Id).FirstOrDefault());
         }
     }
 

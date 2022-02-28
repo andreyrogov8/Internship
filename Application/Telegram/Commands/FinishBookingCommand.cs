@@ -1,4 +1,5 @@
-﻿using Application.Telegram.Keyboards;
+﻿using Application.Features.BookingFeature.Commands;
+using Application.Telegram.Keyboards;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,28 @@ namespace Application.Telegram.Commands
         }
         public async Task Execute(CallbackQuery callbackQuery)
         {
-            var currentBooking = await _mediator.Send(UserStateStorage.userInfo[callbackQuery.From.Id].Booking);
-            
+            var currentUserInfo = UserStateStorage.userInfo[callbackQuery.From.Id];
+            var currentBooking = await _mediator.Send(
+                new CreateBookingCommandRequest()
+                    {
+                        UserId = currentUserInfo.UserId,
+                        WorkplaceId = currentUserInfo.WorkplaceId,
+                        StartDate = new DateTimeOffset(
+                                            DateTimeOffset.UtcNow.Year,
+                                            month: currentUserInfo.UserDates.StartMonth,
+                                            day: currentUserInfo.UserDates.StartDay,
+                                            0, 0, 0,
+                                            TimeSpan.Zero),
+                        EndDate = new DateTimeOffset(
+                                            DateTimeOffset.UtcNow.Year,
+                                            month: currentUserInfo.UserDates.EndMonth,
+                                            day: currentUserInfo.UserDates.EndDay,
+                                            0, 0, 0,
+                                            TimeSpan.Zero),
+                        IsRecurring = false,
+                        Frequency = 10
+
+                    });
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
                 $"Your booking details: \n From: {currentBooking.StartDate.ToString()} \n" +
                 $"To: {currentBooking.EndDate.ToString()} \n " +
