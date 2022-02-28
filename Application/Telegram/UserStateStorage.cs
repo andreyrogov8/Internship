@@ -48,8 +48,8 @@ namespace Application.Telegram
                 CurrentState = newState, 
                 Role = currnetUserRole,
                 MapId = userInfo[telegramId].MapId, 
-                Booking = userInfo[telegramId].Booking,
-                UserDates = userInfo[telegramId].UserDates
+                UserDates = userInfo[telegramId].UserDates,
+                WorkPlaceId = userInfo[telegramId].WorkPlaceId,
             };
         }
         //public static void UserMapIdUpdate(long telegramId, int mapId)

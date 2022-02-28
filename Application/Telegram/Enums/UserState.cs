@@ -35,7 +35,6 @@ namespace Domain.Enums
         NewVacationIsSelectedEndDateDay,
 
 
-        EnteringVacation,
 
     }
 }
