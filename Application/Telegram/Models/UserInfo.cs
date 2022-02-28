@@ -14,11 +14,7 @@ namespace Application.Telegram.Models
         public UserRole Role { get; set; }
 
         public int  MapId { get; set; }
-        public CreateBookingCommandRequest Booking { get; set; } = new CreateBookingCommandRequest 
-        { 
-            StartDate = DateTimeOffset.UtcNow,
-            EndDate = DateTimeOffset.UtcNow,
-        };
+        public CreateBookingCommandRequest Booking { get; set; } 
     }
 }
 
