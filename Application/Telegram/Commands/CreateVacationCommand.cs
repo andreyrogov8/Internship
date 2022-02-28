@@ -25,7 +25,7 @@ namespace Application.Telegram.Commands
             _bot = bot;
 
         }
-        public async Task Send(CallbackQuery callbackQuery)
+        public async Task SendAsync(CallbackQuery callbackQuery)
         {
             var userInputs = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates;
             var vacationStartDate = new DateTimeOffset(
@@ -52,7 +52,7 @@ namespace Application.Telegram.Commands
                 });
                 var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "You have successfully created new vacation for you!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
-                await new ProvideButtons(_bot).Send(
+                await new ProvideButtons(_bot).SendAsync(
                 callbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "BACKProcessNotStarted" }, 2);
                 UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.SelectingAction);
                 return;
@@ -61,7 +61,7 @@ namespace Application.Telegram.Commands
             {
                 var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "There were problems, seems you have another vacation in this period or your vacations are crossed! Please, retry again!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
-                await new SendMonthCommand(_mediator, _bot).Send(callbackQuery, "Please select start date month", "BACKStartingProcess");
+                await new SendMonthCommand(_mediator, _bot).SendAsync(callbackQuery, "Please select start date month", "BACKStartingProcess");
                 UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
                 return;
             }

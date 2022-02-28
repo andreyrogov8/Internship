@@ -23,7 +23,7 @@ namespace Application.Telegram
             _mediator = mediator;
 
         }
-        public async Task Send(Message message)
+        public async Task SendAsync(Message message)
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest());
             var workplaces = workplaceResponse.Results;
@@ -32,7 +32,7 @@ namespace Application.Telegram
             UserStateStorage.AddMessage(message.From.Id, currentMessage.MessageId);
         }
 
-        public async Task SendListByMapId(CallbackQuery callbackQuery)
+        public async Task SendListByMapIdAsync(CallbackQuery callbackQuery)
         {
             var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() {
                                                              MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString()

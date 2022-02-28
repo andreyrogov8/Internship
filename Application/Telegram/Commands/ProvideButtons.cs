@@ -22,7 +22,7 @@ namespace Application.Telegram.Commands
             _bot = bot;
         }
 
-        public async Task Send(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
+        public async Task SendAsync(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
         {
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
@@ -30,7 +30,7 @@ namespace Application.Telegram.Commands
                 , replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
-        public async Task Send(Message message, List<string> commandNames, int numberOfColumns)
+        public async Task SendAsync(Message message, List<string> commandNames, int numberOfColumns)
         {
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
             var currentMessage = await _bot.SendTextMessageAsync(message.Chat.Id, "Press Button", replyMarkup: inlineKeyboard);

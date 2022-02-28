@@ -14,7 +14,7 @@ namespace Application.Telegram.Commands
             _bot = bot;
             _mediator = mediator;
         }
-        public async Task Handle(Update update)
+        public async Task HandleAsync(Update update)
         {
             switch(update.Message.Text)
             {
@@ -26,7 +26,7 @@ namespace Application.Telegram.Commands
                     return;
                 case "/start":
                 default:
-                    await new ProvideButtons(_bot).Send(update.Message, new List<string>() { "Start" }, 1);
+                    await new ProvideButtons(_bot).SendAsync(update.Message, new List<string>() { "Start" }, 1);
                     return;
             }
         }

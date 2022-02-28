@@ -28,9 +28,9 @@ namespace Application.TelegramBot
             _mediator   = mediator;
         }
 
-        public async Task Execute(Update update)
+        public async Task ExecuteAsync(Update update)
         {
-            if (update.Message != null && !await Authentication.Authenticate(update, _mediator))
+            if (update.Message != null && !await Authentication.AuthenticateAsync(update, _mediator))
             {
 
                 await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "You are not authorized to use this bot");

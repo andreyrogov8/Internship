@@ -26,7 +26,7 @@ namespace WebApi.Controllers
 
             try
             {
-                await _telegramCommunicationService.Execute(upd);
+                await _telegramCommunicationService.ExecuteAsync(upd);
             }
             catch (Exception e)
             {

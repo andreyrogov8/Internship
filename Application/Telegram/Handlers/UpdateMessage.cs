@@ -8,19 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Application.Telegram.Commands;
 namespace Application.Telegram.Handlers
 {
     public static class UpdateMessage
     {
         public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
         {
-            await TelegramMessages.Delete(telegraBotClient, update.Message.From.Id);
+            await TelegramMessages.DeleteAsync(telegraBotClient, update.Message.From.Id);
             switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
             {
                 case UserState.ProcessNotStarted:
                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
-                    await new StartCommand(mediator, telegraBotClient).Handle(update);
+                    await new StartCommand(mediator, telegraBotClient).HandleAsync(update);
                     return;
                 case UserState.NewBookingIsSelectedStartingBooking:
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);
