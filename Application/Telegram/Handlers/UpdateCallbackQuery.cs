@@ -37,8 +37,9 @@ namespace Application.Telegram.Handlers
 
                         return;
                     case "New Vacation":
-                        await new CreateVacationCommand(mediator, telegraBotClient).Send(callbackQuery: update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringVacation);
+                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
+                        await new ProvideButtons(telegraBotClient).Send(
+                            update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
                         return;
                     case "My Bookings":
                         await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookings(update.CallbackQuery);
@@ -51,7 +52,11 @@ namespace Application.Telegram.Handlers
             if (userState.ToString().Contains("NewBookingIsSelected"))
             {
                 await NewBookingCommand.Handle(update, telegraBotClient, mediator);
-            }       
+            }
+            if (userState.ToString().Contains("NewVacationIsSelected"))
+            {
+                await NewVacationCommand.Handle(update, telegraBotClient, mediator);
+            }
         }
     }
 }

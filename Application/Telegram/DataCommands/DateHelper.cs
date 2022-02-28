@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Telegram.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,25 +39,52 @@ namespace Application.Telegram.DataCommands
         {
             int month = Int32.Parse(callbackQuery.Data);
             var booking = UserStateStorage.userInfo[callbackQuery.From.Id].Booking;
-            var currentStartDate = booking.StartDate;
+            var currentEndDate = booking.EndDate;
             booking.EndDate = new DateTimeOffset(
                 DateTimeOffset.UtcNow.Year,
                 month,
-                currentStartDate.Day,
+                currentEndDate.Day,
                 0, 0, 0,
-                currentStartDate.Offset);
+                currentEndDate.Offset);
         }
         public static void BookingEndDayUpdater(CallbackQuery callbackQuery)
         {
             int day = Int32.Parse(callbackQuery.Data);
             var booking = UserStateStorage.userInfo[callbackQuery.From.Id].Booking;
-            var currentStartDate = booking.StartDate;
+            var currentEndDate = booking.EndDate;
             booking.EndDate = new DateTimeOffset(
                 DateTimeOffset.UtcNow.Year,
-                currentStartDate.Month,
+                currentEndDate.Month,
                 day,
                 0, 0, 0,
-                currentStartDate.Offset);
+                currentEndDate.Offset);
+        }
+        public static void VacationStartMonthUpdater(CallbackQuery callbackQuery, ref UserInfo userInfo)
+        {
+            int month = Int32.Parse(callbackQuery.Data);
+            
+            userInfo.UserDates.StartMonth = month;
+
+        }
+        public static void VacationStartDayUpdater(CallbackQuery callbackQuery, ref UserInfo userInfo)
+        {
+            int day = Int32.Parse(callbackQuery.Data);
+            userInfo.UserDates.StartDay = day;
+
+        }
+
+        public static void VacationEndMonthUpdater(CallbackQuery callbackQuery, ref UserInfo userInfo)
+        {
+            int month = Int32.Parse(callbackQuery.Data);
+            userInfo.UserDates.EndMonth = month;
+        }
+
+        public static void VacationEndDayUpdater(CallbackQuery callbackQuery, ref UserInfo userInfo)
+        {
+            int day = Int32.Parse(callbackQuery.Data);
+            userInfo.UserDates.EndDay = day;
+
+            
         }
     }
 }

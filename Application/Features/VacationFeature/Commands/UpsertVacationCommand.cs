@@ -30,6 +30,22 @@ namespace Application.Features.VacationFeature.Commands
                 throw new ValidationException($"You have already had vacation in this period {startDate.ToString()} {endDate.ToString()}");
             }
         }
+        public async Task EnsureUserCanUpdateThisVacation(int vacationId, int userId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            // exclude vacation which id = vacationId
+            var userhasAnotherVacationInThisTime = await _context.Vacations.AnyAsync(v => 
+            (v.UserId == userId && v.Id != vacationId && ((v.VacationStart >= startDate) && (v.VacationEnd >= endDate))) ||
+            (v.UserId == userId && v.Id != vacationId && ((v.VacationStart <= startDate) && (v.VacationEnd >= startDate) && (v.VacationEnd <= endDate))) ||
+            (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate))   ||
+            (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate))
+            );
+            if (userhasAnotherVacationInThisTime)
+            {
+                throw new ValidationException($"Your vacations are crossed. Please, update it correctly!");
+
+            }
+
+        }
     } 
 }
         

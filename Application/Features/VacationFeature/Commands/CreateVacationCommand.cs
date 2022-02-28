@@ -33,7 +33,7 @@ namespace Application.Features.VacationFeature.Commands
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(r => r.VacationStart)
                .NotEmpty()
-               .WithMessage("Vacation Date is Required");
+               .WithMessage("Vacation Start Date is Required");
 
             RuleFor(r => r.VacationEnd)
             .NotEmpty().WithMessage("End date is required")

@@ -28,6 +28,13 @@ namespace Domain.Enums
         CheckingBookings,
 
         //Vacation States
+        NewVacationIsSelected,
+        NewVacationIsSelectedStartDateMonth,
+        NewVacationIsSelectedStartDateDay,
+        NewVacationIsSelectedEndDateMonth,
+        NewVacationIsSelectedEndDateDay,
+
+
         EnteringVacation,
 
     }
