@@ -22,7 +22,7 @@ namespace Application.Telegram.Commands
             _mediator = mediator;
 
         }
-        public async Task Send(CallbackQuery callbackQuery)
+        public async Task SendAsync(CallbackQuery callbackQuery)
         {
             var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest());
             var offices = officeResponse.Results;

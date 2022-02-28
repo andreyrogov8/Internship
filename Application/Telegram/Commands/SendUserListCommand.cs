@@ -25,7 +25,7 @@ namespace Application.Telegram
             _message = message;
             _mediator = mediator;
         }
-        public async Task Send()
+        public async Task SendAsync()
         {
             var usersResponse = await _mediator.Send(new GetUserListQueryRequest());
             var users = usersResponse.Users;

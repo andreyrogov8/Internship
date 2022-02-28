@@ -13,7 +13,7 @@ namespace Application.Telegram.Middleware
 {
     public static class Authentication
     {
-        public static async Task<bool> Authenticate(Update update, IMediator _mediator)
+        public static async Task<bool> AuthenticateAsync(Update update, IMediator _mediator)
         {
             var isAuthorized = UserStateStorage.userInfo.ContainsKey(update.Message.From.Id);
             if (isAuthorized)

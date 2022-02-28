@@ -17,11 +17,11 @@ namespace Application.Telegram.Handlers
     {
         public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
         {
-            await TelegramMessages.Delete(telegraBotClient, update.CallbackQuery.From.Id);
+            await TelegramMessages.DeleteAsync(telegraBotClient, update.CallbackQuery.From.Id);
             var userState = UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id);
             if (userState == UserState.StartingProcess)
             {
-                await new ProvideButtons(telegraBotClient).Send(
+                await new ProvideButtons(telegraBotClient).SendAsync(
                 update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "BACKProcessNotStarted" }, 2);
                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                 return;
@@ -32,16 +32,17 @@ namespace Application.Telegram.Handlers
                 {
                     case "New Booking":
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
-                        await new ProvideButtons(telegraBotClient).Send(
+                        await new ProvideButtons(telegraBotClient).SendAsync(
                             update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
 
                         return;
                     case "New Vacation":
-                        await new CreateVacationCommand(mediator, telegraBotClient).Send(callbackQuery: update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringVacation);
+                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
+                        await new ProvideButtons(telegraBotClient).SendAsync(
+                            update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
                         return;
                     case "My Bookings":
-                        await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookings(update.CallbackQuery);
+                        await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookingsAsync(update.CallbackQuery);
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
                         return;
 
@@ -50,8 +51,12 @@ namespace Application.Telegram.Handlers
             }
             if (userState.ToString().Contains("NewBookingIsSelected"))
             {
-                await NewBookingCommand.Handle(update, telegraBotClient, mediator);
-            }       
+                await NewBookingCommand.HandleAsync(update, telegraBotClient, mediator);
+            }
+            if (userState.ToString().Contains("NewVacationIsSelected"))
+            {
+                await NewVacationCommand.HandleAsync(update, telegraBotClient, mediator);
+            }
         }
     }
 }

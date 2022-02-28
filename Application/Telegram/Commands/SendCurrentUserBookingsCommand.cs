@@ -19,7 +19,7 @@ namespace Application.Telegram.Commands
         }
 
         
-        public async Task Send()
+        public async Task SendAsync()
         {
             var currentUserBookings = await _mediator.Send(new GetBookingListQueryRequest { TelegramId = _message.From.Id });
             var bookings = currentUserBookings.Results;
