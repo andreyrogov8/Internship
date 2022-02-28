@@ -25,8 +25,7 @@ namespace Application.Telegram.MainActions
                     return;
                 case UserState.NewBookingIsSelectedSelectingFloor:
                     UserStateStorage.userInfo[update.CallbackQuery.From.Id].MapId = Int32.Parse(update.CallbackQuery.Data);
-                    await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select start date month", "BACKNewBookingIsSelected");
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].WorkPlaceId = Int32.Parse(update.CallbackQuery.Data);
+                    await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select start date month", "BACKNewBookingIsSelected");                    
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
                     return;
                 case UserState.NewBookingIsSelectedSelectingStartDateMonth:
@@ -35,24 +34,29 @@ namespace Application.Telegram.MainActions
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateDay);
                     return;
                 case UserState.NewBookingIsSelectedSelectingStartDateDay:
-                    await new SendMonthCommand(mediator, telegraBotClient).Send(update.CallbackQuery, "Please select end date month", "BACKNewBookingIsSelected");
-                    DateHelper.BookingStartDayUpdater(update.CallbackQuery);
+                    await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select end date month", "BACKNewBookingIsSelected");
+                    DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
                     return;
                 case UserState.NewBookingIsSelectedSelectingEndDateMonth:
-                    await new SendDayCommand(mediator, telegraBotClient).Send(update.CallbackQuery, "Please select end date day", "BACKNewBookingIsSelected");
-                    DateHelper.BookingEndMonthUpdater(update.CallbackQuery);
+                    await new SendDayCommand(mediator, telegraBotClient).Sendasync(update.CallbackQuery, "Please select end date day", "BACKNewBookingIsSelected");
+                    DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingWorkplace);
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingWorkplace:
-                    DateHelper.BookingEndDayUpdater(update.CallbackQuery);
-                    await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapId(update.CallbackQuery);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingWorkplace);
+                    DateHelper.EndDayUpdater(update.CallbackQuery, ref user);
+                    await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapIdAsync(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedFinishingBooking);
+                    return;
+
+                case UserState.NewBookingIsSelectedFinishingBooking:
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].Booking.WorkplaceId = Int32.Parse(update.CallbackQuery.Data);
+                    await new FinishBookingCommand(mediator, telegraBotClient).Execute(update.CallbackQuery);                    
                     return;
 
                 // in the next state => set the day of 'userInfo[telegramId].Booking.EndDate'
-                case UserState.EnteringVacation:
+                //case UserState.EnteringVacation:
                     return;
             }
         }

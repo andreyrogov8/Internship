@@ -50,14 +50,10 @@ namespace Application.Telegram
                 Role = currnetUserRole,
                 MapId = userInfo[telegramId].MapId, 
                 UserDates = userInfo[telegramId].UserDates,
-                WorkPlaceId = userInfo[telegramId].WorkPlaceId,
+                Booking = userInfo[telegramId].Booking,
             };
         }
-        //public static void UserMapIdUpdate(long telegramId, int mapId)
-        //{
-        //    UserRole currnetUserRole = GetUserRole(telegramId);
-        //    userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole, Booking = userInfo[telegramId].Booking };
-        //}
+
         public static void AddUser(long telegramId, int userId, UserState state, UserRole role )
         {
 
