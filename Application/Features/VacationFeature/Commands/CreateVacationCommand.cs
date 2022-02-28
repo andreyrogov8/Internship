@@ -55,7 +55,7 @@ namespace Application.Features.VacationFeature.Commands
         }
         public async Task<CreateVacationCommandResponse> Handle(CreateVacationCommandRequest request, CancellationToken cancellationToken)
         {
-            await EnsureTheUserHasNotVacationInThisTime(request.UserId, request.VacationStart, request.VacationEnd, cancellationToken);
+            await EnsureTheUserHasNotVacationInThisTimeAsync(request.UserId, request.VacationStart, request.VacationEnd, cancellationToken);
             
             var vacation = _mapper.Map<Vacation>(request);
             _context.Vacations.Add(vacation);

@@ -14,7 +14,7 @@ namespace Application.Features.VacationFeature.Commands
         {
             _context = context;
         }
-        public async Task EnsureTheUserHasNotVacationInThisTime(int userId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
+        public async Task EnsureTheUserHasNotVacationInThisTimeAsync(int userId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
         {
 
             var userHasVacationInThisTime = true;
@@ -30,7 +30,7 @@ namespace Application.Features.VacationFeature.Commands
                 throw new ValidationException($"You have already had vacation in this period {startDate.ToString()} {endDate.ToString()}");
             }
         }
-        public async Task EnsureUserCanUpdateThisVacation(int vacationId, int userId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureUserCanUpdateThisVacationAsync(int vacationId, int userId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
             // exclude vacation which id = vacationId
             var userhasAnotherVacationInThisTime = await _context.Vacations.AnyAsync(v => 

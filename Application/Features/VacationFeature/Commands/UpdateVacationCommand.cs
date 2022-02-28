@@ -70,7 +70,7 @@ namespace Application.Features.VacationFeature.Commands
             {
                 throw new NotFoundException(nameof(vacation), request.Id);
             }
-            await EnsureUserCanUpdateThisVacation(request.Id, request.UserId, request.VacationStart, request.VacationEnd);
+            await EnsureUserCanUpdateThisVacationAsync(request.Id, request.UserId, request.VacationStart, request.VacationEnd);
             vacation = _mapper.Map(request, vacation);
             await _context.SaveChangesAsync(cancellationToken);
             return _mapper.Map<UpdateVacationCommandResponse>(vacation);
