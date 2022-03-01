@@ -11,6 +11,10 @@ using WebApi.Filters;
 using Persistence.Context;
 using System.Text.Json.Serialization;
 using WebApi;
+using Domain.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,15 +27,40 @@ builder.Services.AddMvc(options => {
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddPersistence(builder.Configuration);
-builder.Services.AddApplication();
 
+// Configuration from AppSettings.json
+builder.Services.Configure<TokenConfiguration>(builder.Configuration.GetSection("JWT"));
 
-
+// services.AddIdentity() sets the default auth scheme to cookies
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
 {
     options.User.RequireUniqueEmail = true;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Adding Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.RequireHttpsMetadata = false;
+    o.SaveToken = false;
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+    };
+});
+
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddApplication();
 
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -62,6 +91,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

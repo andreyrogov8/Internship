@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Application.Features.CountriesFeature.Queries;
 using Application.Features.CountryCQ;
 using Application.Features.WorkplaceFeature.Commands;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class WorkplacesController : BaseApiController

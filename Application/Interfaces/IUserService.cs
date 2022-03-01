@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Authentication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public class IUserService
+    public interface IUserService
     {
-        // GetTokeAsync(TokenRequest request)
+        Task<AuthenticationModel> GetTokenAsync(TokenRequest request);
     }
 }
