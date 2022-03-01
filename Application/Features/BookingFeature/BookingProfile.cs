@@ -17,7 +17,15 @@ namespace Application.Features.BookingFeature
             CreateMap<CreateBookingCommandRequest, Booking>();
             CreateMap<UpdateBookingCommandRequest, Booking>();
             CreateMap<Booking, UpdateBookingCommandResponse>();
-        
+
+            CreateMap<Booking, CreateBookingCommandResponse>()
+                .ForMember(dest => dest.WorkplaceNumber, opt => opt.MapFrom(src => src.Workplace.WorkplaceNumber))
+                .ForMember(dest => dest.OfficeName, opt => opt.MapFrom(src => src.Workplace.Map.Office.Name))
+                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Workplace.Map.Office.Country))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Workplace.Map.Office.City))
+                .ForMember(dest => dest.FloorNumber, opt => opt.MapFrom(src => src.Workplace.Map.FloorNumber))
+                ;
+
         }
 
     }

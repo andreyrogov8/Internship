@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         [HttpPut("{id:int}")]
         public async Task<ActionResult<UpdateBookingCommandResponse>> Update(int id, [FromBody] UpdateBookingCommandRequest request)
         {
-            if (request.Id != id)
+            if (request.UserId != id)
             {
                 return BadRequest("Id's from url and from body are different");
             }

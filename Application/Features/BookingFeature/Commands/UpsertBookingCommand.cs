@@ -1,5 +1,6 @@
 ﻿
 using Application.Interfaces;
+using Application.Telegram;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,11 +28,11 @@ namespace Application.Features.BookingFeature.Commands
             }
         }
 
-        public async Task EnsureUserHasNotBookingThisTimeAsync(long telegramId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureUserHasNotBookingThisTimeAsync(int userId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
             var hasBooking = await _context.Bookings.AnyAsync(x => 
-                           (x.UserId == telegramId && (x.StartDate < startDate) && (startDate < x.EndDate))
-                        || (x.UserId == telegramId && (x.StartDate < endDate) && (endDate < x.EndDate)));
+                           (x.UserId == userId && (x.StartDate < startDate) && (startDate < x.EndDate))
+                        || (x.UserId == userId && (x.StartDate < endDate) && (endDate < x.EndDate)));
 
             if (hasBooking)
             {

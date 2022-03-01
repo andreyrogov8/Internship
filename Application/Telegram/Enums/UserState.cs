@@ -18,12 +18,13 @@ namespace Domain.Enums
         NewBookingIsSelected,
         NewBookingIsSelectedStartingBooking,
         NewBookingIsSelectedSelectingFloor,
-        NewBookingIsSelectedSelectingWorkplace,
         NewBookingIsSelectedSelectingStartDateMonth,
         NewBookingIsSelectedSelectingStartDateDay,
         NewBookingIsSelectedSelectingEndDateMonth,
         NewBookingIsSelectedelectingEndDateDay,
-        
+        NewBookingIsSelectedSelectingWorkplace,
+        NewBookingIsSelectedFinishingBooking,
+
         //Checking Bookig States
         CheckingBookings,
 
