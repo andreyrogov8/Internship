@@ -1,20 +1,20 @@
-﻿using Application.Features.BookingFeature.Queries;
-using Application.Features.CountryCQ;
+﻿using Application.Exceptions;
+
 using Application.Interfaces;
 using Application.Telegram;
-using Application.Telegram.Commands;
+
 using Application.Telegram.Handlers;
 using Application.Telegram.Middleware;
-using Application.Telegram.Models;
+
 using Domain.Enums;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
+
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.ReplyMarkups;
+
 
 namespace Application.TelegramBot
 {
@@ -36,23 +36,47 @@ namespace Application.TelegramBot
                 await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, "You are not authorized to use this bot");
                 return;
             }
-                
 
-            //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
+            try
+            {
+                switch (update.Type)
+                {
+                    case UpdateType.CallbackQuery:
+                        if (update.CallbackQuery.Data.Contains("BACK"))
+                        {
+                            var state = update.CallbackQuery.Data.Substring(4);
+                            UserState testState = (UserState)Enum.Parse(typeof(UserState), state);
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
+                                testState);
+                        }
+                        await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
+                        return;
+                    case UpdateType.Message:
+                        await UpdateMessage.Handle(update, _telegraBotClient, _mediator);
+                        return;
+                }
+            }
+            catch (NotFoundException exception)
+            {
+                await ShowException(update, exception.Message);
+            }
+
+            catch (ValidationException exception)
+            {
+                await ShowException(update, exception.Message);
+            }
+
+            
+        }
+        private async Task ShowException(Update update, string message)
+        {
             switch (update.Type)
             {
                 case UpdateType.CallbackQuery:
-                    if (update.CallbackQuery.Data.Contains("BACK"))
-                    {
-                        var state = update.CallbackQuery.Data.Substring(4);
-                        UserState testState = (UserState)Enum.Parse(typeof(UserState), state);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
-                            testState);
-                    }
-                    await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
+                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, message);
                     return;
                 case UpdateType.Message:
-                    await UpdateMessage.Handle(update, _telegraBotClient, _mediator);
+                    await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, message);
                     return;
             }
         }
