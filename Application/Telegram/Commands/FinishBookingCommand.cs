@@ -45,8 +45,8 @@ namespace Application.Telegram.Commands
 
                     });
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
-                $"Your booking details: \n From: {currentBooking.StartDate.ToString()} \n" +
-                $"To: {currentBooking.EndDate.ToString()} \n " +
+                $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
+                $"To: {currentBooking.EndDate.Date.ToShortDateString()} \n " +
                 $"Office Name:{currentBooking.OfficeName}, City:{currentBooking.City}, Country:{currentBooking.Country} \n" +
                 $"Floor: {currentBooking.FloorNumber}\n" +
                 $"Workplace Number:{currentBooking.WorkplaceNumber}");

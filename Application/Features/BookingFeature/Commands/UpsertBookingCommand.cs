@@ -24,7 +24,7 @@ namespace Application.Features.BookingFeature.Commands
             if (busy)
             {
                 throw new ValidationException($"Workingplace {workplaceId} is already booked for this period" +
-                    $"{startDate} - {endDate}");
+                    $"{startDate.Date.ToShortDateString()} - {endDate.Date.ToShortDateString()}");
             }
         }
 
@@ -37,7 +37,7 @@ namespace Application.Features.BookingFeature.Commands
             if (hasBooking)
             {
                 throw new ValidationException($"User has another booking for this period" +
-                    $"{startDate} - {endDate}");
+                    $"{startDate.Date.ToShortDateString()} - {endDate.Date.ToShortDateString()}");
             }
         }
     }
