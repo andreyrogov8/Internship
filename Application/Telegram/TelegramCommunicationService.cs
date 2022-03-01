@@ -39,7 +39,6 @@ namespace Application.TelegramBot
 
             try
             {
-                //await _telegraBotClient.SendChatActionAsync(update.Message.Chat.Id, ChatAction.Typing);
                 switch (update.Type)
                 {
                     case UpdateType.CallbackQuery:
@@ -59,28 +58,26 @@ namespace Application.TelegramBot
             }
             catch (NotFoundException exeption)
             {
-                switch (update.Type)
-                {
-                    case UpdateType.CallbackQuery:
-                        await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, exeption.Message);
-                        return;
-                    case UpdateType.Message:
-                        await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, exeption.Message);
-                        return;
-                }
+                await ShowExeption(update, exeption.Message);
             }
 
             catch (ValidationException exeption)
             {
-                switch (update.Type)
-                {
-                    case UpdateType.CallbackQuery:
-                        await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, exeption.Message);
-                        return;
-                    case UpdateType.Message:
-                        await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, exeption.Message);
-                        return;
-                }
+                await ShowExeption(update, exeption.Message);
+            }
+
+            
+        }
+        private async Task ShowExeption(Update update, string message)
+        {
+            switch (update.Type)
+            {
+                case UpdateType.CallbackQuery:
+                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, message);
+                    return;
+                case UpdateType.Message:
+                    await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, message);
+                    return;
             }
         }
     }
