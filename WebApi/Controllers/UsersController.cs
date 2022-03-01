@@ -1,5 +1,7 @@
 ﻿using Application.Features.UserFeature.Queries;
 using Application.Interfaces;
+using Domain.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -16,6 +18,7 @@ namespace WebApi.Controllers
             _userService = userService;
         }
 
+        [Authorize(Roles="Administrator")]
         [HttpGet]
         public async Task<ActionResult<GetUserListQueryResponse>> GetAllUsersAsync()
         {
@@ -23,11 +26,19 @@ namespace WebApi.Controllers
             return Ok(users);
         }
 
+        [Authorize(Roles = "Administrator")]
         [HttpGet("{id:int}")]
         public async Task<ActionResult<GetUserByIdQueryResponse>> GetUserByIdAsync(int id)
         {
             var user = await Mediator.Send(new GetUserByIdQueryRequest { Id = id });
             return Ok(user);
+        }
+
+        [HttpPost("token")]
+        public async Task<IActionResult> GetTokenAsync(TokenRequest request)
+        {
+            var result = await _userService.GetTokenAsync(request);
+            return Ok(result);
         }
     }
 }

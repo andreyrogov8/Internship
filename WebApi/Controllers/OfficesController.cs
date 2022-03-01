@@ -5,11 +5,12 @@ using Application.Features.CountriesFeature.Queries;
 using Application.Features;
 using Application.Features.OfficeFeature.Queries;
 using static Application.Features.OfficeFeature.Commands.DeleteOfficeCommand;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApi.Controllers
 {
-  
-    [ Route("api/[controller]")]
+    [Authorize]
+    [Route("api/[controller]")]
     public class OfficesController : BaseApiController
     {        
 
