@@ -33,7 +33,7 @@ namespace Application.Features.VacationFeature.Queries
             {
                 Results = await vacations.
                           ProjectTo<VacationDTO>(_mapper.ConfigurationProvider)
-                          .ToListAsync()
+                          .ToListAsync(cancellationToken)
             };
         }
     }
