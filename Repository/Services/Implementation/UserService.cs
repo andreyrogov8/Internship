@@ -36,7 +36,7 @@ namespace Persistence.Services.Implementation
                 authenticationModel.Message = $"No account registered with {request.Email}.";
                 return authenticationModel;
             }
-            if (await _userManager.CheckTelegramIdAsync(user, request.TelegramId))
+            if (await _userManager.CheckPasswordAsync(user, request.Password))
             {
                 authenticationModel.Id = user.Id;
                 authenticationModel.IsAuthenticated = true;

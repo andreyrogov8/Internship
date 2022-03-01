@@ -12,6 +12,6 @@ namespace Domain.Authentication
         [Required]
         public string Email { get; set; }
         [Required]
-        public int TelegramId { get; set; }
+        public string Password { get; set; }
     }
 }
