@@ -40,7 +40,7 @@ namespace Application.Telegram
             
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
-            var map = await _mediator.Send(new GetMapByIdQueryRequest() { Id = Int32.Parse(callbackQuery.Data) });
+            var map = await _mediator.Send(new GetMapByIdQueryRequest() { Id = UserStateStorage.userInfo[callbackQuery.From.Id].MapId });
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id
                 , callbackQuery.Data.Contains("BACK") ? "Please choose workplace" : $"You choose floor: {map.FloorNumber} \n Please choose workplace"
                 , replyMarkup: inlineKeyboard);

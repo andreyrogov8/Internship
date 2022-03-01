@@ -1,4 +1,5 @@
 ﻿using Application.Features.UserFeature.Queries;
+using Application.Interfaces;
 using Domain.Enums;
 using MediatR;
 using System;
@@ -23,7 +24,7 @@ namespace Application.Telegram.Middleware
             {
                 user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = update.Message.From.Id });
                 UserRole role = (UserRole)Enum.Parse(typeof(UserRole), user.Roles.First());
-                UserStateStorage.AddUser(update.Message.From.Id, UserState.ProcessNotStarted, role);
+                UserStateStorage.AddUser(update.Message.From.Id, user.Id, UserState.ProcessNotStarted, role);
                 UserStateStorage.AddRecordToUserMessages(update.Message.From.Id, new List<int>());
                 return true;
             } 

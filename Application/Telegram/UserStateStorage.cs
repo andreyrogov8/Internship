@@ -1,4 +1,5 @@
-﻿using Application.Telegram.Models;
+﻿using Application.Features.BookingFeature.Commands;
+using Application.Telegram.Models;
 using Domain.Enums;
 using System;
 using System.Collections.Concurrent;
@@ -49,18 +50,22 @@ namespace Application.Telegram
                 Role = currnetUserRole,
                 MapId = userInfo[telegramId].MapId, 
                 UserDates = userInfo[telegramId].UserDates,
-                WorkPlaceId = userInfo[telegramId].WorkPlaceId,
+                WorkplaceId = userInfo[telegramId].WorkplaceId,
+                UserId = userInfo[telegramId].UserId
             };
         }
-        //public static void UserMapIdUpdate(long telegramId, int mapId)
-        //{
-        //    UserRole currnetUserRole = GetUserRole(telegramId);
-        //    userInfo[telegramId] = new UserInfo() { CurrentState = newState, Role = currnetUserRole, Booking = userInfo[telegramId].Booking };
-        //}
-        public static void AddUser(long telegramId, UserState state, UserRole role)
+
+        public static void AddUser(long telegramId, int userId, UserState state, UserRole role )
         {
 
-            userInfo.TryAdd(telegramId, new UserInfo() { CurrentState = state, Role = role, MapId = 0});
+            userInfo.TryAdd(telegramId, new UserInfo()
+            {
+                CurrentState = state,
+                Role = role,
+                MapId = 0,
+                UserId = userId,
+                WorkplaceId=0,
+            });
         }
 
         public static void AddRecordToUserMessages(long telegramId, List<int> messageList)

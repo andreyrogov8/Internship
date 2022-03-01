@@ -22,7 +22,7 @@ namespace Application.Telegram.Commands
 
         }
 
-        public async Task Sendasync(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData)
+        public async Task SendAsync(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData)
         {
             int month = Int32.Parse(callbackQuery.Data);
             var inlineKeyboard = SendDateDayKeyboard.BuildKeyboard(month, backButtonCallBackData);
