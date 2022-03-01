@@ -56,19 +56,19 @@ namespace Application.TelegramBot
                         return;
                 }
             }
-            catch (NotFoundException exeption)
+            catch (NotFoundException exception)
             {
-                await ShowExeption(update, exeption.Message);
+                await ShowException(update, exception.Message);
             }
 
-            catch (ValidationException exeption)
+            catch (ValidationException exception)
             {
-                await ShowExeption(update, exeption.Message);
+                await ShowException(update, exception.Message);
             }
 
             
         }
-        private async Task ShowExeption(Update update, string message)
+        private async Task ShowException(Update update, string message)
         {
             switch (update.Type)
             {
