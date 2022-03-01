@@ -19,10 +19,11 @@ namespace Application.Features.VacationFeature.Commands
 
             var userHasVacationInThisTime = true;
             userHasVacationInThisTime = await _context.Vacations.AnyAsync(v =>
-           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd >= endDate)) ||
+           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate)) ||
            (v.UserId == userId && (v.VacationStart <= startDate) && (v.VacationEnd >= startDate) && (v.VacationEnd <= endDate)) ||
            (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate)) ||
-           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate)),
+           (v.UserId == userId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate)) ||
+           (v.UserId == userId && (v.VacationStart <= startDate) && (v.VacationEnd >= endDate)),
             cancellationToken);
 
             if (userHasVacationInThisTime)
@@ -30,14 +31,16 @@ namespace Application.Features.VacationFeature.Commands
                 throw new ValidationException($"You have already had vacation in this period {startDate.ToString()} {endDate.ToString()}");
             }
         }
-        public async Task EnsureUserCanUpdateThisVacationAsync(int vacationId, int userId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureUserCanUpdateThisVacationAsync(int vacationId, int userId, DateTimeOffset startDate, DateTimeOffset endDate, CancellationToken cancellationToken)
         {
             // exclude vacation which id = vacationId
             var userhasAnotherVacationInThisTime = await _context.Vacations.AnyAsync(v => 
-            (v.UserId == userId && v.Id != vacationId && ((v.VacationStart >= startDate) && (v.VacationEnd >= endDate))) ||
-            (v.UserId == userId && v.Id != vacationId && ((v.VacationStart <= startDate) && (v.VacationEnd >= startDate) && (v.VacationEnd <= endDate))) ||
-            (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate))   ||
-            (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate))
+           (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate)) ||
+           (v.UserId == userId && v.Id != vacationId && (v.VacationStart <= startDate) && (v.VacationEnd >= startDate) && (v.VacationEnd <= endDate)) ||
+           (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationStart <= endDate) && (v.VacationEnd >= endDate)) ||
+           (v.UserId == userId && v.Id != vacationId && (v.VacationStart >= startDate) && (v.VacationEnd <= endDate)) ||
+           (v.UserId == userId && v.Id != vacationId && (v.VacationStart <= startDate) && (v.VacationEnd >= endDate)),
+           cancellationToken
             );
             if (userhasAnotherVacationInThisTime)
             {
