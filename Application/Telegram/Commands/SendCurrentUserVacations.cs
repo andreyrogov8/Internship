@@ -23,6 +23,21 @@ namespace Application.Telegram.Commands
             _bot = bot;
         }
 
+        public string FormatVacationList(IEnumerable<VacationDTO> vacations)
+        {
+            StringBuilder result = new StringBuilder();
+            int counter = 1;
+            foreach(var vacation in vacations)
+            {
+                var startDate = vacation.VacationStart;
+                var endDate = vacation.VacationEnd;
+                string vacationFormat = $"{counter}) Starts - Year: {startDate.Year} | Month: {startDate.Month} | Day: {startDate.Day}\n    Ends - Year: {endDate.Year} | Month: {endDate.Month} | Day: {endDate.Day}\n\n";
+                counter++;
+                result.Append(vacationFormat);
+            }
+            return result.ToString();
+        }
+
         public async Task SendAsync(CallbackQuery callbackQuery)
         {
             var vacationResponse = await _mediator.Send(new GetVacationListQueryRequest
@@ -30,8 +45,9 @@ namespace Application.Telegram.Commands
                 TelegramId = callbackQuery.From.Id
             });
             var vacations = vacationResponse.Results;
+            var text = FormatVacationList(vacations);
             var inlineKeyboard = SendVacationListKeyboard.BuildKeyboard(vacations);
-            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Vacation List", replyMarkup: inlineKeyboard);
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, $"Your vacations:\n\n{text}", replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
 
         }
