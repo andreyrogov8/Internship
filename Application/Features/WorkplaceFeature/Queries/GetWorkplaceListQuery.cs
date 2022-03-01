@@ -1,5 +1,6 @@
 ﻿using Application.Features.BookingFeature.Commands;
 using Application.Interfaces;
+using Application.Telegram.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -15,7 +16,8 @@ namespace Application.Features.CountryCQ
     public class GetWorkplaceListQueryRequest : IRequest <GetWorkplaceListQueryResponse>
     {
         public string MapId { get; set; }
-        public CreateBookingCommandRequest ? Booking { get; set; }
+        public DateTimeOffset? StartDate { get; set; }
+        public DateTimeOffset? EndDate { get; set; }
     }
 
     public class GetWorkplaceListQueryHandler : IRequestHandler<GetWorkplaceListQueryRequest, GetWorkplaceListQueryResponse>
@@ -37,11 +39,11 @@ namespace Application.Features.CountryCQ
             {
                 workplaces = workplaces.Where(x => x.MapId == Int32.Parse(query.MapId));
             }
-            if (query.Booking is not null)
+            if (query.StartDate is not null && query.EndDate is not null)
             {
                 //finding free workplaces Id in this period
                 var freeWorkplacesInThisPeriod= _context.Bookings.Where(x =>                            
-                          (query.Booking.EndDate < x.StartDate) || (x.EndDate < query.Booking.StartDate)
+                          (query.StartDate < x.StartDate) || (x.EndDate < query.EndDate)
                         ).Select(x => x.WorkplaceId);
                 workplaces = workplaces.Where(x => freeWorkplacesInThisPeriod.Contains(x.Id));
             }

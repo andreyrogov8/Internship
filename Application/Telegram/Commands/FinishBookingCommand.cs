@@ -28,21 +28,10 @@ namespace Application.Telegram.Commands
                     {
                         UserId = currentUserInfo.UserId,
                         WorkplaceId = currentUserInfo.WorkplaceId,
-                        StartDate = new DateTimeOffset(
-                                            DateTimeOffset.UtcNow.Year,
-                                            month: currentUserInfo.UserDates.StartMonth,
-                                            day: currentUserInfo.UserDates.StartDay,
-                                            0, 0, 0,
-                                            TimeSpan.Zero),
-                        EndDate = new DateTimeOffset(
-                                            DateTimeOffset.UtcNow.Year,
-                                            month: currentUserInfo.UserDates.EndMonth,
-                                            day: currentUserInfo.UserDates.EndDay,
-                                            0, 0, 0,
-                                            TimeSpan.Zero),
+                        StartDate = Helper.GetDate(currentUserInfo.UserDates.StartMonth, currentUserInfo.UserDates.StartDay),
+                        EndDate = Helper.GetDate(currentUserInfo.UserDates.EndMonth, currentUserInfo.UserDates.EndDay),
                         IsRecurring = false,
                         Frequency = 10
-
                     });
             await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
                 $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
