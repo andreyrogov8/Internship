@@ -27,6 +27,9 @@ namespace Domain.Enums
         //Checking Bookig States
         CheckingBookings,
 
+        // Checking vacations
+        CheckingVacations,
+
         //Vacation States
         NewVacationIsSelected,
         NewVacationIsSelectedStartDateMonth,
