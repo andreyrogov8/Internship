@@ -8,7 +8,7 @@ namespace Application.Features.VacationFeature.Queries
 {
     public class GetVacationListQueryRequest : IRequest<GetVacationListQueryResponse>
     {
-
+        public long? TelegramId { get; set; }
     }
 
     public class GetVacationListQueryHandler : IRequestHandler<GetVacationListQueryRequest, GetVacationListQueryResponse>
@@ -23,12 +23,17 @@ namespace Application.Features.VacationFeature.Queries
         }
         public async Task<GetVacationListQueryResponse> Handle(GetVacationListQueryRequest request, CancellationToken cancellationToken)
         {
-            var vacations = await _context.Vacations
-                .ProjectTo<VacationDTO>(_mapper.ConfigurationProvider)
-                .ToListAsync(cancellationToken);
+            var vacations = _context.Vacations.AsQueryable();
+            if (request.TelegramId.HasValue)
+            {
+                vacations = vacations.Where(v => v.User.TelegramId == request.TelegramId);
+            }
+
             return new GetVacationListQueryResponse
             {
-                Results = vacations
+                Results = await vacations.
+                          ProjectTo<VacationDTO>(_mapper.ConfigurationProvider)
+                          .ToListAsync(cancellationToken)
             };
         }
     }
