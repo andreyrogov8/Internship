@@ -14,7 +14,7 @@ namespace Application.Telegram.Handlers
     {
         public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
         {
-            await TelegramMessages.DeleteAsync(telegraBotClient, update.Message.From.Id);
+            await Helper.DeleteMessageAsync(telegraBotClient, update.Message.From.Id);
             switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
             {
                 case UserState.ProcessNotStarted:
@@ -25,9 +25,6 @@ namespace Application.Telegram.Handlers
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);
                     UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
                     return;
-                //case UserState.EnteringVacation:
-                //    await new CreateVacationCommand(mediator, telegraBotClient).Send(message : update.Message, enteredDate:true);
-                //    return;
             }
         }
     }
