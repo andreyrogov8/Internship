@@ -42,10 +42,11 @@ namespace Application.Features.CountryCQ
             if (query.StartDate is not null && query.EndDate is not null)
             {
                 //finding free workplaces Id in this period
-                var freeWorkplacesInThisPeriod= _context.Bookings.Where(x =>                            
-                          (query.StartDate < x.StartDate) || (x.EndDate < query.EndDate)
-                        ).Select(x => x.WorkplaceId);
-                workplaces = workplaces.Where(x => freeWorkplacesInThisPeriod.Contains(x.Id));
+                var busyWorkplacesInThisPeriod = _context.Bookings.Where(x =>                            
+                          ((query.StartDate > x.StartDate) && (query.StartDate < x.EndDate))
+                          || ((query.EndDate > x.StartDate) && (query.EndDate < x.EndDate))
+                        ).Select(x => x.WorkplaceId).Distinct();
+                workplaces = workplaces.Where(x => !busyWorkplacesInThisPeriod.Contains(x.Id));
             }
             return new GetWorkplaceListQueryResponse
             {
