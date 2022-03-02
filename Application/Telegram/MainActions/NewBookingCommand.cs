@@ -52,12 +52,10 @@ namespace Application.Telegram.MainActions
 
                 case UserState.NewBookingIsSelectedFinishingBooking:
                     UserStateStorage.userInfo[update.CallbackQuery.From.Id].WorkplaceId = Int32.Parse(update.CallbackQuery.Data);                    
-                    await new FinishBookingCommand(mediator, telegraBotClient).Execute(update.CallbackQuery);                    
+                    await new FinishBookingCommand(mediator, telegraBotClient).Execute(update.CallbackQuery);
+                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.StartingProcess);
                     return;
 
-                // in the next state => set the day of 'userInfo[telegramId].Booking.EndDate'
-                //case UserState.EnteringVacation:
-                    return;
             }
         }
     }

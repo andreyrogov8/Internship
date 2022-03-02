@@ -44,12 +44,15 @@ namespace Application.Telegram.Commands
                         Frequency = 10
 
                     });
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string>{ "Start New"}, 1, "BACKStartingProcess");
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
                 $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
                 $"To: {currentBooking.EndDate.Date.ToShortDateString()} \n " +
                 $"Office Name:{currentBooking.OfficeName}, City:{currentBooking.City}, Country:{currentBooking.Country} \n" +
                 $"Floor: {currentBooking.FloorNumber}\n" +
-                $"Workplace Number:{currentBooking.WorkplaceNumber}");
+                $"Workplace Number:{currentBooking.WorkplaceNumber}"
+                , replyMarkup:inlineKeyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
     }
 }
