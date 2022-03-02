@@ -4,12 +4,16 @@ namespace Application.Telegram.Keyboards
 {
     public static class CommandsListKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard(List<string> commandNames, int columns)
+        public static InlineKeyboardMarkup BuildKeyboard(List<string> commandNames, int columns, string commandCall=null)
         {
             var buttons = new List<InlineKeyboardButton>();
             foreach (var name in commandNames)
             {
-                if (name.Contains("BACK"))
+                if (name == "Start New" && commandCall != null)
+                {
+                    buttons.Add(new InlineKeyboardButton(name) { CallbackData = commandCall });
+                }
+                else if (name.Contains("BACK"))
                 {
                     buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = name });
                 }
