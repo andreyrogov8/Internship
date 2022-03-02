@@ -51,7 +51,13 @@ namespace Application.Telegram
                 MapId = userInfo[telegramId].MapId, 
                 UserDates = userInfo[telegramId].UserDates,
                 WorkplaceId = userInfo[telegramId].WorkplaceId,
-                UserId = userInfo[telegramId].UserId
+                UserId = userInfo[telegramId].UserId,
+                HasWindow = userInfo[telegramId].HasWindow, 
+                HasPc = userInfo[telegramId].HasPc,
+                HasMonitor = userInfo[telegramId].HasMonitor,
+                HasKeyboard = userInfo[telegramId].HasKeyboard,
+                HasMouse = userInfo[telegramId].HasMouse,
+                HasHeadset = userInfo[telegramId].HasHeadset,
             };
         }
 
@@ -62,9 +68,15 @@ namespace Application.Telegram
             {
                 CurrentState = state,
                 Role = role,
-                MapId = 0,
+                //MapId = 0,
                 UserId = userId,
-                WorkplaceId=0,
+                //WorkplaceId=0,
+                //HasHeadset = false,
+                //HasMouse = false,
+                //HasKeyboard = false,
+                //HasMonitor = false,
+                //HasPc = false,
+                //HasWindow = false,
             });
         }
 

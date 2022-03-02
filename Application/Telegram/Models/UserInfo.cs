@@ -25,7 +25,14 @@ namespace Application.Telegram.Models
         public int MapId { get; set; }
         public int WorkplaceId { get; set; }
         public DateInfo UserDates { get; set; } = new DateInfo();
-        //public CreateBookingCommandRequest Booking { get; set; }
+
+        public bool HasWindow { get; set; }
+        public bool HasPc { get; set; }
+        public bool HasMonitor { get; set; }
+        public bool HasKeyboard { get; set; }
+        public bool HasMouse { get; set; }
+        public bool HasHeadset { get; set; }
+
 
     }
 }

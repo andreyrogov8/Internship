@@ -38,8 +38,13 @@ namespace Application.Telegram.Commands
                 $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
                 $"To: {currentBooking.EndDate.Date.ToShortDateString()} \n " +
                 $"Office Name:{currentBooking.OfficeName}, City:{currentBooking.City}, Country:{currentBooking.Country} \n" +
-                $"Floor: {currentBooking.FloorNumber}\n" +
-                $"Workplace Number:{currentBooking.WorkplaceNumber}"
+                $"Floor: {currentBooking.FloorNumber}, Workplace Number:{currentBooking.WorkplaceNumber} \n" +
+                $"Next to window: {currentBooking.HasWindow} \n" +
+                $"Has PC: {currentBooking.HasPc} \n" +
+                $"Has Monitor: {currentBooking.HasMonitor} \n" +
+                $"Has Keyboard: {currentBooking.HasKeyboard} \n" +
+                $"Has Mouse: {currentBooking.HasMouse} \n" +
+                $"Has Headset: {currentBooking.HasHeadset}"
                 , replyMarkup:inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }

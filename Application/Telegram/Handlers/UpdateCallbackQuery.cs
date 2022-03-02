@@ -22,7 +22,7 @@ namespace Application.Telegram.Handlers
             if (userState == UserState.StartingProcess)
             {
                 await new ProvideButtons(telegraBotClient).SendAsync(
-                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACKProcessNotStarted" }, 2);
+                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACK" },$"You clicked {update.CallbackQuery.Data} \n Press Button", 2, "ProcessNotStarted");
                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }
@@ -33,13 +33,13 @@ namespace Application.Telegram.Handlers
                     case "New Booking":
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
-                            update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
+                            update.CallbackQuery, new List<string>() { "Next", "BACK" }, $"You choose: { update.CallbackQuery.Data} \n Press Buttonn", 1, "StartingProcess");
 
                         return;
                     case "New Vacation":
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
-                            update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
+                            update.CallbackQuery, new List<string>() { "Next", "BACK" }, $"You choose: {update.CallbackQuery.Data} \n Press Button", 1, "StartingProcess");
                         return;
                     case "My Bookings":
                         await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookingsAsync(update.CallbackQuery);

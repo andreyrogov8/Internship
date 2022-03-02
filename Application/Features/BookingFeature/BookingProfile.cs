@@ -24,6 +24,12 @@ namespace Application.Features.BookingFeature
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Workplace.Map.Office.Country))
                 .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Workplace.Map.Office.City))
                 .ForMember(dest => dest.FloorNumber, opt => opt.MapFrom(src => src.Workplace.Map.FloorNumber))
+                .ForMember(dest => dest.HasWindow, opt => opt.MapFrom(src => src.Workplace.NextToWindow))
+                .ForMember(dest => dest.HasPc, opt => opt.MapFrom(src => src.Workplace.HasPC))
+                .ForMember(dest => dest.HasMonitor, opt => opt.MapFrom(src => src.Workplace.HasMonitor))
+                .ForMember(dest => dest.HasKeyboard, opt => opt.MapFrom(src => src.Workplace.HasKeyboard))
+                .ForMember(dest => dest.HasMouse, opt => opt.MapFrom(src => src.Workplace.HasMouse))
+                .ForMember(dest => dest.HasHeadset, opt => opt.MapFrom(src => src.Workplace.HasHeadset))
                 ;
 
         }

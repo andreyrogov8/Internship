@@ -78,5 +78,12 @@ namespace Application.Features.BookingFeature.Commands
         public string OfficeName { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+
+        public bool HasWindow { get; set; }
+        public bool HasPc { get; set; }
+        public bool HasMonitor { get; set; }
+        public bool HasKeyboard { get; set; }
+        public bool HasMouse { get; set; } 
+        public bool HasHeadset { get; set; }
     }
 }
