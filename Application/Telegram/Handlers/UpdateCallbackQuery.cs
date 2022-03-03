@@ -22,7 +22,7 @@ namespace Application.Telegram.Handlers
             if (userState == UserState.StartingProcess)
             {
                 await new ProvideButtons(telegraBotClient).SendAsync(
-                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "Search by location", "BACKProcessNotStarted" }, 2);
+                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACKProcessNotStarted" }, 2);
                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }
@@ -33,7 +33,7 @@ namespace Application.Telegram.Handlers
                     case "New Booking":
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
-                            update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
+                            update.CallbackQuery, new List<string>() { "Search by location", "Next", "BACKStartingProcess" }, 2);
 
                         return;
                     case "New Vacation":
@@ -49,10 +49,10 @@ namespace Application.Telegram.Handlers
                         await new SendCurrentUserVacations(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingVacations);
                         return;
-                    case "Search by location":
-                        await new ReceiveUserLocationCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
-                        return;
+                    //case "Search by location":
+                    //    await new ReceiveUserLocationCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
+                    //    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
+                    //    return;
 
                 }
                 return;

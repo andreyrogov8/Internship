@@ -46,7 +46,7 @@ namespace Application.Telegram.Commands
                 var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "You have successfully created new vacation for you!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
                 await new ProvideButtons(_bot).SendAsync(
-                callbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "Search by location", "BACKProcessNotStarted" }, 2);
+                callbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACKProcessNotStarted" }, 2);
                 UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }

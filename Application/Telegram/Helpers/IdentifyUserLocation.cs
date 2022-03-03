@@ -1,16 +1,11 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Telegram.Helpers
 {
 
-    public class Temperatures
+    public class LocationInfo
     {
 
         [JsonProperty("address")]
@@ -31,7 +26,7 @@ namespace Application.Telegram.Helpers
     {
         private readonly HttpClient _client = new HttpClient();
 
-        
+
         public async Task<string> FindCountry(double longitude, double latitude)
         {
             _client.DefaultRequestHeaders.Accept.Clear();
@@ -41,8 +36,8 @@ namespace Application.Telegram.Helpers
 
             var response = await _client.GetAsync($"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json");
 
-            var address = await response.Content.ReadFromJsonAsync<Temperatures>();
-            
+            var address = await response.Content.ReadFromJsonAsync<LocationInfo>();
+
             return address.Address.Country;
         }
     }
