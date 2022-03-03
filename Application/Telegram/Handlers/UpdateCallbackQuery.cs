@@ -22,7 +22,7 @@ namespace Application.Telegram.Handlers
             if (userState == UserState.StartingProcess)
             {
                 await new ProvideButtons(telegraBotClient).SendAsync(
-                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACKProcessNotStarted" }, 2);
+                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "Search by location", "BACKProcessNotStarted" }, 2);
                 UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }
@@ -48,6 +48,10 @@ namespace Application.Telegram.Handlers
                     case "My Vacations":
                         await new SendCurrentUserVacations(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingVacations);
+                        return;
+                    case "Search by location":
+                        await new ReceiveUserLocationCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
+                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
                         return;
 
                 }

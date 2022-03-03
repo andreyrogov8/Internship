@@ -1,16 +1,9 @@
 ﻿using Application.Features.UserFeature.Queries;
 using Application.Features.VacationFeature.Commands;
-using Application.Telegram.Keyboards;
 using Domain.Enums;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Application.Telegram.Commands
 {
@@ -29,10 +22,10 @@ namespace Application.Telegram.Commands
         {
             var userInputs = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates;
             var vacationStartDate = new DateTimeOffset(
-                DateTimeOffset.UtcNow.Year, 
-                month:userInputs.StartMonth, 
-                day: userInputs.StartDay, 
-                0,0,0, 
+                DateTimeOffset.UtcNow.Year,
+                month: userInputs.StartMonth,
+                day: userInputs.StartDay,
+                0, 0, 0,
                 TimeSpan.Zero);
             var vacationEndDate = new DateTimeOffset(
                 DateTimeOffset.UtcNow.Year,
@@ -42,18 +35,18 @@ namespace Application.Telegram.Commands
                 TimeSpan.Zero);
             try
             {
-                var user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = callbackQuery.From.Id});
-                
-                var response = await _mediator.Send(new CreateVacationCommandRequest 
-                { 
-                    UserId= user.Id, 
-                    VacationStart=vacationStartDate,
-                    VacationEnd=vacationEndDate
+                var user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = callbackQuery.From.Id });
+
+                var response = await _mediator.Send(new CreateVacationCommandRequest
+                {
+                    UserId = user.Id,
+                    VacationStart = vacationStartDate,
+                    VacationEnd = vacationEndDate
                 });
                 var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "You have successfully created new vacation for you!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
                 await new ProvideButtons(_bot).SendAsync(
-                callbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "BACKProcessNotStarted" }, 2);
+                callbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACKProcessNotStarted" }, 2);
                 UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }

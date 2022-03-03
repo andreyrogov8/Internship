@@ -25,9 +25,9 @@ namespace Application.Telegram.Handlers
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);
                     UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
                     return;
-                //case UserState.EnteringVacation:
-                //    await new CreateVacationCommand(mediator, telegraBotClient).Send(message : update.Message, enteredDate:true);
-                //    return;
+                case UserState.EnteringLocation:
+                    await new ReceiveUserLocationCommand(mediator, telegraBotClient).ReceiveLocationAndSendOffices(update.Message);
+                    return;
             }
         }
     }

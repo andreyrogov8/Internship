@@ -14,6 +14,9 @@ namespace Domain.Enums
         SelectingAction,
         ActionIsSelected,
 
+        // New Booking by location
+        EnteringLocation,
+
         //New Booking States
         NewBookingIsSelected,
         NewBookingIsSelectedStartingBooking,
