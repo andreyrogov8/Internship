@@ -26,7 +26,7 @@ namespace Application.Telegram.Helpers
     {
 
 
-        public static async Task<string> FindCountry(double longitude, double latitude)
+        public static async Task<string> FindCountryAsync(double longitude, double latitude)
         {
             var _client = new HttpClient();
             _client.DefaultRequestHeaders.Accept.Clear();
