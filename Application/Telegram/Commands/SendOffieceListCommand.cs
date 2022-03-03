@@ -32,15 +32,28 @@ namespace Application.Telegram.Commands
                ,replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currnetMessage.MessageId);
         }
-        public async Task Send(Message message)
+        public async Task Send(Message message, string query=null, bool sendedQuery=false)
         {
-            var officeResponse = await _mediator.Send(new GetOfficeListQueryRequest()
+            var officeResponse = new GetOfficeListQueryResponse();
+            if (query != null)
             {
-                SearchBy = message.Text,
-            });
+                officeResponse = await _mediator.Send(new GetOfficeListQueryRequest()
+                {
+                    SearchBy = query,
+                });
+            }
+            else
+            {
+                officeResponse = await _mediator.Send(new GetOfficeListQueryRequest()
+                {
+                    SearchBy = message.Text,
+                });
+            }
+            
             var offices = officeResponse.Results;
             var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
-            var currnetMessage = await _bot.SendTextMessageAsync(message.Chat.Id, "Choose Office or type for filtering", replyMarkup: inlineKeyboard);
+            var text = sendedQuery && string.IsNullOrEmpty(query) ? "Sorry, it seems I can not identify your location but you can filter offices there." : "Choose Office or type for filtering";
+            var currnetMessage = await _bot.SendTextMessageAsync(message.Chat.Id, text, replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(message.From.Id, currnetMessage.MessageId);
         }
     }

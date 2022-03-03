@@ -9,16 +9,25 @@ namespace Application.Telegram.MainActions
 {
     public static class NewBookingCommand
     {
-        public static async Task HandleAsync(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
+        public static async Task HandleAsync(Update update, TelegramBotClient telegraBotClient, IMediator mediator, IHttpClientFactory clientFactory)
         {
             var user = UserStateStorage.userInfo[update.CallbackQuery.From.Id];
 
             switch (UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id))
             {
                 case UserState.NewBookingIsSelected:
-                    await new SendOfficeListCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedStartingBooking);
-                    return;
+                    switch(update.CallbackQuery.Data)
+                    {
+                        case "Search by location":
+                            await new ReceiveUserLocationCommand(mediator, telegraBotClient, clientFactory).SendAsync(update.CallbackQuery);
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
+                            return;
+                        default:
+                            await new SendOfficeListCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
+                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedStartingBooking);
+                            return;
+                    }
+                    
                 case UserState.NewBookingIsSelectedStartingBooking:
                     await new SendMapListCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingFloor);
