@@ -9,7 +9,7 @@ namespace Application.Telegram.MainActions
 {
     public static class NewBookingCommand
     {
-        public static async Task HandleAsync(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
+        public static async Task HandleAsync(Update update, TelegramBotClient telegraBotClient, IMediator mediator, IHttpClientFactory clientFactory)
         {
             var user = UserStateStorage.userInfo[update.CallbackQuery.From.Id];
 
@@ -19,7 +19,7 @@ namespace Application.Telegram.MainActions
                     switch(update.CallbackQuery.Data)
                     {
                         case "Search by location":
-                            await new ReceiveUserLocationCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
+                            await new ReceiveUserLocationCommand(mediator, telegraBotClient, clientFactory).SendAsync(update.CallbackQuery);
                             UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
                             return;
                         default:

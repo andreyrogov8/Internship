@@ -15,6 +15,7 @@ namespace Application
     {
         public static void AddApplication(this IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddAutoMapper(cfg => cfg.AddMaps(typeof(WorkplacesProfile).Assembly));
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));

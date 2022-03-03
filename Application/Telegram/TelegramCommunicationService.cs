@@ -22,10 +22,13 @@ namespace Application.TelegramBot
     {
         private readonly TelegramBotClient _telegraBotClient;
         private readonly IMediator _mediator;
-        public TelegramCommunicationService(IConfiguration configuration, IMediator mediator)
+        private readonly IHttpClientFactory _clientFactory;
+
+        public TelegramCommunicationService(IConfiguration configuration, IMediator mediator, IHttpClientFactory clientFactory)
         {
             _telegraBotClient = new TelegramBotClient(configuration["Token"]);
             _mediator   = mediator;
+            _clientFactory = clientFactory;
         }
 
         public async Task ExecuteAsync(Update update)
@@ -49,10 +52,10 @@ namespace Application.TelegramBot
                             UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
                                 testState);
                         }
-                        await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator);
+                        await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator, _clientFactory);
                         return;
                     case UpdateType.Message:
-                        await UpdateMessage.Handle(update, _telegraBotClient, _mediator);
+                        await UpdateMessage.Handle(update, _telegraBotClient, _mediator, _clientFactory);
                         return;
                 }
             }
