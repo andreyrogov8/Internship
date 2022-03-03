@@ -15,7 +15,7 @@ namespace Application.Telegram.Handlers
 {
     public static class UpdateCallbackQuery
     {
-        public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator)
+        public static async Task Handle(Update update, TelegramBotClient telegraBotClient, IMediator mediator, IHttpClientFactory clientFactory)
         {
             await Helper.DeleteMessageAsync(telegraBotClient, update.CallbackQuery.From.Id);
             var userState = UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id);
@@ -61,13 +61,17 @@ namespace Application.Telegram.Handlers
                         await new SendCurrentUserVacations(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
                         UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingVacations);
                         return;
+                    //case "Search by location":
+                    //    await new ReceiveUserLocationCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
+                    //    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
+                    //    return;
 
                 }
                 return;
             }
             if (userState.ToString().Contains("NewBookingIsSelected"))
             {
-                await NewBookingCommand.HandleAsync(update, telegraBotClient, mediator);
+                await NewBookingCommand.HandleAsync(update, telegraBotClient, mediator, clientFactory);
             }
             if (userState.ToString().Contains("NewVacationIsSelected"))
             {
