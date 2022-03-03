@@ -45,6 +45,7 @@ namespace Application.Features.CountryCQ
             {
                 workplaces = workplaces.Where(x => x.MapId == Int32.Parse(query.MapId));
             }
+
             if (query.StartDate is not null && query.EndDate is not null)
             {
                 //finding free workplaces Id in this period
@@ -59,26 +60,32 @@ namespace Application.Features.CountryCQ
             {
                 workplaces = workplaces.Where(x => x.NextToWindow == query.HasWindow);
             }
+
             if (query.HasPc is not null)
             {
                 workplaces = workplaces.Where(x => x.HasPC == query.HasPc);
             }
+
             if (query.HasMonitor is not null)
             {
                 workplaces = workplaces.Where(x => x.HasMonitor == query.HasMonitor);
             }
+
             if (query.HasKeyboard is not null)
             {
                 workplaces = workplaces.Where(x => x.HasKeyboard == query.HasKeyboard);
             }
+
             if (query.HasMouse is not null)
             {
                 workplaces = workplaces.Where(x => x.HasMouse == query.HasMouse);
             }
+
             if (query.HasHeadset is not null)
             {
                 workplaces = workplaces.Where(x => x.HasHeadset == query.HasHeadset);
             }
+
             return new GetWorkplaceListQueryResponse
             {
                 Results = await workplaces.ProjectTo<WorkplaceDto>(_mapper.ConfigurationProvider)

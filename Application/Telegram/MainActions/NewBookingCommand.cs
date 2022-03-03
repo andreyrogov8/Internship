@@ -26,7 +26,10 @@ namespace Application.Telegram.MainActions
                     return;
                 case UserState.NewBookingIsSelectedSelectingFloor:
                     UserStateStorage.userInfo[update.CallbackQuery.From.Id].MapId = Int32.Parse(update.CallbackQuery.Data);
-                    var officeNumber = await mediator.Send(new GetMapByIdQueryRequest() { Id = UserStateStorage.userInfo[update.CallbackQuery.From.Id].MapId });
+                    var officeNumber = await mediator.Send(new GetMapByIdQueryRequest() 
+                    {
+                        Id = UserStateStorage.userInfo[update.CallbackQuery.From.Id].MapId 
+                    });
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, 
                         $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start date month", "BACKNewBookingIsSelected");                    
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
@@ -73,13 +76,23 @@ namespace Application.Telegram.MainActions
 
                 case UserState.NewBookingIsSelectedSelectingHeadseetOption:
                     UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasMouse = update.CallbackQuery.Data == "Yes" ? true : false;
-                    await new ProvideButtons(telegraBotClient).SendAsync(update.CallbackQuery, new List<string> { "Yes", "No", "BACK" }, "Would you like workplace with Headset", 2, "NewBookingIsSelected");
+                    await new ProvideButtons(telegraBotClient).SendAsync(
+                        update.CallbackQuery
+                        , new List<string> { "Yes", "No", "BACK" }
+                        , "Would you like workplace with Headset"
+                        , 2
+                        , "NewBookingIsSelected");
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingWindowOption);
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingWindowOption:
                     UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasHeadset = update.CallbackQuery.Data == "Yes" ? true : false;
-                    await new ProvideButtons(telegraBotClient).SendAsync(update.CallbackQuery, new List<string> { "Yes", "No", "BACK" }, "Would you like workplace near to Window", 2, "NewBookingIsSelected");
+                    await new ProvideButtons(telegraBotClient).SendAsync(
+                        update.CallbackQuery
+                        , new List<string> { "Yes", "No", "BACK" }
+                        , "Would you like workplace near to Window"
+                        , 2
+                        , "NewBookingIsSelected");
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingWorkplace);
                     return;
 
