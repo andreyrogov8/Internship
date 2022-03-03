@@ -43,16 +43,19 @@ namespace Application.Telegram.MainActions
                         $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start date month", "BACKNewBookingIsSelected");                    
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
                     return;
+
                 case UserState.NewBookingIsSelectedSelectingStartDateMonth:
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select start date day", "BACKNewBookingIsSelected");
                     DateHelper.StartMonthUpdater(update.CallbackQuery, ref user);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateDay);
                     return;
+
                 case UserState.NewBookingIsSelectedSelectingStartDateDay:
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select end date month", "BACKNewBookingIsSelected");
                     DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
                     UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
                     return;
+
                 case UserState.NewBookingIsSelectedSelectingEndDateMonth:
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select end date day", "BACKNewBookingIsSelected");
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
