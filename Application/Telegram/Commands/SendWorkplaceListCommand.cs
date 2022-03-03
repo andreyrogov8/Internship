@@ -34,9 +34,13 @@ namespace Application.Telegram
 
         public async Task SendListByMapIdAsync(CallbackQuery callbackQuery)
         {
-            var workplaceResponse = await _mediator.Send(new GetWorkplaceListQueryRequest() {
-                                                             MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString()
-                                                           });
+            var workplaceResponse = await _mediator.Send(
+                new GetWorkplaceListQueryRequest() 
+                {
+                    MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString(),
+                    StartDate = Helper.GetDate(UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth, UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartDay),
+                    EndDate = Helper.GetDate(UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth, UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay),
+                });
             
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
