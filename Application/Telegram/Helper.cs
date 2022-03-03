@@ -19,10 +19,10 @@ namespace Application.Telegram
             UserStateStorage.RemoveMessages(telegramId);
         }
 
-        public static DateTimeOffset GetDate(int month, int day)
+        public static DateTimeOffset GetDate(int year, int month, int day)
         {
             DateTimeOffset Date = new DateTimeOffset(
-                                        DateTimeOffset.UtcNow.Year,
+                                        year: year,
                                         month: month,
                                         day: day,
                                         0, 0, 0,
