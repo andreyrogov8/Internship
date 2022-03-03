@@ -24,11 +24,11 @@ namespace Application.Telegram.Helpers
 
     public class IdentifyUserLocation
     {
-        private readonly HttpClient _client = new HttpClient();
 
 
-        public async Task<string> FindCountry(double longitude, double latitude)
+        public static async Task<string> FindCountry(double longitude, double latitude)
         {
+            var _client = new HttpClient();
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
