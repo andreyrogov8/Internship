@@ -27,7 +27,7 @@ namespace Application.Telegram.Handlers
                      ,$"You clicked {update.CallbackQuery.Data} \n Press Button"
                      ,2
                      ,"ProcessNotStarted");
-                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
+                UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }
             if (userState == UserState.SelectingAction)
@@ -35,7 +35,7 @@ namespace Application.Telegram.Handlers
                 switch (update.CallbackQuery.Data)
                 {
                     case "New Booking":
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
                              update.CallbackQuery
                             , new List<string>() { "Search by location", "Search by Office", "BACK"}
@@ -45,7 +45,7 @@ namespace Application.Telegram.Handlers
 
                         return;
                     case "New Vacation":
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
                             update.CallbackQuery
                             ,new List<string>() { "Next", "BACK" }
@@ -55,11 +55,11 @@ namespace Application.Telegram.Handlers
                         return;
                     case "My Bookings":
                         await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookingsAsync(update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingBookings);
                         return;
                     case "My Vacations":
                         await new SendCurrentUserVacations(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingVacations);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingVacations);
                         return;
 
 

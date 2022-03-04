@@ -51,7 +51,7 @@ namespace Application.Telegram.Commands
                     , $"You clicked: {callbackQuery.Data} \n Press Button"
                     , 2
                     , "ProcessNotStarted");
-                UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.SelectingAction);
+                UserStateStorage.UpdateUserState(callbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }
             catch
@@ -59,7 +59,7 @@ namespace Application.Telegram.Commands
                 var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "There were problems, seems you have another vacation in this period or your vacations are crossed! Please, retry again!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
                 await new SendMonthCommand(_mediator, _bot).SendAsync(callbackQuery, "Please select start date month", "BACKStartingProcess");
-                UserStateStorage.UserStateUpdate(callbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
+                UserStateStorage.UpdateUserState(callbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
                 return;
             }
 

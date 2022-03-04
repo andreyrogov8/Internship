@@ -13,15 +13,14 @@ namespace Application.Telegram.Keyboards
                 {
                     buttons.Add(new InlineKeyboardButton(name) { CallbackData = commandCall });
                 }
-                else 
-                    if (name.Contains("BACK"))
-                    {
-                        buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = $"BACK{commandCall}" });
-                    }
-                    else
-                    {
-                        buttons.Add(new InlineKeyboardButton(name) { CallbackData = name });
-                    }
+                else if (name.Contains("BACK"))
+                {
+                    buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = $"BACK{commandCall}" });
+                }
+                else
+                {
+                    buttons.Add(new InlineKeyboardButton(name) { CallbackData = name });
+                }
                 
             }
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
