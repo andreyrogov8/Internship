@@ -18,12 +18,12 @@ namespace Application.Telegram.Handlers
             switch (UserStateStorage.GetUserCurrentState(update.Message.From.Id))
             {
                 case UserState.ProcessNotStarted:
-                   UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.StartingProcess);
+                   UserStateStorage.UpdateUserState(update.Message.From.Id, UserState.StartingProcess);
                     await new StartCommand(mediator, telegraBotClient).HandleAsync(update);
                     return;
                 case UserState.NewBookingIsSelectedStartingBooking:
                     await new SendOfficeListCommand(mediator, telegraBotClient).Send(update.Message);
-                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
+                    UserStateStorage.UpdateUserState(update.Message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
                     return;
                 case UserState.EnteringLocation:
                     await new ReceiveUserLocationCommand(mediator, telegraBotClient, clientFactory).ReceiveLocationAndSendOffices(update.Message);

@@ -42,7 +42,7 @@ namespace Application.Telegram
             }
             return UserRole.User;
         }
-        public static void UserStateUpdate(long telegramId, UserState newState)
+        public static void UpdateUserState(long telegramId, UserState newState)
         {
             UserRole currnetUserRole = GetUserRole(telegramId);
             userInfo[telegramId] = new UserInfo() { 

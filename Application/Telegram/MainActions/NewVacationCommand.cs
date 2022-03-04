@@ -19,24 +19,24 @@ namespace Application.Telegram.MainActions
             {
                 case UserState.NewVacationIsSelected:
                     await new SendMonthCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select start date month", "BACKStartingProcess");
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
                     return;
                 case UserState.NewVacationIsSelectedStartDateMonth:
                     DateHelper.StartMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select start date day", "BACKStartingProcess");
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateDay);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateDay);
                     return;
 
                 case UserState.NewVacationIsSelectedStartDateDay:
                     DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
                     await new SendMonthCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select end date month", "BACKStartingProcess");
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateMonth);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateMonth);
                     return;
                 case UserState.NewVacationIsSelectedEndDateMonth:
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select end date day", "BACKStartingProcess");
 
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateDay);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateDay);
                     return;
                 case UserState.NewVacationIsSelectedEndDateDay:
                     DateHelper.EndDayUpdater(update.CallbackQuery, ref user);
