@@ -22,11 +22,11 @@ namespace Application.Telegram.Commands
             _bot = bot;
         }
 
-        public async Task SendAsync(CallbackQuery callbackQuery,List<string> commandNames, int numberOfColumns)
+        public async Task SendAsync(CallbackQuery callbackQuery,List<string> commandNames,string textToShow, int numberOfColumns, string commandCall)
         {
-            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns, commandCall);
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-                callbackQuery.Data.Contains("BACK") ? "Press Button": $"You clicked: {callbackQuery.Data} \n Press Button"
+                callbackQuery.Data.Contains("BACK") ? "Press Button": textToShow 
                 , replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }

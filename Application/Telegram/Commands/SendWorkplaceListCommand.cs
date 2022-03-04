@@ -40,13 +40,19 @@ namespace Application.Telegram
                     MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString(),
                     StartDate = Helper.GetDate(UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth, UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartDay),
                     EndDate = Helper.GetDate(UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth, UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay),
+                    HasWindow = UserStateStorage.userInfo[callbackQuery.From.Id].HasWindow,
+                    HasPc = UserStateStorage.userInfo[callbackQuery.From.Id].HasPc,
+                    HasMonitor = UserStateStorage.userInfo[callbackQuery.From.Id].HasMonitor,
+                    HasKeyboard = UserStateStorage.userInfo[callbackQuery.From.Id].HasKeyboard,
+                    HasMouse = UserStateStorage.userInfo[callbackQuery.From.Id].HasMouse,
+                    HasHeadset = UserStateStorage.userInfo[callbackQuery.From.Id].HasHeadset,
                 });
             
             var workplaces = workplaceResponse.Results;
             var inlineKeyboard = SendWorkplaceListKeyboard.BuildKeyboard(workplaces);
             var map = await _mediator.Send(new GetMapByIdQueryRequest() { Id = UserStateStorage.userInfo[callbackQuery.From.Id].MapId });
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id
-                , callbackQuery.Data.Contains("BACK") ? "Please choose workplace" : $"You choose floor: {map.FloorNumber} \n Please choose workplace"
+                , callbackQuery.Data.Contains("BACK") ? "Please choose workplace" : /*$"You choose floor: {map.FloorNumber} \n */ "Please choose workplace"
                 , replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }

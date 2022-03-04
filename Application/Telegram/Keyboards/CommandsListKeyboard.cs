@@ -15,11 +15,11 @@ namespace Application.Telegram.Keyboards
                 }
                 else if (name.Contains("BACK"))
                 {
-                    buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = name });
+                    buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = $"BACK{commandCall}" });
                 }
                 else
                 {
-                    buttons.Add(new InlineKeyboardButton(name) { CallbackData = name});
+                    buttons.Add(new InlineKeyboardButton(name) { CallbackData = name });
                 }
                 
             }

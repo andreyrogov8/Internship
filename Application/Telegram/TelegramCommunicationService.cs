@@ -49,7 +49,7 @@ namespace Application.TelegramBot
                         {
                             var state = update.CallbackQuery.Data.Substring(4);
                             UserState testState = (UserState)Enum.Parse(typeof(UserState), state);
-                            UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id,
+                            UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id,
                                 testState);
                         }
                         await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator, _clientFactory);

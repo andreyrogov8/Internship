@@ -22,8 +22,12 @@ namespace Application.Telegram.Handlers
             if (userState == UserState.StartingProcess)
             {
                 await new ProvideButtons(telegraBotClient).SendAsync(
-                update.CallbackQuery, new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACKProcessNotStarted" }, 2);
-                UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.SelectingAction);
+                    update.CallbackQuery
+                     ,new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACK" }
+                     ,$"You clicked {update.CallbackQuery.Data} \n Press Button"
+                     ,2
+                     ,"ProcessNotStarted");
+                UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }
             if (userState == UserState.SelectingAction)
@@ -31,28 +35,33 @@ namespace Application.Telegram.Handlers
                 switch (update.CallbackQuery.Data)
                 {
                     case "New Booking":
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
-                            update.CallbackQuery, new List<string>() { "Search by location", "Next", "BACKStartingProcess" }, 2);
+                             update.CallbackQuery
+                            , new List<string>() { "Search by location", "Next","BACK"}
+                            , $"You choose: { update.CallbackQuery.Data} \n Press Buttonn"
+                            , 1
+                            , "StartingProcess");
 
                         return;
                     case "New Vacation":
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
-                            update.CallbackQuery, new List<string>() { "Next", "BACKStartingProcess" }, 1);
+                            update.CallbackQuery
+                            ,new List<string>() { "Next", "BACK" }
+                            ,$"You choose: {update.CallbackQuery.Data} \n Press Button"
+                            ,1
+                            ,"StartingProcess");
                         return;
                     case "My Bookings":
                         await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookingsAsync(update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingBookings);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingBookings);
                         return;
                     case "My Vacations":
                         await new SendCurrentUserVacations(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
-                        UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.CheckingVacations);
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingVacations);
                         return;
-                    //case "Search by location":
-                    //    await new ReceiveUserLocationCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery);
-                    //    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.EnteringLocation);
-                    //    return;
+
 
                 }
                 return;

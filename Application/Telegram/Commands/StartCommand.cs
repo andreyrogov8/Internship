@@ -21,7 +21,7 @@ namespace Application.Telegram.Commands
                 case "/help":
                     await _bot.SendTextMessageAsync(update.Message.Chat.Id, $"Hi {update.Message.From.FirstName}, we are working on features. Available commands\n/help - for some instructions\n/start - for start booking workplace");
                     // we should not update the user's state if he types /help
-                    UserStateStorage.UserStateUpdate(update.Message.From.Id, UserState.ProcessNotStarted);
+                    UserStateStorage.UpdateUserState(update.Message.From.Id, UserState.ProcessNotStarted);
 
                     return;
                 case "/start":
