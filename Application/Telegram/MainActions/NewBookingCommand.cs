@@ -42,13 +42,13 @@ namespace Application.Telegram.MainActions
                     });
                     await new SendYearCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, 
                         $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start date year", "BACKNewBookingIsSelected");                    
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateYear);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateYear);
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingStartDateYear:
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select start date month", "BACKNewBookingIsSelected");
                     DateHelper.StartYearUpdater(update.CallbackQuery, ref user);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingStartDateMonth:
@@ -60,13 +60,13 @@ namespace Application.Telegram.MainActions
                 case UserState.NewBookingIsSelectedSelectingStartDateDay:
                     await new SendYearCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select end date year", "BACKNewBookingIsSelected");
                     DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateYear);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateYear);
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingEndDateYear:
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, "Please select end date month", "BACKNewBookingIsSelected");
                     DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
-                    UserStateStorage.UserStateUpdate(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingEndDateMonth:
