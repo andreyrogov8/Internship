@@ -11,8 +11,9 @@ namespace Application.Telegram.Keyboards
     {
         public static InlineKeyboardMarkup BuildKeyboard(string callBackData)
         {
+            var currentYear = DateTime.Now.Year; 
             List<InlineKeyboardButton> buttons = new();
-            for (int i = 2022; i < 2027; i++)
+            for (int i = currentYear; i < currentYear+5; i++)
             {
                 buttons.Add(new InlineKeyboardButton(i.ToString()) { CallbackData = i.ToString()});
             }
