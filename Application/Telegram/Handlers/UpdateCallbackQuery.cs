@@ -54,7 +54,7 @@ namespace Application.Telegram.Handlers
                             ,"StartingProcess");
                         return;
                     case "My Bookings":
-                        await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookingsAsync(update.CallbackQuery);
+                        await new SendBookingListCommand(mediator, telegraBotClient).SendCurrentUserBookingsAsync(update.CallbackQuery, UserState.StartingProcess.ToString());
                         UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingBookings);
                         return;
                     case "My Vacations":
@@ -65,6 +65,10 @@ namespace Application.Telegram.Handlers
 
                 }
                 return;
+            }
+            if (userState == UserState.CheckingBookings)
+            {
+                await MyBookingsCommand.HandleAsync(update, telegraBotClient, mediator);
             }
             if (userState.ToString().Contains("NewBookingIsSelected"))
             {
