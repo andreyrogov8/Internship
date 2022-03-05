@@ -28,8 +28,14 @@ namespace Application.Telegram.Commands
                     {
                         UserId = currentUserInfo.UserId,
                         WorkplaceId = currentUserInfo.WorkplaceId,
-                        StartDate = Helper.GetDate(currentUserInfo.UserDates.StartMonth, currentUserInfo.UserDates.StartDay),
-                        EndDate = Helper.GetDate(currentUserInfo.UserDates.EndMonth, currentUserInfo.UserDates.EndDay),
+                        StartDate = Helper.GetDate(
+                            currentUserInfo.UserDates.StartYear,
+                            currentUserInfo.UserDates.StartMonth,
+                            currentUserInfo.UserDates.StartDay),
+                        EndDate = Helper.GetDate(
+                            currentUserInfo.UserDates.EndYear, 
+                            currentUserInfo.UserDates.EndMonth,
+                            currentUserInfo.UserDates.EndDay),
                         IsRecurring = false,
                         Frequency = 10
                     });
@@ -39,14 +45,19 @@ namespace Application.Telegram.Commands
                 $"To: {currentBooking.EndDate.Date.ToShortDateString()} \n " +
                 $"Office Name:{currentBooking.OfficeName}, City:{currentBooking.City}, Country:{currentBooking.Country} \n" +
                 $"Floor: {currentBooking.FloorNumber}, Workplace Number:{currentBooking.WorkplaceNumber} \n" +
-                $"Next to window: {currentBooking.HasWindow} \n" +
-                $"Has PC: {currentBooking.HasPc} \n" +
-                $"Has Monitor: {currentBooking.HasMonitor} \n" +
-                $"Has Keyboard: {currentBooking.HasKeyboard} \n" +
-                $"Has Mouse: {currentBooking.HasMouse} \n" +
-                $"Has Headset: {currentBooking.HasHeadset}"
+                $"Next to window: {GetAttributeStatus(currentBooking.HasWindow)} \n" +
+                $"Has PC: {GetAttributeStatus(currentBooking.HasPc)} \n" +
+                $"Has Monitor: {GetAttributeStatus(currentBooking.HasMonitor)} \n" +
+                $"Has Keyboard: {GetAttributeStatus(currentBooking.HasKeyboard)} \n" +
+                $"Has Mouse: {GetAttributeStatus(currentBooking.HasMouse)} \n" +
+                $"Has Headset: {GetAttributeStatus(currentBooking.HasHeadset)}"
                 , replyMarkup:inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
+        }
+
+        private string GetAttributeStatus(bool attribute) 
+        {
+            return attribute ? "Yes" : "No";
         }
     }
 }
