@@ -44,6 +44,7 @@ namespace Domain.Enums
 
         // Checking vacations
         CheckingVacations,
+        CheckingVacationsDetails,
 
         //Vacation States
         NewVacationIsSelected,

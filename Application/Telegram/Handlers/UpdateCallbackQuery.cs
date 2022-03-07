@@ -66,6 +66,10 @@ namespace Application.Telegram.Handlers
                 }
                 return;
             }
+            if (userState.ToString().Contains("CheckingVacations"))
+            {
+                await CheckingVacationCommand.HandleAsync(update, telegraBotClient, mediator);
+            }
             if (userState.ToString().Contains("NewBookingIsSelected"))
             {
                 await NewBookingCommand.HandleAsync(update, telegraBotClient, mediator, clientFactory);
