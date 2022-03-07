@@ -30,6 +30,7 @@ namespace Application.Telegram.Commands
                 , replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
+
         public async Task SendAsync(Message message, List<string> commandNames, int numberOfColumns)
         {
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(commandNames, numberOfColumns);
