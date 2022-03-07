@@ -41,7 +41,7 @@ namespace Domain.Enums
 
         //Checking Bookig States
         CheckingBookings,
-        CheckingSelectedBooking,
+        CheckingBookingsSelectedBooking,
 
         // Checking vacations
         CheckingVacations,

@@ -21,11 +21,14 @@ namespace Application.Telegram.Commands
             _mediator = mediator;
         }
 
-        public async Task SendSelectedBookingAsync(CallbackQuery callbackQuery, string backButtonCallBackData)
+        public async Task SendSelectedBookingAsync(CallbackQuery callbackQuery, string backButtonData)
         {
+            var bookingId = Int32.Parse(callbackQuery.Data);
+            UserStateStorage.userInfo[callbackQuery.From.Id].SelectedBookingId = bookingId;
+
             var booking = await _mediator.Send(new GetBookingByIdQueryRequest
             {
-                Id = Int32.Parse(callbackQuery.Data)
+                Id = bookingId
             });
 
             string message = 
@@ -44,7 +47,7 @@ namespace Application.Telegram.Commands
                 $"Has Mouse: {GetAttributeStatus(booking.HasMouse)} \n" +
                 $"Has Headset: {GetAttributeStatus(booking.HasHeadset)}";
 
-            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(new List<BookingDto>(), backButtonCallBackData);
+            var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string> { "Cancel", "BACK" }, 2, backButtonData);
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.From.Id, message, replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }

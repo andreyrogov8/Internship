@@ -10,7 +10,7 @@ namespace Application.Telegram.Keyboards
             List<InlineKeyboardButton> buttons = new();
             foreach (var booking in bookings)
             {
-                buttons.Add(new InlineKeyboardButton($"Booking Id: {booking.Id}") { CallbackData = booking.Id.ToString() });
+                buttons.Add(new InlineKeyboardButton($"{booking.OfficeName} - {booking.WorkplaceNumber}") { CallbackData = booking.Id.ToString() });
             }
             buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = $"BACK{backButtonCallBackData}" });
 

@@ -66,7 +66,7 @@ namespace Application.Telegram.Handlers
                 }
                 return;
             }
-            if (userState == UserState.CheckingBookings)
+            if (userState.ToString().Contains("CheckingBookings"))
             {
                 await MyBookingsCommand.HandleAsync(update, telegraBotClient, mediator);
             }

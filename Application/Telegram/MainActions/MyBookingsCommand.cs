@@ -21,7 +21,15 @@ namespace Application.Telegram.MainActions
             {
                 case UserState.CheckingBookings:
                     await new SendSelectedBookingCommand(mediator, telegramBotClient).SendSelectedBookingAsync(update.CallbackQuery, UserState.StartingProcess.ToString());
-                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingSelectedBooking);
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.CheckingBookingsSelectedBooking);
+                    return;
+                case UserState.CheckingBookingsSelectedBooking:
+                    switch (update.CallbackQuery.Data)
+                    {
+                        case "Cancel":
+                            await new CancelBookingCommand(mediator, telegramBotClient).CancelBooking(update.CallbackQuery, UserState.StartingProcess.ToString());
+                            return;
+                    }
                     return;
             }
         }
