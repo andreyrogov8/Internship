@@ -15,17 +15,8 @@ namespace WebApi.Controllers
     {        
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(bool? hasParking, string? query)
+        public async Task<IActionResult> GetAll([FromQuery] GetOfficeListQueryRequest request)
         {
-            var request = new GetOfficeListQueryRequest();
-            if (hasParking.HasValue)
-            {
-                request.HasFreeParking = hasParking.Value;
-            }
-            if (!string.IsNullOrEmpty(query))
-            {
-                request.SearchBy = query;
-            }
             var result = await Mediator.Send(request);
             return Ok(result);
         }
