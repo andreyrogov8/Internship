@@ -15,14 +15,7 @@ namespace WebApi.Controllers
     {        
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await Mediator.Send(new GetOfficeListQueryRequest());
-            return Ok(result);
-        }
-
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchByParking(bool? hasParking, string? query)
+        public async Task<IActionResult> GetAll(bool? hasParking, string? query)
         {
             var request = new GetOfficeListQueryRequest();
             if (hasParking.HasValue)
@@ -36,6 +29,7 @@ namespace WebApi.Controllers
             var result = await Mediator.Send(request);
             return Ok(result);
         }
+
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
