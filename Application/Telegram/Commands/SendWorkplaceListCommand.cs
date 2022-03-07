@@ -38,14 +38,8 @@ namespace Application.Telegram
                 new GetWorkplaceListQueryRequest() 
                 {
                     MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString(),
-                    StartDate = Helper.GetDate(
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartDay),
-                    EndDate = Helper.GetDate(
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndYear,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth, 
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay),
+                    StartDate = Helper.GetStartDate(callbackQuery),
+                    EndDate = Helper.GetEndDate(callbackQuery),
                     HasWindow = UserStateStorage.userInfo[callbackQuery.From.Id].HasWindow,
                     HasPc = UserStateStorage.userInfo[callbackQuery.From.Id].HasPc,
                     HasMonitor = UserStateStorage.userInfo[callbackQuery.From.Id].HasMonitor,
@@ -69,14 +63,8 @@ namespace Application.Telegram
                 new GetWorkplaceListQueryRequest()
                 {
                     MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString(),
-                    StartDate = Helper.GetDate(
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartDay),
-                    EndDate = Helper.GetDate(
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndYear,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth,
-                        UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay),
+                    StartDate = Helper.GetStartDate(callbackQuery),
+                    EndDate = Helper.GetEndDate(callbackQuery),
                 });
 
             var workplaces = workplaceResponse.Results;

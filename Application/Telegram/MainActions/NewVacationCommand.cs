@@ -18,23 +18,39 @@ namespace Application.Telegram.MainActions
             switch (UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id))
             {
                 case UserState.NewVacationIsSelected:
-                    await new SendMonthCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select start date month", "BACKStartingProcess");
+                    await new SendMonthCommand(mediator, telegramBotClient).SendAsync(
+                        update.CallbackQuery
+                        , "Please select start date month"
+                        , "BACKStartingProcess"
+                        ,"Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
                     return;
                 case UserState.NewVacationIsSelectedStartDateMonth:
                     DateHelper.StartMonthUpdater(update.CallbackQuery, ref user);
-                    await new SendDayCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select start date day", "BACKStartingProcess");
+                    await new SendDayCommand(mediator, telegramBotClient).SendAsync(
+                        update.CallbackQuery
+                        , "Please select start date day"
+                        , "BACKStartingProcess"
+                        ,"Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateDay);
                     return;
 
                 case UserState.NewVacationIsSelectedStartDateDay:
                     DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
-                    await new SendMonthCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select end date month", "BACKStartingProcess");
+                    await new SendMonthCommand(mediator, telegramBotClient).SendAsync(
+                        update.CallbackQuery
+                        , "Please select end date month"
+                        , "BACKStartingProcess"
+                        ,"End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateMonth);
                     return;
                 case UserState.NewVacationIsSelectedEndDateMonth:
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
-                    await new SendDayCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery, "Please select end date day", "BACKStartingProcess");
+                    await new SendDayCommand(mediator, telegramBotClient).SendAsync(
+                        update.CallbackQuery
+                        , "Please select end date day"
+                        , "BACKStartingProcess"
+                        ,"End");
 
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateDay);
                     return;
