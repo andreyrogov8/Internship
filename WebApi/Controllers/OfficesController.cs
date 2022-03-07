@@ -21,6 +21,20 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [HttpGet("search/{hasParking:bool}")]
+        public async Task<IActionResult> SearchByParking(bool hasParking)
+        {
+            var result = await Mediator.Send(new GetOfficeListQueryRequest { HasFreeParking = hasParking });
+            return Ok(result);
+        }
+
+        [HttpGet("search/{query}")]
+        public async Task<IActionResult> SearchByParking(string query)
+        {
+            var result = await Mediator.Send(new GetOfficeListQueryRequest { SearchBy = query });
+            return Ok(result);
+        }
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
