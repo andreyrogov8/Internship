@@ -47,10 +47,10 @@ namespace Application.Telegram.Commands
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
                 await new ProvideButtons(_bot).SendAsync(
                     callbackQuery
-                    , new List<string>() { "New Booking", "My Bookings", "New Vacation", "BACK" }
+                    , new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACK" }
                     , $"You clicked: {callbackQuery.Data} \n Press Button"
                     , 2
-                    , "ProcessNotStarted");
+                    , "StartingProcess");
                 UserStateStorage.UpdateUserState(callbackQuery.From.Id, UserState.SelectingAction);
                 return;
             }

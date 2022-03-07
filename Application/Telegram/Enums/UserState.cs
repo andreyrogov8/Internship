@@ -27,6 +27,9 @@ namespace Domain.Enums
         NewBookingIsSelectedSelectingEndDateYear,
         NewBookingIsSelectedSelectingEndDateMonth,
         NewBookingIsSelectedSelectingEndDateDay,
+        NewBookingIsSelectedSelectingBookingType,
+        NewBookingIsSelectedBookingTypeIsSelected,
+        NewBookingIsSelectedSelectingWorkplaceByStandartBooking,
         NewBookingIsSelectedSelectingWindowOption,
         NewBookingIsSelectedSelectingPcOption,
         NewBookingIsSelectedSelectingMonitorOption,
@@ -42,6 +45,7 @@ namespace Domain.Enums
 
         // Checking vacations
         CheckingVacations,
+        CheckingVacationsDetails,
 
         //Vacation States
         NewVacationIsSelected,

@@ -15,11 +15,12 @@ namespace WebApi.Controllers
     {        
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] GetOfficeListQueryRequest request)
         {
-            var result = await Mediator.Send(new GetOfficeListQueryRequest());
+            var result = await Mediator.Send(request);
             return Ok(result);
         }
+
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)

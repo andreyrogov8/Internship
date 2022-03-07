@@ -67,16 +67,8 @@ namespace Application.Telegram
             userInfo.TryAdd(telegramId, new UserInfo()
             {
                 CurrentState = state,
-                Role = role,
-                //MapId = 0,
+                Role = role,               
                 UserId = userId,
-                //WorkplaceId=0,
-                //HasHeadset = false,
-                //HasMouse = false,
-                //HasKeyboard = false,
-                //HasMonitor = false,
-                //HasPc = false,
-                //HasWindow = false,
             });
         }
 

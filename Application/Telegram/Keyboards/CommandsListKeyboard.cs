@@ -26,5 +26,15 @@ namespace Application.Telegram.Keyboards
             var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
             return inlineKeyboard;
         }
+        public static InlineKeyboardMarkup BuildKeyboard(List<Tuple<string,string>> commandNames, int columns)
+        {
+            var buttons = new List<InlineKeyboardButton>();
+            foreach (var name in commandNames)
+            {
+                buttons.Add(new InlineKeyboardButton(name.Item1) { CallbackData = name.Item2 });
+            }
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, columns);
+            return inlineKeyboard;
+        }
     }
 }
