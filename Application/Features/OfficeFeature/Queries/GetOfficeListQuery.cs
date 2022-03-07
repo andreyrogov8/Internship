@@ -14,6 +14,7 @@ namespace Application.Features.OfficeFeature.Queries
     public class GetOfficeListQueryRequest : IRequest<GetOfficeListQueryResponse>
     {
         public string SearchBy { get; set; }
+        public bool? HasFreeParking { get; set; }
         public int Top  { get; set; } = 10;
     }
     public class GetOfficeListQueryHandler : IRequestHandler<GetOfficeListQueryRequest, GetOfficeListQueryResponse>
@@ -29,6 +30,11 @@ namespace Application.Features.OfficeFeature.Queries
         public async Task<GetOfficeListQueryResponse> Handle(GetOfficeListQueryRequest query, CancellationToken cancellationToken)
         {
             var offices = _context.Offices.AsQueryable();
+
+            if (query.HasFreeParking.HasValue)
+            {
+                offices = offices.Where(x => x.HasFreeParking == query.HasFreeParking);
+            }
 
             if (query.SearchBy is not null)
             {
