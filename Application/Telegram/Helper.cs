@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace Application.Telegram
 {
@@ -19,12 +20,23 @@ namespace Application.Telegram
             UserStateStorage.RemoveMessages(telegramId);
         }
 
-        public static DateTimeOffset GetDate(int year, int month, int day)
+        public static DateTimeOffset GetStartDate(CallbackQuery callbackQuery)
         {
             DateTimeOffset Date = new DateTimeOffset(
-                                        year: year,
-                                        month: month,
-                                        day: day,
+                                        year: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear,
+                                        month: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth,
+                                        day: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartDay,
+                                        0, 0, 0,
+                                        TimeSpan.Zero);
+            return Date;
+        }
+
+        public static DateTimeOffset GetEndDate(CallbackQuery callbackQuery)
+        {
+            DateTimeOffset Date = new DateTimeOffset(
+                                        year: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndYear,
+                                        month: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth,
+                                        day: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay,
                                         0, 0, 0,
                                         TimeSpan.Zero);
             return Date;

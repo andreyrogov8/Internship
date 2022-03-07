@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Application.Telegram.Keyboards
 {
     public static class SendDateYearKeyboard
     {
-        public static InlineKeyboardMarkup BuildKeyboard(string callBackData)
+        public static InlineKeyboardMarkup BuildKeyboard(CallbackQuery callbackQuery, string callBackData, string typeOfProcess)
         {
-            var currentYear = DateTime.Now.Year; 
+            var currentYear = DateTime.Now.Year;
+            if (typeOfProcess == "End")
+            {
+                currentYear = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear;
+            }
+
             List<InlineKeyboardButton> buttons = new();
             for (int i = currentYear; i < currentYear+5; i++)
             {
