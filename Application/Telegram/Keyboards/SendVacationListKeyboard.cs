@@ -13,7 +13,10 @@ namespace Application.Telegram.Keyboards
             return inlineKeyboard;
         }
 
-
+        public static string FormatDate(DateTimeOffset date)
+        {
+            return $"{date.Year}|{date.Month}|{date.Day}";
+        }
         public static InlineKeyboardMarkup BuildKeyboard(IEnumerable<VacationDTO> vacations)
         {
             int counter = 0;
@@ -21,11 +24,11 @@ namespace Application.Telegram.Keyboards
             foreach(var vacation in vacations)
             {
                 counter++;
-                buttons.Add(new InlineKeyboardButton($"{counter}") { CallbackData = $"{vacation.Id}" });
+                buttons.Add(new InlineKeyboardButton($"{FormatDate(vacation.VacationStart)} - {FormatDate(vacation.VacationEnd)}") { CallbackData = $"{vacation.Id}" });
             }
             buttons.Add(new InlineKeyboardButton("BACK") { CallbackData = "BACKStartingProcess" });
 
-            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 2);
+            var inlineKeyboard = KeyboardHelper.BuildInLineKeyboard(buttons, 1);
             return inlineKeyboard;
         }
     }
