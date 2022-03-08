@@ -18,7 +18,6 @@ namespace Application.Telegram.Commands
 
         public async Task CancelBooking(CallbackQuery callbackQuery, string backButtonData)
         {
-            Console.WriteLine($"<<<<<<<<<<<<<<<< { UserStateStorage.userInfo[callbackQuery.From.Id].SelectedBookingId } >>>>>>>>>>>>>>>>>>");
             await _mediator.Send(new DeleteBookingCommandRequest
             {
                 Id = UserStateStorage.userInfo[callbackQuery.From.Id].SelectedBookingId
