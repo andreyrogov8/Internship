@@ -21,15 +21,7 @@ namespace Application.Telegram.Commands
             _bot = bot;
             _mediator = mediator;
         }
-        public async Task SendAsync(CallbackQuery callbackQuery)
-        {
-            var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest());
-            var bookings = bookingResponse.Results;
-            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
-        }
-
-        public async Task SendCurrentUserBookingsAsync(CallbackQuery callbackQuery)
+        public async Task SendCurrentUserBookingsAsync(CallbackQuery callbackQuery, string backButtonCallBackData)
         {
             var bookingResponse = await _mediator.Send(new GetBookingListQueryRequest
             {
@@ -37,7 +29,7 @@ namespace Application.Telegram.Commands
             });
 
             var bookings = bookingResponse.Results;
-            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings);
+            var inlineKeyboard = SendBookingListKeyboard.BuildKeyboard(bookings, backButtonCallBackData);
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "Booking List", replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }

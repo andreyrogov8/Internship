@@ -58,6 +58,7 @@ namespace Application.Telegram
                 HasKeyboard = userInfo[telegramId].HasKeyboard,
                 HasMouse = userInfo[telegramId].HasMouse,
                 HasHeadset = userInfo[telegramId].HasHeadset,
+                SelectedBookingId = userInfo[telegramId].SelectedBookingId,
             };
         }
 
