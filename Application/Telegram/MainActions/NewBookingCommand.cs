@@ -92,10 +92,6 @@ namespace Application.Telegram.MainActions
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-//<<<<<<< HEAD
-//                        ,"Please select end date day"
-//                        , "BACKNewBookingIsSelected");
-//=======
                         , "Please select end date day"
                         , "BACKNewBookingIsSelected"
                         ,"End");
