@@ -91,10 +91,10 @@ namespace Application.Telegram.MainActions
                 case UserState.NewBookingIsSelectedSelectingEndDateMonth:
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
-                        update.CallbackQuery
-                        , "Please select end date day"
-                        , "BACKNewBookingIsSelected"
-                        ,"End");
+                        update.CallbackQuery,
+                        "Please select end date day",
+                        "BACKNewBookingIsSelected",
+                        "End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingBookingType);
                     return;                    
 
