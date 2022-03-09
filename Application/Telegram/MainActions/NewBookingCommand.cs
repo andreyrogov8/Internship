@@ -85,7 +85,7 @@ namespace Application.Telegram.MainActions
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please Select Workplace Booking Type "
+                        ,"Please select end date day"
                         , "BACKNewBookingIsSelected");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingBookingType);
                     return;                    
@@ -97,7 +97,7 @@ namespace Application.Telegram.MainActions
                         , new List<string> { "Standart Booking", "Booking By Workpalce Attribute", "BACK" }
                         , "Please select workplace booking type"
                         , 2
-                        , "BookingIsSelected");
+                        , "NewBookingIsSelected");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedBookingTypeIsSelected);
                     return;
 

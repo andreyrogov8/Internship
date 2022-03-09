@@ -21,18 +21,8 @@ namespace Application.Telegram.Commands
         public async Task SendAsync(CallbackQuery callbackQuery)
         {
             var userInputs = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates;
-            var vacationStartDate = new DateTimeOffset(
-                DateTimeOffset.UtcNow.Year,
-                month: userInputs.StartMonth,
-                day: userInputs.StartDay,
-                0, 0, 0,
-                TimeSpan.Zero);
-            var vacationEndDate = new DateTimeOffset(
-                DateTimeOffset.UtcNow.Year,
-                month: userInputs.EndMonth,
-                day: userInputs.EndDay,
-                0, 0, 0,
-                TimeSpan.Zero);
+            var vacationStartDate = Helper.GetDate(userInputs.StartYear, userInputs.StartMonth, userInputs.StartDay);
+            var vacationEndDate = Helper.GetDate(userInputs.EndYear, userInputs.EndMonth, userInputs.EndDay);
             try
             {
                 var user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = callbackQuery.From.Id });
