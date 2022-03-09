@@ -28,14 +28,8 @@ namespace Application.Telegram.Commands
                     {
                         UserId = currentUserInfo.UserId,
                         WorkplaceId = currentUserInfo.WorkplaceId,
-                        StartDate = Helper.GetDate(
-                            currentUserInfo.UserDates.StartYear,
-                            currentUserInfo.UserDates.StartMonth,
-                            currentUserInfo.UserDates.StartDay),
-                        EndDate = Helper.GetDate(
-                            currentUserInfo.UserDates.EndYear, 
-                            currentUserInfo.UserDates.EndMonth,
-                            currentUserInfo.UserDates.EndDay),
+                        StartDate = Helper.GetStartDate(callbackQuery),
+                        EndDate = Helper.GetEndDate(callbackQuery),
                         IsRecurring = false,
                         Frequency = 10
                     });

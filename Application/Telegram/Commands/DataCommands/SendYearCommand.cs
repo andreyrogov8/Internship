@@ -21,9 +21,9 @@ namespace Application.Telegram.Commands.DataCommands
 
         }
 
-        public async Task SendAsync(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData)
+        public async Task SendAsync(CallbackQuery callbackQuery, string outputText, string backButtonCallBackData, string typeOfProcess)
         {
-            var inlineKeyboard = SendDateYearKeyboard.BuildKeyboard(backButtonCallBackData);
+            var inlineKeyboard = SendDateYearKeyboard.BuildKeyboard(callbackQuery,backButtonCallBackData, typeOfProcess);
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
                 outputText,
                 replyMarkup: inlineKeyboard);

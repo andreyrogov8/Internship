@@ -40,8 +40,11 @@ namespace Application.Telegram.MainActions
                     {
                         Id = UserStateStorage.userInfo[update.CallbackQuery.From.Id].MapId 
                     });
-                    await new SendYearCommand(mediator, telegraBotClient).SendAsync(update.CallbackQuery, 
-                        $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start date year", "BACKNewBookingIsSelected");                    
+                    await new SendYearCommand(mediator, telegraBotClient).SendAsync(
+                        update.CallbackQuery, 
+                        $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start date year"
+                        , "BACKNewBookingIsSelected"
+                        ,"Start");                    
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateYear);
                     return;
 
@@ -50,7 +53,8 @@ namespace Application.Telegram.MainActions
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
                         ,"Please select start date month"
-                        ,"BACKNewBookingIsSelected");
+                        ,"BACKNewBookingIsSelected"
+                        ,"Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
                     return;
 
@@ -59,7 +63,8 @@ namespace Application.Telegram.MainActions
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
                         ,"Please select start date day"
-                        ,"BACKNewBookingIsSelected");
+                        ,"BACKNewBookingIsSelected"
+                        ,"Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateDay);
                     return;
 
@@ -68,7 +73,8 @@ namespace Application.Telegram.MainActions
                     await new SendYearCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
                         ,"Please select end date year"
-                        ,"BACKNewBookingIsSelected");
+                        ,"BACKNewBookingIsSelected"
+                        ,"End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateYear);
                     return;
 
@@ -77,7 +83,8 @@ namespace Application.Telegram.MainActions
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
                         ,"Please select end date month"
-                        , "BACKNewBookingIsSelected");
+                        , "BACKNewBookingIsSelected"
+                        ,"End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
                     return;
 
@@ -85,8 +92,13 @@ namespace Application.Telegram.MainActions
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please select end date day"
-                        , "BACKNewBookingIsSelected");
+//<<<<<<< HEAD
+//                        ,"Please select end date day"
+//                        , "BACKNewBookingIsSelected");
+//=======
+                        , "Please select end date day"
+                        , "BACKNewBookingIsSelected"
+                        ,"End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingBookingType);
                     return;                    
 

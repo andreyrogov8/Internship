@@ -36,7 +36,7 @@ namespace Application.Telegram.Models
         public bool HasMouse { get; set; }
         public bool HasHeadset { get; set; }
 
-
+        public int SelectedBookingId { get; set; }
     }
 }
 

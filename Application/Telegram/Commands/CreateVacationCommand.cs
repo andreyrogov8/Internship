@@ -20,9 +20,8 @@ namespace Application.Telegram.Commands
         }
         public async Task SendAsync(CallbackQuery callbackQuery)
         {
-            var userInputs = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates;
-            var vacationStartDate = Helper.GetDate(userInputs.StartYear, userInputs.StartMonth, userInputs.StartDay);
-            var vacationEndDate = Helper.GetDate(userInputs.EndYear, userInputs.EndMonth, userInputs.EndDay);
+            var vacationStartDate = Helper.GetStartDate(callbackQuery);
+            var vacationEndDate = Helper.GetEndDate(callbackQuery);
             try
             {
                 var user = await _mediator.Send(new GetUserByIdQueryRequest { TelegramId = callbackQuery.From.Id });
@@ -48,7 +47,7 @@ namespace Application.Telegram.Commands
             {
                 var message = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "There were problems, seems you have another vacation in this period or your vacations are crossed! Please, retry again!");
                 UserStateStorage.AddMessage(callbackQuery.From.Id, message.MessageId);
-                await new SendMonthCommand(_mediator, _bot).SendAsync(callbackQuery, "Please select start date month", "BACKStartingProcess");
+                await new SendMonthCommand(_mediator, _bot).SendAsync(callbackQuery, "Please select start date month", "BACKStartingProcess", "Start");
                 UserStateStorage.UpdateUserState(callbackQuery.From.Id, UserState.NewVacationIsSelectedStartDateMonth);
                 return;
             }

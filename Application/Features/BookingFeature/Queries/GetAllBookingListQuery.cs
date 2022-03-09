@@ -46,6 +46,7 @@ namespace Application.Features.BookingFeature.Queries
     }
     public class BookingDto
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
         public DateTimeOffset StartDate { get; set; }
@@ -53,6 +54,18 @@ namespace Application.Features.BookingFeature.Queries
         public bool IsRecurring { get; set; }
         public int Frequency { get; set; }
         public int WorkplaceId { get; set; }
+
+        public int WorkplaceNumber { get; set; }
+        public int FloorNumber { get; set; }
+        public string OfficeName { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+        public bool HasWindow { get; set; }
+        public bool HasPc { get; set; }
+        public bool HasMonitor { get; set; }
+        public bool HasKeyboard { get; set; }
+        public bool HasMouse { get; set; }
+        public bool HasHeadset { get; set; }
     }
 
 }
