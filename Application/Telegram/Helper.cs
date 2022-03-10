@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,13 @@ namespace Application.Telegram
                                         day: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartDay,
                                         0, 0, 0,
                                         TimeSpan.Zero);
+            if (UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay is not null)
+            {
+                while (!Date.ToString("dddd").Equals(UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay))
+                {
+                    Date = Date.AddDays(1);
+                }
+            }
             return Date;
         }
 
@@ -39,7 +47,15 @@ namespace Application.Telegram
                                         day: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay,
                                         0, 0, 0,
                                         TimeSpan.Zero);
+            if (UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay is not null)
+            {
+                while (!Date.ToString("dddd").Equals(UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay))
+                {
+                    Date = Date.AddDays(-1);
+                }
+            }
             return Date;
         }
+
     }
 }

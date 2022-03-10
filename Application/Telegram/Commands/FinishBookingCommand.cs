@@ -30,9 +30,12 @@ namespace Application.Telegram.Commands
                         WorkplaceId = currentUserInfo.WorkplaceId,
                         StartDate = Helper.GetStartDate(callbackQuery),
                         EndDate = Helper.GetEndDate(callbackQuery),
-                        IsRecurring = false,
+                        IsRecurring = currentUserInfo.RecurringDay is null? false : true,
                         Frequency = 10
                     });
+
+            
+
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string>{ "Start New"}, 1, "BACKStartingProcess");
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
                 $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
@@ -47,6 +50,7 @@ namespace Application.Telegram.Commands
                 $"Has Headset: {GetAttributeStatus(currentBooking.HasHeadset)}"
                 , replyMarkup:inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
+            UserStateStorage.Remove(callbackQuery.From.Id);
         }
 
         private string GetAttributeStatus(bool attribute) 

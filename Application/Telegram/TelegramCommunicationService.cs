@@ -4,6 +4,7 @@ using Application.Interfaces;
 using Application.Telegram;
 
 using Application.Telegram.Handlers;
+using Application.Telegram.Keyboards;
 using Application.Telegram.Middleware;
 
 using Domain.Enums;
@@ -61,7 +62,7 @@ namespace Application.TelegramBot
             }
             catch (NotFoundException exception)
             {
-                await ShowExceptionAsync(update, exception.Message);
+                await ShowExceptionAsync(update, exception.Message);                
             }
 
             catch (ValidationException exception)
@@ -76,10 +77,24 @@ namespace Application.TelegramBot
             switch (update.Type)
             {
                 case UpdateType.CallbackQuery:
-                    await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, message);
+                    var currentMessage = await _telegraBotClient.SendTextMessageAsync(update.CallbackQuery.Message.Chat.Id, message);
+                    UserStateStorage.AddMessage(update.CallbackQuery.From.Id, currentMessage.MessageId);
+                    var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string> { "Start New" }, 1, "BACKStartingProcess");
+                    currentMessage = await _telegraBotClient.SendTextMessageAsync(
+                        update.CallbackQuery.Message.Chat.Id,
+                        $"Press Button",
+                        replyMarkup: inlineKeyboard);
+                    UserStateStorage.AddMessage(update.CallbackQuery.From.Id, currentMessage.MessageId);
                     return;
                 case UpdateType.Message:
-                    await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, message);
+                    currentMessage = await _telegraBotClient.SendTextMessageAsync(update.Message.Chat.Id, message);
+                    UserStateStorage.AddMessage(update.Message.From.Id, currentMessage.MessageId);
+                    inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string> { "Start New" }, 1, "BACKStartingProcess");
+                    currentMessage = await _telegraBotClient.SendTextMessageAsync(
+                        update.Message.Chat.Id,
+                        $"Press Button",
+                        replyMarkup: inlineKeyboard);
+                    UserStateStorage.AddMessage(update.Message.From.Id, currentMessage.MessageId);
                     return;
             }
         }

@@ -20,7 +20,7 @@ namespace Application.Telegram.MainActions
                 case UserState.NewBookingIsSelected:
                     switch(update.CallbackQuery.Data)
                     {
-                        case "Search by location":
+                        case "Search by Location":
                             await new ReceiveUserLocationCommand(mediator, telegraBotClient, clientFactory).SendAsync(update.CallbackQuery);
                             UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.EnteringLocation);
                             return;
@@ -92,17 +92,72 @@ namespace Application.Telegram.MainActions
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please Select Workplace Booking Type "
+                        , "Please select end date day"
                         , "BACKNewBookingIsSelected"
-                        ,"End");
-                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingBookingType);
-                    return;                    
+                        , "End");
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateDay);
+                    return;
 
-                case UserState.NewBookingIsSelectedSelectingBookingType:
+                case UserState.NewBookingIsSelectedSelectingEndDateDay:
                     DateHelper.EndDayUpdater(update.CallbackQuery, ref user);
                     await new ProvideButtons(telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        , new List<string> { "Standart Booking", "Booking By Workpalce Attribute", "BACK" }
+                        , new List<string> { "Yes", "No", "BACK" }
+                        , "Would you like recurring booking"
+                        , 2
+                        , "NewBookingIsSelected");
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingRecurringType);
+                    return;
+
+                case UserState.NewBookingIsSelectedSelectingRecurringType:
+                    switch (update.CallbackQuery.Data)
+                    {
+                        case "Yes":
+                            UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedChoosingRecurringDay);
+                            await new ProvideButtons(telegraBotClient).SendAsync(
+                                 update.CallbackQuery
+                                , new List<string>() { "Next", "BACK" }
+                                , $"You choose: { update.CallbackQuery.Data} \n Press Buttonn"
+                                , 1
+                                , "NewBookingIsSelected");
+                            return;
+                        case "No":
+                            UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingBookingType);
+                            await new ProvideButtons(telegraBotClient).SendAsync(
+                                 update.CallbackQuery
+                                , new List<string>() { "Next", "BACK" }
+                                , $"You choose: { update.CallbackQuery.Data} \n Press Buttonn"
+                                , 1
+                                , "NewBookingIsSelected");
+                            return;
+                    }
+                    return;
+
+                case UserState.NewBookingIsSelectedChoosingRecurringDay:                    
+                    await new ProvideButtons(telegraBotClient).SendAsync(
+                        update.CallbackQuery
+                        , new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" }
+                        , "Please select recurring booking day"
+                        , 1
+                        , "BookingIsSelected");
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedRecurringDayIsChosen);
+                    return;
+
+                case UserState.NewBookingIsSelectedRecurringDayIsChosen:
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].RecurringDay = update.CallbackQuery.Data;
+                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingBookingType);
+                    await new ProvideButtons(telegraBotClient).SendAsync(
+                         update.CallbackQuery
+                        , new List<string>() { "Next", "BACK" }
+                        , $"You choose: { update.CallbackQuery.Data} \n Press Buttonn"
+                        , 1
+                        , "NewBookingIsSelected");                    
+                    return;
+
+                case UserState.NewBookingIsSelectedSelectingBookingType:                    
+                    await new ProvideButtons(telegraBotClient).SendAsync(
+                        update.CallbackQuery
+                        , new List<string> { "Without specifying attributes", "With specific attributes", "BACK" }
                         , "Please select workplace booking type"
                         , 2
                         , "BookingIsSelected");
@@ -112,7 +167,7 @@ namespace Application.Telegram.MainActions
                 case UserState.NewBookingIsSelectedBookingTypeIsSelected:
                     switch (update.CallbackQuery.Data)
                     {
-                        case "Standart Booking":
+                        case "Without specifying attributes":
                             UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingWorkplaceByStandartBooking);
                             await new ProvideButtons(telegraBotClient).SendAsync(
                                  update.CallbackQuery
@@ -121,7 +176,7 @@ namespace Application.Telegram.MainActions
                                 , 1
                                 , "NewBookingIsSelected");
                             return;
-                        case "Booking By Workpalce Attribute":
+                        case "With specific attributes":
                             UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingPcOption);
                             await new ProvideButtons(telegraBotClient).SendAsync(
                                  update.CallbackQuery
