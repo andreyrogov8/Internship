@@ -46,6 +46,7 @@ namespace Application.Telegram
                     HasKeyboard = UserStateStorage.userInfo[callbackQuery.From.Id].HasKeyboard,
                     HasMouse = UserStateStorage.userInfo[callbackQuery.From.Id].HasMouse,
                     HasHeadset = UserStateStorage.userInfo[callbackQuery.From.Id].HasHeadset,
+                    RecurringDay = UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay
                 });
             
             var workplaces = workplaceResponse.Results;
@@ -65,6 +66,7 @@ namespace Application.Telegram
                     MapId = UserStateStorage.userInfo[callbackQuery.From.Id].MapId.ToString(),
                     StartDate = Helper.GetStartDate(callbackQuery),
                     EndDate = Helper.GetEndDate(callbackQuery),
+                    RecurringDay = UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay
                 });
 
             var workplaces = workplaceResponse.Results;
