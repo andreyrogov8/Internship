@@ -28,17 +28,17 @@ namespace Application.IntegrationTests.controllers
             _client = factory.CreateClient();
         }
 
-        [Fact]
-        public async Task GET_maps()
-        {
-            var response = await _client.GetAsync("api/maps");
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        //[Fact]
+        //public async Task GET_maps()
+        //{
+        //    var response = await _client.GetAsync("api/maps");
+        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            _output.WriteLine(response.StatusCode.ToString());
+        //    _output.WriteLine(response.StatusCode.ToString());
 
-            var responseString = await response.Content.ReadAsStringAsync();
-            var mapList = JsonConvert.DeserializeObject<GetMapListQueryResponse>(responseString);
-            mapList.Results.Should().HaveCount(3);
-        }
+        //    var responseString = await response.Content.ReadAsStringAsync();
+        //    var mapList = JsonConvert.DeserializeObject<GetMapListQueryResponse>(responseString);
+        //    mapList.Results.Should().HaveCount(3);
+        //}
     }
 }
