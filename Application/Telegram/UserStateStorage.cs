@@ -38,6 +38,19 @@ namespace Application.Telegram
             return userInfo.TryRemove(telegramId,out currentUserInfo);
         }
 
+        public static void Clear(long telegramId)
+        {
+            userInfo[telegramId].MapId = 0;
+            userInfo[telegramId].WorkplaceId = 0;
+            userInfo[telegramId].HasWindow = false;
+            userInfo[telegramId].HasPc = false;
+            userInfo[telegramId].HasMonitor = false;
+            userInfo[telegramId].HasKeyboard = false;
+            userInfo[telegramId].HasMouse = false;
+            userInfo[telegramId].HasHeadset = false;
+            userInfo[telegramId].RecurringDay = null;
+        }
+
         public static UserRole GetUserRole(long telegramId)
         {
             UserInfo currnetUserInfo;
