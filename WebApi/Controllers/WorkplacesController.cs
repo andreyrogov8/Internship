@@ -15,9 +15,9 @@ namespace WebApi.Controllers
     {
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery]GetWorkplaceListQueryRequest request)
         {
-            var result = await Mediator.Send(new GetWorkplaceListQueryRequest());
+            var result = await Mediator.Send(request);
             return Ok(result);
         }
 

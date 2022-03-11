@@ -160,7 +160,7 @@ namespace Application.Telegram.MainActions
                         , new List<string> { "Without specifying attributes", "With specific attributes", "BACK" }
                         , "Please select workplace booking type"
                         , 2
-                        , "BookingIsSelected");
+                        , "NewBookingIsSelected");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedBookingTypeIsSelected);
                     return;
 

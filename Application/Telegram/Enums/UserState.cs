@@ -55,8 +55,10 @@ namespace Domain.Enums
 
         //Vacation States
         NewVacationIsSelected,
+        NewVacationIsSelectedSelectingStartDateYear,
         NewVacationIsSelectedStartDateMonth,
         NewVacationIsSelectedStartDateDay,
+        NewVacationIsSelectedSelectingEndDateYear,
         NewVacationIsSelectedEndDateMonth,
         NewVacationIsSelectedEndDateDay,
 
