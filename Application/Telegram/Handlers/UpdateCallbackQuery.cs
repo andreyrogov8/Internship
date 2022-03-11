@@ -38,7 +38,7 @@ namespace Application.Telegram.Handlers
                         UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelected);
                         await new ProvideButtons(telegraBotClient).SendAsync(
                              update.CallbackQuery
-                            , new List<string>() { "Search by location", "Search by Office", "BACK"}
+                            , new List<string>() {  "Search by Office", "Search by Location", "BACK" }
                             , $"You choose: { update.CallbackQuery.Data} \n Press Buttonn"
                             , 2
                             , "StartingProcess");
