@@ -21,6 +21,10 @@ namespace Application.Telegram.Handlers
             var userState = UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id);
             if (userState == UserState.StartingProcess)
             {
+                if (update.CallbackQuery.Data == "Start")
+                {
+                    UserStateStorage.UpdateUsersStartTime(update.CallbackQuery.From.Id);
+                }
                 await new ProvideButtons(telegraBotClient).SendAsync(
                     update.CallbackQuery
                      ,new List<string>() { "New Booking", "My Bookings", "New Vacation", "My Vacations", "BACK" }

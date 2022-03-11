@@ -1,14 +1,10 @@
-﻿using Application.Interfaces;
+﻿using Application.Configurations;
+using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Persistence.Services.Implementation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Services.Jobs;
 
 namespace Repository
 {
@@ -25,6 +21,13 @@ namespace Repository
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
             services.AddScoped<IUserService, UserService>();
+            services.Configure<SchedulerConfigurations>(configuration.GetSection("SchedulerConfiguration"));
+
+            services.AddTransient<JobFactory>();
+            services.AddScoped<ClearMemoryJob>();
+
+
+
 
         }
     }

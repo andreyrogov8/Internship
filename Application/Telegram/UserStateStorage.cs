@@ -21,6 +21,8 @@ namespace Application.Telegram
         {
 
         };
+
+        
         public static UserState GetUserCurrentState(long telegramId)
         {
             UserInfo currnetUserInfo;
@@ -48,6 +50,22 @@ namespace Application.Telegram
             }
             return UserRole.User;
         }
+
+        public static void UpdateUsersStartTime(long telegramId)
+        {
+        
+            userInfo[telegramId].StartedActionDateTime = DateTime.Now;
+
+        }
+
+        public static void UpdateUsersCurrentTime(long telegramId)
+        {
+           
+            userInfo[telegramId].CurrentDateTime = DateTime.Now;
+        
+        }
+
+
         public static void UpdateUserState(long telegramId, UserState newState)
         {
             UserRole currnetUserRole = GetUserRole(telegramId);
@@ -66,6 +84,8 @@ namespace Application.Telegram
                 HasHeadset = userInfo[telegramId].HasHeadset,
                 SelectedBookingId = userInfo[telegramId].SelectedBookingId,
                 RecurringDay = userInfo[telegramId].RecurringDay,
+                StartedActionDateTime = userInfo[telegramId].StartedActionDateTime,
+                CurrentDateTime = userInfo[telegramId].CurrentDateTime,
             };
         }
 
