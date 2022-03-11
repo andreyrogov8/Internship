@@ -43,5 +43,28 @@ namespace Application.UnitTests.Features.Map.CreateMapCommand
             result.ShouldNotHaveValidationErrorFor(x => x.FloorNumber);
         }
 
+        [Fact]
+        public void RuleForOfficeId_WhenOfficeIdIsNullOrEmpty_ShouldHaveValidationError()
+        {
+            var model = new Request
+            {
+                OfficeId = 0
+            };
+            var result = _validator.TestValidate(model, opt => opt.IncludeProperties(x => x.OfficeId));
+            result.ShouldHaveValidationErrorFor(x => x.OfficeId);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(100)]
+        public void RuleForOfficeId_OfficeIdIsNotEmpty_ShouldNotHaveValidationError(int value)
+        {
+            var model = new Request
+            {
+                OfficeId = value
+            };
+            var result = _validator.TestValidate(model, opt => opt.IncludeProperties(x => x.OfficeId));
+            result.ShouldNotHaveValidationErrorFor(x => x.OfficeId);
+        }
     }
 }
