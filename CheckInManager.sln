@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Repository\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{4194E867-4412-42CF-89B9-405AA40BD33A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "Tests\Application.UnitTests\Application.UnitTests.csproj", "{FA90E3B8-BBEA-4B8F-975E-587BE3048F11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,9 +37,16 @@ Global
 		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4688EBF-F384-4B9E-AF5C-D6DBA53DB262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA90E3B8-BBEA-4B8F-975E-587BE3048F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA90E3B8-BBEA-4B8F-975E-587BE3048F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA90E3B8-BBEA-4B8F-975E-587BE3048F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA90E3B8-BBEA-4B8F-975E-587BE3048F11}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FA90E3B8-BBEA-4B8F-975E-587BE3048F11} = {4194E867-4412-42CF-89B9-405AA40BD33A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84BA0FA2-B383-4D73-AC63-1B54EBAB6E8C}
