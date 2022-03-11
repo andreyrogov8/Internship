@@ -3,6 +3,7 @@ using Application.Interfaces;
 using Application.Telegram.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +25,7 @@ namespace Application.Features.CountryCQ
         public bool? HasKeyboard { get; set; } = null;
         public bool? HasMouse { get; set; } = null;
         public bool? HasHeadset { get; set; } = null;
+        public string RecurringDay { get; set; }
     }
 
     public class GetWorkplaceListQueryHandler : IRequestHandler<GetWorkplaceListQueryRequest, GetWorkplaceListQueryResponse>
@@ -48,13 +50,29 @@ namespace Application.Features.CountryCQ
 
             if (query.StartDate is not null && query.EndDate is not null)
             {
-                //finding free workplaces Id in this period
-                var busyWorkplacesInThisPeriod = _context.Bookings.Where(x =>                            
-                          ((query.StartDate > x.StartDate) && (query.StartDate < x.EndDate))
-                          || ((query.EndDate > x.StartDate) && (query.EndDate < x.EndDate))
-                        ).Select(x => x.WorkplaceId).Distinct();
-                workplaces = workplaces.Where(x => !busyWorkplacesInThisPeriod.Contains(x.Id));
+                DateTimeOffset startDate = query.StartDate.HasValue ? query.StartDate.Value.DateTime : DateTime.MinValue;
+                DateTimeOffset endDate = query.EndDate.HasValue ? query.EndDate.Value.DateTime : DateTime.MinValue;
+
+                if (query.RecurringDay is null)
+                {
+                    workplaces = GetWorkplaces(workplaces, startDate, endDate);
+                }
+                else 
+                {
+                    var bookingDays = GetRecurringDays(startDate, endDate);
+                    List<IQueryable<Workplace>> temporary = new List<IQueryable<Workplace>>();
+                    foreach (var item in bookingDays)
+                    {
+                        temporary.Add(GetWorkplaces(workplaces, item, item)); 
+                    }
+                    for (int i = 0; i < temporary.Count-1; i++)
+                    {
+                        workplaces = temporary[i].Intersect(temporary[i + 1]);
+                    }
+                }
             }
+
+
 
             if (query.HasWindow is not null)
             {
@@ -93,6 +111,50 @@ namespace Application.Features.CountryCQ
             };  
             
         }
+
+        public IQueryable<Workplace> GetWorkplaces(IQueryable<Workplace> workplaces, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            var workplacesIds = workplaces.Select(x => x.Id).Distinct();
+
+            var interestedBookingsNonRecurring = _context.Bookings.Where(x => workplacesIds.Contains(x.WorkplaceId) && !x.IsRecurring);
+
+            //finding busy workplaces Ids in this period non recurring
+            var busyWorkplaces = interestedBookingsNonRecurring.Where(x =>
+                      ((startDate > x.StartDate) && (startDate < x.EndDate))
+                      || ((endDate > x.StartDate) && (endDate < x.EndDate))
+                    ).Select(x => x.WorkplaceId).Distinct().ToList();
+
+            //finding busy workplaces Id in this period recurring
+            var interestedBookingsRecurring = _context.Bookings.Where(x => workplacesIds.Contains(x.WorkplaceId) && x.IsRecurring);
+
+            foreach (var booking in interestedBookingsRecurring)
+            {
+                var busyDaysDate = GetRecurringDays(booking.StartDate, booking.EndDate);
+                foreach (var date in busyDaysDate)
+                {
+                    if (startDate <= date && date <= endDate)
+                    {
+                        busyWorkplaces.Add(booking.WorkplaceId);
+                        break;
+                    }
+                }
+            }
+
+            workplaces = workplaces.Where(x => !busyWorkplaces.Contains(x.Id));
+            return workplaces;
+        }
+
+        public List<DateTimeOffset> GetRecurringDays( DateTimeOffset start, DateTimeOffset end)
+        {
+            List<DateTimeOffset> days = new List<DateTimeOffset>();
+            DateTimeOffset day = start;
+            while (day <= end)
+            {
+                days.Add(day);
+                day = day.AddDays(7);
+            }
+            return days;
+        }
     }
 
     public class GetWorkplaceListQueryResponse
@@ -113,3 +175,4 @@ namespace Application.Features.CountryCQ
         public int MapId { get; set; } 
     }
 }
+
