@@ -30,11 +30,9 @@ namespace Application.Telegram.Commands
                         WorkplaceId = currentUserInfo.WorkplaceId,
                         StartDate = Helper.GetStartDate(callbackQuery),
                         EndDate = Helper.GetEndDate(callbackQuery),
-                        IsRecurring = currentUserInfo.RecurringDay is null? false : true,
+                        IsRecurring = currentUserInfo.RecurringDay is not null,
                         Frequency = 10
                     });
-
-            
 
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string>{ "Start New"}, 1, "BACKStartingProcess");
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 

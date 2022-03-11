@@ -42,7 +42,7 @@ namespace Application.Telegram.MainActions
                     });
                     await new SendYearCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery, 
-                        $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start date year"
+                        $"You choose: Floor:{officeNumber.FloorNumber} \n Please select start year"
                         , "BACKNewBookingIsSelected"
                         ,"Start");                    
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateYear);
@@ -52,7 +52,7 @@ namespace Application.Telegram.MainActions
                     DateHelper.StartYearUpdater(update.CallbackQuery, ref user);
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please select start date month"
+                        ,"Please select start month"
                         ,"BACKNewBookingIsSelected"
                         ,"Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateMonth);
@@ -62,7 +62,7 @@ namespace Application.Telegram.MainActions
                     DateHelper.StartMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please select start date day"
+                        ,"Please select start day"
                         ,"BACKNewBookingIsSelected"
                         ,"Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingStartDateDay);
@@ -72,7 +72,7 @@ namespace Application.Telegram.MainActions
                     DateHelper.StartDayUpdater(update.CallbackQuery, ref user);
                     await new SendYearCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please select end date year"
+                        ,"Please select end year"
                         ,"BACKNewBookingIsSelected"
                         ,"End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateYear);
@@ -82,7 +82,7 @@ namespace Application.Telegram.MainActions
                     DateHelper.EndYearUpdater(update.CallbackQuery, ref user);
                     await new SendMonthCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,"Please select end date month"
+                        ,"Please select end month"
                         , "BACKNewBookingIsSelected"
                         ,"End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateMonth);
@@ -92,7 +92,7 @@ namespace Application.Telegram.MainActions
                     DateHelper.EndMonthUpdater(update.CallbackQuery, ref user);
                     await new SendDayCommand(mediator, telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        , "Please select end date day"
+                        , "Please select end day"
                         , "BACKNewBookingIsSelected"
                         , "End");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedSelectingEndDateDay);

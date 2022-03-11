@@ -62,7 +62,7 @@ namespace Application.TelegramBot
             }
             catch (NotFoundException exception)
             {
-                await ShowExceptionAsync(update, exception.Message);                
+                await ShowExceptionAsync(update, exception.Message);
             }
 
             catch (ValidationException exception)
