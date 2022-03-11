@@ -48,7 +48,7 @@ namespace Application.Telegram.Commands
                 $"Has Headset: {GetAttributeStatus(currentBooking.HasHeadset)}"
                 , replyMarkup:inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
-            UserStateStorage.Remove(callbackQuery.From.Id);
+            UserStateStorage.Clear(callbackQuery.From.Id);
         }
 
         private string GetAttributeStatus(bool attribute) 
