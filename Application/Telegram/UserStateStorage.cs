@@ -32,6 +32,12 @@ namespace Application.Telegram
             return UserState.ProcessNotStarted;    
         }
 
+        public static bool Remove(long telegramId)
+        {
+            UserInfo currentUserInfo;
+            return userInfo.TryRemove(telegramId,out currentUserInfo);
+        }
+
         public static UserRole GetUserRole(long telegramId)
         {
             UserInfo currnetUserInfo;
@@ -59,6 +65,7 @@ namespace Application.Telegram
                 HasMouse = userInfo[telegramId].HasMouse,
                 HasHeadset = userInfo[telegramId].HasHeadset,
                 SelectedBookingId = userInfo[telegramId].SelectedBookingId,
+                RecurringDay = userInfo[telegramId].RecurringDay,
             };
         }
 

@@ -27,6 +27,12 @@ namespace Domain.Enums
         NewBookingIsSelectedSelectingEndDateYear,
         NewBookingIsSelectedSelectingEndDateMonth,
         NewBookingIsSelectedSelectingEndDateDay,
+
+        NewBookingIsSelectedSelectingRecurringType,
+        NewBookingIsSelectedRecurringTypeIsSelected,
+        NewBookingIsSelectedChoosingRecurringDay,
+        NewBookingIsSelectedRecurringDayIsChosen,
+
         NewBookingIsSelectedSelectingBookingType,
         NewBookingIsSelectedBookingTypeIsSelected,
         NewBookingIsSelectedSelectingWorkplaceByStandartBooking,
