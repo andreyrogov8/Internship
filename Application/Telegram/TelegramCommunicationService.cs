@@ -55,12 +55,10 @@ namespace Application.TelegramBot
                         }
                         await UpdateCallbackQuery.Handle(update, _telegraBotClient, _mediator, _clientFactory);
                         UserStateStorage.UpdateUsersCurrentTime(update.CallbackQuery.From.Id);
-
                         return;
                     case UpdateType.Message:
                         await UpdateMessage.Handle(update, _telegraBotClient, _mediator, _clientFactory);
                         UserStateStorage.UpdateUsersCurrentTime(update.Message.From.Id);
-
                         return;
                 }
             }

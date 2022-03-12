@@ -22,13 +22,8 @@ namespace Repository
 
             services.AddScoped<IUserService, UserService>();
             services.Configure<SchedulerConfigurations>(configuration.GetSection("SchedulerConfiguration"));
-
             services.AddTransient<JobFactory>();
             services.AddScoped<ClearMemoryJob>();
-
-
-
-
         }
     }
 }

@@ -17,12 +17,12 @@ namespace Application.Telegram
         {
             
         };
+
         public static ConcurrentDictionary<long, List<int>> userMessages = new ConcurrentDictionary<long, List<int>>()
         {
 
         };
 
-        
         public static UserState GetUserCurrentState(long telegramId)
         {
             UserInfo currnetUserInfo;
@@ -53,18 +53,13 @@ namespace Application.Telegram
 
         public static void UpdateUsersStartTime(long telegramId)
         {
-        
             userInfo[telegramId].StartedActionDateTime = DateTime.Now;
-
         }
 
         public static void UpdateUsersCurrentTime(long telegramId)
         {
-           
             userInfo[telegramId].CurrentDateTime = DateTime.Now;
-        
         }
-
 
         public static void UpdateUserState(long telegramId, UserState newState)
         {
@@ -104,18 +99,21 @@ namespace Application.Telegram
         {
             userMessages.TryAdd(telegramId, messageList);
         }
+
         public static void AddMessage(long telegramId,int messageId)
         {
             var userMessageList = GetUserMessages(telegramId);
             userMessageList.Add(messageId);
             userMessages[telegramId] = userMessageList;
         }
+
         public static void RemoveMessages(long telegramId)
         {
             var userMessageList = GetUserMessages(telegramId);
             userMessageList.Clear();
             userMessages[telegramId] = userMessageList;
-        }        
+        } 
+        
         public static List<int> GetUserMessages(long telegramId)
         {
             List<int> userMessageList;
