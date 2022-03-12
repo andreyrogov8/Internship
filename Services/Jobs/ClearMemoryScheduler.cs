@@ -26,7 +26,7 @@ namespace Services.Jobs
                     //schedulerConfig.startMonth))
                 .StartNow()
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInSeconds(24)
+                    .WithIntervalInMinutes(24)
                     .RepeatForever())
                 .Build();
 

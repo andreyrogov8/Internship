@@ -105,10 +105,10 @@ builder.Configuration
 var app = builder.Build();
 
 // singleton services are being replicated? is there a way to avoid using ServiceProvider from code?
-//using (var serviceProvider = builder.Services.BuildServiceProvider())
-using (var scope = app.Services.CreateScope())
+using (var serviceProvider = builder.Services.BuildServiceProvider())
+//using (var scope = app.Services.CreateScope())
 {
-    //var scope = serviceProvider.CreateScope();
+    var scope = serviceProvider.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<User>>();
