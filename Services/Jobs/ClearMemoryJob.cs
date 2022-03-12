@@ -15,9 +15,7 @@ namespace Services.Jobs
                 {
                     UserStateStorage.Remove(user.Key);
                 }
-            }
-
-            
+            }            
         }
 
 
