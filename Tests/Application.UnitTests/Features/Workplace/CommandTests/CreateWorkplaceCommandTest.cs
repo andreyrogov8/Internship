@@ -50,7 +50,6 @@ namespace Application.UnitTests.Features.Workplace.CommandTests
             var handler = new CreateWorkplaceCommandHandler(_context, _automapper);
 
             var response = await handler.Handle(createCommand, new CancellationToken());
-            response.Id.Should().BeOfType(typeof(int));
             _context.Workplaces.Count().Should().BeGreaterThanOrEqualTo(1);
         }
 
