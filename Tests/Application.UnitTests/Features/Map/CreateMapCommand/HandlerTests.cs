@@ -42,5 +42,21 @@ namespace Application.UnitTests.Features.Map.CreateMapCommand
             // Assert
             result.Id.Should().BeGreaterThan(0);                      
         }
+
+        [Fact]
+        public async Task CreateMap_WhenModelIsNotValid_ReturnsNewMapId()
+        {
+            // Arrange
+            var request = new Request
+            {
+                HasKitchen = true,
+                HasMeetingRoom = true,
+                OfficeId = 2
+            };
+            // Act
+            var result = await _handler.Handle(request, CancellationToken.None);
+            // Assert
+            result.Id.Should().BeGreaterThan(0);
+        }
     }
 }

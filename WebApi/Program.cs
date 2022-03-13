@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Application.UnitTests.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -110,6 +111,8 @@ using (var serviceProvider = builder.Services.BuildServiceProvider())
     var userManager = services.GetRequiredService<UserManager<User>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
     await ApplicationDbContextSeed.SeedDataAsync(context, userManager, roleManager);
+    
+    
 }
 
 // Configure the HTTP request pipeline.

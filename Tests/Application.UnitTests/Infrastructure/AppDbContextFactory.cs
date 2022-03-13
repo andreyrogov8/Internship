@@ -20,17 +20,6 @@ namespace Application.UnitTests.Infrastructure
             var context = new ApplicationDbContext(options);
 
             context.Database.EnsureCreated();
-
-            var office = new Office {
-                Id = 1,
-                Name = "TbOff",
-                Country = "Geo",
-                City = "Tb",
-                Address = "abc",
-            };
-            context.Offices.Add(office);
-            context.SaveChanges();
-
             return context;
         }
 
