@@ -13,52 +13,47 @@ namespace Application.Telegram.Keyboards
     {
         public static InlineKeyboardMarkup BuildKeyboard(CallbackQuery callbackQuery,string callBackData, string typeOfProcess)
         {
-            var selectedYear = typeOfProcess == "Start" ?
-                UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear : UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndYear;
-
             List<InlineKeyboardButton> buttons = new();
-            List<string> months = new() { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
+            Dictionary<int, string> monthNames = new Dictionary<int, string>();
+            monthNames.Add(1, "January");
+            monthNames.Add(2, "February");
+            monthNames.Add(3, "March");
+            monthNames.Add(4, "April");
+            monthNames.Add(5, "May");
+            monthNames.Add(6, "June");
+            monthNames.Add(7, "July");
+            monthNames.Add(8, "August");
+            monthNames.Add(9, "September");
+            monthNames.Add(10, "October");
+            monthNames.Add(11, "November");
+            monthNames.Add(12, "December");
+
+            var currentMonth = DateTime.Now.Month;            
 
             if (typeOfProcess == "Start")
             {
-                if (DateTime.Now.Year == selectedYear)
+                for (int i = 1; i <= 4; i++)
                 {
-                    var currentMonth = DateTime.Now.Month;
-                    foreach (var month in months.Select((value, i) => (value, i)))
+                    buttons.Add(new InlineKeyboardButton(monthNames[currentMonth]) { CallbackData = currentMonth.ToString() });
+                    currentMonth++;
+                    if (currentMonth > 12)
                     {
-                        if (currentMonth <= (month.i + 1))
-                        {
-                            buttons.Add(new InlineKeyboardButton(month.value) { CallbackData = (month.i + 1).ToString() });
-                        }
+                        currentMonth -= 9;
                     }
-                }
-                else
-                {
-                    foreach (var month in months.Select((value, i) => (value, i)))
-                    {
-                        buttons.Add(new InlineKeyboardButton(month.value) { CallbackData = (month.i + 1).ToString() });
-                    }
-                }
+                }   
             }
 
             if (typeOfProcess == "End")
             {
-                if (selectedYear == UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear)
+                var startMonth = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth;
+                var diff = startMonth - currentMonth >= 0 ? 4-(startMonth - currentMonth) : currentMonth + 4 - startMonth - 12;
+                for (int i = 1; i <= diff; i++)
                 {
-                    var currentMonth = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth;
-                    foreach (var month in months.Select((value, i) => (value, i)))
+                    buttons.Add(new InlineKeyboardButton(monthNames[startMonth]) { CallbackData = startMonth.ToString() });
+                    startMonth++;
+                    if (startMonth > 12)
                     {
-                        if (currentMonth <= (month.i + 1))
-                        {
-                            buttons.Add(new InlineKeyboardButton(month.value) { CallbackData = (month.i + 1).ToString() });
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (var month in months.Select((value, i) => (value, i)))
-                    {
-                        buttons.Add(new InlineKeyboardButton(month.value) { CallbackData = (month.i + 1).ToString() });
+                        startMonth -= 9;
                     }
                 }
             }

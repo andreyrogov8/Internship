@@ -13,13 +13,16 @@ namespace Application.Telegram.Keyboards
         public static InlineKeyboardMarkup BuildKeyboard(CallbackQuery callbackQuery, string callBackData, string typeOfProcess)
         {
             var currentYear = DateTime.Now.Year;
+            var endYear = currentYear;
             if (typeOfProcess == "End")
-            {
-                currentYear = UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartYear;
+            {                
+                var startDate = Helper.GetStartDate(callbackQuery);
+                var endDate = startDate.AddDays(90);
+                endYear = endDate.Year;
             }
 
             List<InlineKeyboardButton> buttons = new();
-            for (int i = currentYear; i < currentYear+5; i++)
+            for (int i = currentYear; i <= endYear; i++)
             {
                 buttons.Add(new InlineKeyboardButton(i.ToString()) { CallbackData = i.ToString()});
             }
