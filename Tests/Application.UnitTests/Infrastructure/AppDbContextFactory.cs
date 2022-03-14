@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,6 @@ namespace Application.UnitTests.Infrastructure
             var context = new ApplicationDbContext(options);
 
             context.Database.EnsureCreated();
-
             return context;
         }
 

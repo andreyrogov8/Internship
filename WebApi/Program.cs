@@ -21,6 +21,7 @@ using Services.Jobs;
 using Microsoft.Extensions.Options;
 using Application.Configurations;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -115,6 +116,7 @@ using (var scope = app.Services.CreateScope())
     var schedulerConfig = services.GetService<IOptions<SchedulerConfigurations>>().Value;
     var serviceProviderScope = scope.ServiceProvider;
     await ClearMemoryScheduler.Start(serviceProviderScope, schedulerConfig);
+
 }
 
 // Configure the HTTP request pipeline.
