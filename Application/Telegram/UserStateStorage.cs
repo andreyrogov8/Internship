@@ -53,12 +53,12 @@ namespace Application.Telegram
 
         public static void UpdateUsersStartTime(long telegramId)
         {
-            userInfo[telegramId].StartedActionDateTime = DateTime.Now;
+            userInfo[telegramId].StartedActionDateTime = DateTime.UtcNow;
         }
 
         public static void UpdateUsersCurrentTime(long telegramId)
         {
-            userInfo[telegramId].CurrentDateTime = DateTime.Now;
+            userInfo[telegramId].CurrentDateTime = DateTime.UtcNow;
         }
 
         public static void UpdateUserState(long telegramId, UserState newState)
