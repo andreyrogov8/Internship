@@ -16,6 +16,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using Services.Jobs;
+using Microsoft.Extensions.Options;
+using Application.Configurations;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -102,16 +106,17 @@ builder.Configuration
 var app = builder.Build();
 
 // singleton services are being replicated? is there a way to avoid using ServiceProvider from code?
-using (var serviceProvider = builder.Services.BuildServiceProvider())
+using (var scope = app.Services.CreateScope())
 {
-    var scope = serviceProvider.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetService<ApplicationDbContext>();
     var userManager = services.GetRequiredService<UserManager<User>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole<int>>>();
     await ApplicationDbContextSeed.SeedDataAsync(context, userManager, roleManager);
-    
-    
+    var schedulerConfig = services.GetService<IOptions<SchedulerConfigurations>>().Value;
+    var serviceProviderScope = scope.ServiceProvider;
+    await ClearMemoryScheduler.Start(serviceProviderScope, schedulerConfig);
+
 }
 
 // Configure the HTTP request pipeline.

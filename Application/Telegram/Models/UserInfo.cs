@@ -23,7 +23,6 @@ namespace Application.Telegram.Models
     {
         public UserState CurrentState { get; set; }
         public UserRole Role { get; set; }
-
         public int UserId { get; set; }
         public int MapId { get; set; }
         public int WorkplaceId { get; set; }
@@ -39,6 +38,9 @@ namespace Application.Telegram.Models
         public string RecurringDay { get; set; }
 
         public int SelectedBookingId { get; set; }
+
+        public DateTimeOffset StartedActionDateTime { get; set; }
+        public DateTimeOffset CurrentDateTime { get; set; }
     }
 }
 
