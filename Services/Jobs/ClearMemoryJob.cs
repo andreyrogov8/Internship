@@ -23,7 +23,7 @@ namespace Services.Jobs
 
         public bool CheckDatesGreaterThanFifteenMinutes(DateTimeOffset startActionDatetime)
         {
-            var today = DateTimeOffset.Now;
+            var today = DateTimeOffset.UtcNow;
 
             return (today - startActionDatetime).Minutes > 15;
         }
