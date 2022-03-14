@@ -15,6 +15,7 @@ public class BaseTestFixture : IDisposable
     {
         Context = AppDbContextFactory.Create();
         Mapper = AutoMapperFactory.Create();
+        AppDbContextSeeds.SeedDataAsync(Context);
     }
 
     public void Dispose()
