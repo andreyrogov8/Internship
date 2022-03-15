@@ -24,7 +24,7 @@ namespace Application.Telegram.Keyboards
             int numberOfDays = DateTime.DaysInMonth(selectedYear, selectedMonth);
             if (selectedMonth == endMonth) 
             {
-                numberOfDays = DateTime.Now.AddDays(90).Day;
+                numberOfDays = DateTime.Now.AddMonths(3).Day;
             }
 
             int startDayInMonth = 1;

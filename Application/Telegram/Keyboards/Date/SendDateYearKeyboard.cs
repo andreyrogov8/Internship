@@ -17,7 +17,7 @@ namespace Application.Telegram.Keyboards
             if (typeOfProcess == "End")
             {                
                 var startDate = Helper.GetStartDate(callbackQuery);
-                var endDate = startDate.AddDays(90);
+                var endDate = startDate.AddMonths(3);
                 endYear = endDate.Year;
             }
 
