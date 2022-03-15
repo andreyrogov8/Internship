@@ -17,8 +17,16 @@ namespace Application.Telegram.Keyboards
             var selectedMonth = typeOfProcess == "Start" ?
                 UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.StartMonth : UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth;
 
-            List<InlineKeyboardButton> buttons = new();
+            var currentMonth = DateTime.Now.Month;            
+            var endMonth = (currentMonth + 3) % 12;// currentMonth + 3 < 12 ? currentMonth + 3 : currentMonth -= 9; will leave it for understanding
+
+            List <InlineKeyboardButton> buttons = new();
             int numberOfDays = DateTime.DaysInMonth(selectedYear, selectedMonth);
+            if (selectedMonth == endMonth) 
+            {
+                numberOfDays = DateTime.Now.AddDays(90).Day;
+            }
+
             int startDayInMonth = 1;
 
             if (typeOfProcess == "Start" && DateTime.Now.Year == selectedYear && DateTime.Now.Month == selectedMonth)
