@@ -26,6 +26,7 @@ namespace Application.UnitTests.Features.Office.CreateOfficeCommand
         [Fact]
         public async Task CreateOffice_WhenModelIsValid_ReturnNewOfficeId()
         {
+
             // Arrange
             var request = new Request
             {
@@ -40,9 +41,11 @@ namespace Application.UnitTests.Features.Office.CreateOfficeCommand
 
             // Assert
             result.Id.Should().BeGreaterThan(0);
+
+
         }
 
 
-        
+
     }
 }
