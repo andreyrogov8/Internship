@@ -40,5 +40,19 @@ namespace Application.Features.BookingFeature.Commands
                     $"{startDate.Date.ToShortDateString()} - {endDate.Date.ToShortDateString()}");
             }
         }
+
+        public async Task EnsureUserHasNotVacationForThisPerdioAsync(int userId, DateTimeOffset startDate, DateTimeOffset endDate)
+        {
+            var hasVacation = await _context.Vacations.AnyAsync(x =>
+                           (x.UserId == userId && (x.VacationStart < startDate) && (startDate < x.VacationEnd))
+                        || (x.UserId == userId && (x.VacationStart < endDate) && (endDate < x.VacationEnd)));
+
+            if (hasVacation)
+            {
+                throw new ValidationException($"You are not allowed to make booking for this period: " +
+                    $"{startDate.Date.ToShortDateString()} - {endDate.Date.ToShortDateString()}, " +
+                    $"because you have vacation crossed with this booking");
+            }
+        }
     }
 }
