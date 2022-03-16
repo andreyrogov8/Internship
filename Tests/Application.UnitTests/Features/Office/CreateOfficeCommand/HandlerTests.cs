@@ -27,6 +27,7 @@ namespace Application.UnitTests.Features.Office.CreateOfficeCommand
         [Fact]
         public async Task CreateOffice_WhenModelIsValid_ReturnNewOfficeId()
         {
+
             // Arrange
             var office = _context.Offices.FirstOrDefault(o =>
             o.Name == "Toshkent Office" &&
@@ -55,6 +56,7 @@ namespace Application.UnitTests.Features.Office.CreateOfficeCommand
             o.HasFreeParking == true
             );
             // Assert
+
             result.Id.Should().Be(office.Id);
             request.Name.Should().Be(office.Name);  
             request.City.Should().Be(office.City);
@@ -64,6 +66,6 @@ namespace Application.UnitTests.Features.Office.CreateOfficeCommand
         }
 
 
-        
+
     }
 }
