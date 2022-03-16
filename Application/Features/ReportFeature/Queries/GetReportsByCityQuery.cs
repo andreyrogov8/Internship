@@ -43,6 +43,8 @@ namespace Application.Features.ReportFeature.Queries
 
             bookingList = bookingList.Where(
                 booking => booking.Workplace.Map.OfficeId == request.Id 
+                && booking.StartDate.Year >= request.StartDate.Year
+                && booking.EndDate.Year >= request.EndDate.Year
                 && booking.StartDate.Month >= request.StartDate.Month
                 && booking.StartDate.Day >= request.StartDate.Day
                 && booking.EndDate.Month <= request.EndDate.Month
