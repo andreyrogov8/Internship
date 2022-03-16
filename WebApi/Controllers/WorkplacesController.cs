@@ -16,24 +16,17 @@ namespace WebApi.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(
-            [FromQuery] string mapId,
-            bool? HasWindow,
-            bool? HasPC,
-            bool? HasMonitor,
-            bool? HasKeyboard,
-            bool? HasMouse,
-            bool? HasHeadSet)
+        public async Task<IActionResult> GetAll([FromQuery] Request request)
         {
-            var request = new GetWorkplaceListQueryRequest
+            var _request = new GetWorkplaceListQueryRequest
             {
-                MapId = mapId,
-                HasWindow = HasWindow,
-                HasPc = HasPC,
-                HasMonitor = HasMonitor,
-                HasKeyboard = HasKeyboard,
-                HasMouse = HasMouse,
-                HasHeadset = HasHeadSet
+                MapId = request.MapId,
+                HasWindow = request.HasWindow,
+                HasPc = request.HasPc,
+                HasMonitor = request.HasMonitor,
+                HasKeyboard = request.HasKeyboard,
+                HasMouse = request.HasMouse,
+                HasHeadset = request.HasHeadset
             };
             var result = await Mediator.Send(request);
             return Ok(result);
