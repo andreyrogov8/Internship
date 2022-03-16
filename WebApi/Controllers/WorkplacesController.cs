@@ -28,7 +28,7 @@ namespace WebApi.Controllers
                 HasMouse = request.HasMouse,
                 HasHeadset = request.HasHeadset
             };
-            var result = await Mediator.Send(request);
+            var result = await Mediator.Send(_request);
             return Ok(result);
         }
         
