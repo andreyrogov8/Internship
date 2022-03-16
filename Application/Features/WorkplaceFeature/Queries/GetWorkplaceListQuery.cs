@@ -19,9 +19,7 @@ namespace Application.Features.CountryCQ
     {
         public string MapId { get; set; }
 
-        public DateTimeOffset? StartDate { get; set; } = null;
 
-        public DateTimeOffset? EndDate { get; set; } = null;
         public bool? HasWindow { get; set; } = null;
         public bool? HasPc { get; set; } = null;
         public bool? HasMonitor { get; set; } = null;
@@ -29,7 +27,6 @@ namespace Application.Features.CountryCQ
         public bool? HasMouse { get; set; } = null;
         public bool? HasHeadset { get; set; } = null;
 
-        public string RecurringDay { get; set; }
     }
     public class GetWorkplaceListQueryRequest : Request, IRequest <GetWorkplaceListQueryResponse>
     {
