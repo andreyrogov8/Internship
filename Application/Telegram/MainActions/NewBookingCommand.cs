@@ -214,7 +214,7 @@ namespace Application.Telegram.MainActions
                 case UserState.NewBookingIsSelectedSelectingPcOption:
                     await new ProvideButtons(telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        ,new List<string> { "Yes", "No", "BACK" }
+                        ,new List<string> { "Yes", "No", "Any", "BACK" }
                         , "Would you like workplace with PC"
                         , 2
                         , "NewBookingIsSelected");
@@ -222,10 +222,12 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingMonitorOption:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasPc = update.CallbackQuery.Data == "Yes" ? true : false;
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasPc = 
+                        update.CallbackQuery.Data == "Yes" ? true :
+                        update.CallbackQuery.Data == "No" ? false : null;
                     await new ProvideButtons(telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        , new List<string> { "Yes", "No", "BACK" }
+                        , new List<string> { "Yes", "No", "Any", "BACK" }
                         , "Would you like workplace with Monitor"
                         , 2
                         , "NewBookingIsSelected");
@@ -233,10 +235,12 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingKeyboardOption:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasMonitor = update.CallbackQuery.Data == "Yes" ? true : false;
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasMonitor =
+                        update.CallbackQuery.Data == "Yes" ? true :
+                        update.CallbackQuery.Data == "No" ? false : null;
                     await new ProvideButtons(telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        , new List<string> { "Yes", "No", "BACK" }
+                        , new List<string> { "Yes", "No", "Any", "BACK" }
                         , "Would you like workplace with Keyboard"
                         , 2
                         , "NewBookingIsSelected");
@@ -244,10 +248,13 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingMouseOption:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasKeyboard = update.CallbackQuery.Data == "Yes" ? true : false;
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasKeyboard = 
+                        update.CallbackQuery.Data == "Yes" ? true :
+                        update.CallbackQuery.Data == "No" ? false : null;
+
                     await new ProvideButtons(telegraBotClient).SendAsync
                         (update.CallbackQuery
-                        , new List<string> { "Yes", "No", "BACK" }
+                        , new List<string> { "Yes", "No", "Any", "BACK" }
                         , "Would you like workplace with Mouse"
                         , 2
                         , "NewBookingIsSelected");
@@ -255,10 +262,13 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingHeadseetOption:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasMouse = update.CallbackQuery.Data == "Yes" ? true : false;
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasMouse =
+                        update.CallbackQuery.Data == "Yes" ? true :
+                        update.CallbackQuery.Data == "No" ? false : null;
+
                     await new ProvideButtons(telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        , new List<string> { "Yes", "No", "BACK" }
+                        , new List<string> { "Yes", "No", "Any", "BACK" }
                         , "Would you like workplace with Headset"
                         , 2
                         , "NewBookingIsSelected");
@@ -266,10 +276,13 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingWindowOption:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasHeadset = update.CallbackQuery.Data == "Yes" ? true : false;
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasHeadset =
+                        update.CallbackQuery.Data == "Yes" ? true :
+                        update.CallbackQuery.Data == "No" ? false : null;
+
                     await new ProvideButtons(telegraBotClient).SendAsync(
                         update.CallbackQuery
-                        , new List<string> { "Yes", "No", "BACK" }
+                        , new List<string> { "Yes", "No", "Any", "BACK" }
                         , "Would you like workplace near to Window"
                         , 2
                         , "NewBookingIsSelected");
@@ -277,7 +290,10 @@ namespace Application.Telegram.MainActions
                     return;
 
                 case UserState.NewBookingIsSelectedSelectingWorkplace:
-                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasWindow = update.CallbackQuery.Data == "Yes" ? true : false;
+                    UserStateStorage.userInfo[update.CallbackQuery.From.Id].HasWindow =
+                        update.CallbackQuery.Data == "Yes" ? true :
+                        update.CallbackQuery.Data == "No" ? false : null;
+
                     await new SendWorkplaceListCommand(mediator, telegraBotClient).SendListByMapIdWithAttributesAsync(update.CallbackQuery);
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedFinishingBooking);
                     return;

@@ -31,10 +31,16 @@ namespace Application.Telegram.Commands
                 Id = bookingId
             });
 
+            string recurringDay = booking.IsRecurring ? $"Recurring Booking, Reccuring Day: {booking.StartDate.ToString("dddd")}" : "Not Recurring Booking";
+            if (booking.IsRecurring)
+            {
+                
+            }
             string message = 
                 $"Your booking details: \n" +
                 $"From: {booking.StartDate.Date.ToShortDateString()} \n" +
                 $"To: {booking.EndDate.Date.ToShortDateString()} \n" +
+                $"{recurringDay} \n"+
                 $"Office Name: {booking.OfficeName} \n" +
                 $"City: {booking.City} \n" +
                 $"Country: {booking.Country} \n" +

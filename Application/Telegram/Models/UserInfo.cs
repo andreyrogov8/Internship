@@ -28,12 +28,12 @@ namespace Application.Telegram.Models
         public int WorkplaceId { get; set; }
         public DateInfo UserDates { get; set; } = new DateInfo();
 
-        public bool HasWindow { get; set; }
-        public bool HasPc { get; set; }
-        public bool HasMonitor { get; set; }
-        public bool HasKeyboard { get; set; }
-        public bool HasMouse { get; set; }
-        public bool HasHeadset { get; set; }
+        public bool? HasWindow { get; set; }
+        public bool? HasPc { get; set; }
+        public bool? HasMonitor { get; set; }
+        public bool? HasKeyboard { get; set; }
+        public bool? HasMouse { get; set; }
+        public bool? HasHeadset { get; set; }
 
         public string RecurringDay { get; set; }
         public bool RecurringDayWasNotFound { get; set; }
