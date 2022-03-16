@@ -93,6 +93,7 @@ namespace Application.Telegram
                 HasHeadset = userInfo[telegramId].HasHeadset,
                 SelectedBookingId = userInfo[telegramId].SelectedBookingId,
                 RecurringDay = userInfo[telegramId].RecurringDay,
+                RecurringDayWasNotFound = userInfo[telegramId].RecurringDayWasNotFound,
                 StartedActionDateTime = userInfo[telegramId].StartedActionDateTime,
                 CurrentDateTime = userInfo[telegramId].CurrentDateTime,
             };

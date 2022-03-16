@@ -18,6 +18,7 @@ namespace Application.Telegram.MainActions
             switch (UserStateStorage.GetUserCurrentState(update.CallbackQuery.From.Id))
             {
                 case UserState.NewBookingIsSelected:
+                    UserStateStorage.Clear(update.CallbackQuery.From.Id);
                     switch(update.CallbackQuery.Data)
                     {
                         case "Search by Location":
