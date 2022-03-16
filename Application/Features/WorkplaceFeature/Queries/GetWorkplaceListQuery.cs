@@ -37,7 +37,7 @@ namespace Application.Features.CountryCQ
         public DateTimeOffset? StartDate { get; set; } = null;
 
         public DateTimeOffset? EndDate { get; set; } = null;
-        8
+        
         public string RecurringDay { get; set; }
     }
 
