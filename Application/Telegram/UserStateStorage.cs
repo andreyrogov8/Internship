@@ -51,6 +51,7 @@ namespace Application.Telegram
             userInfo[telegramId].HasMouse = false;
             userInfo[telegramId].HasHeadset = false;
             userInfo[telegramId].RecurringDay = null;
+            userInfo[telegramId].RecurringDayWasNotFound = false;
         }
 
         public static UserRole GetUserRole(long telegramId)

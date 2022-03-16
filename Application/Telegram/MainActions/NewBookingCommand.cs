@@ -154,15 +154,32 @@ namespace Application.Telegram.MainActions
                         , "NewBookingIsSelected");                    
                     return;
 
-                case UserState.NewBookingIsSelectedSelectingBookingType:                    
-                    await new ProvideButtons(telegraBotClient).SendAsync(
-                        update.CallbackQuery
-                        , new List<string> { "Without specifying attributes", "With specific attributes", "BACK" }
-                        , "Please select workplace booking type"
-                        , 2
-                        , "NewBookingIsSelected");
-                    UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedBookingTypeIsSelected);
-                    return;
+                case UserState.NewBookingIsSelectedSelectingBookingType:
+                    //checking if selected recurring day was found in selected period
+                    Helper.GetStartDate(update.CallbackQuery);
+                    if (UserStateStorage.userInfo[update.CallbackQuery.From.Id].RecurringDayWasNotFound)
+                    {
+                        await new ProvideButtons(telegraBotClient).SendAsync(
+                             update.CallbackQuery
+                            , new List<string>() { "BACK" }
+                            , $"Your chosen recurring day: { UserStateStorage.userInfo[update.CallbackQuery.From.Id].RecurringDay} " +
+                            $"was not found in your selected period \n Press Buttonn"
+                            , 1
+                            , "NewBookingIsSelected");
+                        return;
+                    }
+                    else 
+                    {
+                        await new ProvideButtons(telegraBotClient).SendAsync(
+                            update.CallbackQuery
+                            , new List<string> { "Without specifying attributes", "With specific attributes", "BACK" }
+                            , "Please select workplace booking type"
+                            , 2
+                            , "NewBookingIsSelected");
+                        UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewBookingIsSelectedBookingTypeIsSelected);
+                        return;
+                    }
+
 
                 case UserState.NewBookingIsSelectedBookingTypeIsSelected:
                     switch (update.CallbackQuery.Data)

@@ -31,9 +31,22 @@ namespace Application.Telegram
                                         TimeSpan.Zero);
             if (UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay is not null)
             {
+                DateTimeOffset EndDate = new DateTimeOffset(
+                            year: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndYear,
+                            month: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndMonth,
+                            day: UserStateStorage.userInfo[callbackQuery.From.Id].UserDates.EndDay,
+                            0, 0, 0,
+                            TimeSpan.Zero);
+                //finding recurring day
                 while (!Date.ToString("dddd").Equals(UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay))
                 {
                     Date = Date.AddDays(1);
+                    //if we already reached end date and recurring day was not found then we are setting RecurringDayNotFount to true
+                    if (Date == EndDate)
+                    {
+                        UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDayWasNotFound = true;
+                        break;
+                    }
                 }
             }
             return Date;
@@ -49,6 +62,11 @@ namespace Application.Telegram
                                         TimeSpan.Zero);
             if (UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay is not null)
             {
+                //checking if reccuring day was found during GetStartDate procedure
+                if (UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDayWasNotFound)
+                {
+                    return Date;
+                }
                 while (!Date.ToString("dddd").Equals(UserStateStorage.userInfo[callbackQuery.From.Id].RecurringDay))
                 {
                     Date = Date.AddDays(-1);

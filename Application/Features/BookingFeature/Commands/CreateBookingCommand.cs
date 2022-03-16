@@ -25,9 +25,6 @@ namespace Application.Features.BookingFeature.Commands
         {
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(x => x.UserId).NotEmpty().WithMessage("WorkplaceId must not be blank");
-            //will impelment it later
-            //RuleFor(x => x.IsRecurring).Must(x => x == false || x == true).WithMessage("IsRecurring should be whether true or false");
-            //RuleFor(x => x.Frequency).InclusiveBetween(1, 30).WithMessage("Frequency of booking must be range of 1 and 30");
         }
     }
     public class CreateBookingCommandHandler : UpsertBookingCommand, IRequestHandler<CreateBookingCommandRequest, CreateBookingCommandResponse>
