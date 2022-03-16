@@ -36,6 +36,7 @@ namespace Application.Telegram.Models
         public bool HasHeadset { get; set; }
 
         public string RecurringDay { get; set; }
+        public bool RecurringDayWasNotFound { get; set; }
 
         public int SelectedBookingId { get; set; }
 

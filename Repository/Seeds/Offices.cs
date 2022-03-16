@@ -41,6 +41,35 @@ namespace Persistence.Seeds
                     Address = "Emilii Plater 28",
                     HasFreeParking = true,
                     IsDeleted = false
+                },
+
+                new Office
+                {
+                    Name = "Berlin office",
+                    Country = "Germany",
+                    City = "Berlin",
+                    Address = "Emilii Plater 28",
+                    HasFreeParking = false,
+                    IsDeleted = false
+                },
+
+                new Office
+                {
+                    Name = "Paris office",
+                    Country = "France",
+                    City = "Paris",
+                    Address = "Emilii Plater 28",
+                    HasFreeParking = false,
+                    IsDeleted = false
+                },
+                new Office
+                {
+                    Name = "Stockholm office",
+                    Country = "Sweden",
+                    City = "Stockholm",
+                    Address = "Emilii Plater 28",
+                    HasFreeParking = true,
+                    IsDeleted = false
                 }
 
             };
