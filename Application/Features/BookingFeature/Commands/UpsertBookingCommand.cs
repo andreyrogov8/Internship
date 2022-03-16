@@ -41,7 +41,7 @@ namespace Application.Features.BookingFeature.Commands
             }
         }
 
-        public async Task EnsureUserHasNotVacationForThisPerdioAsync(int userId, DateTimeOffset startDate, DateTimeOffset endDate)
+        public async Task EnsureUserHasNotVacationForThisPeriodAsync(int userId, DateTimeOffset startDate, DateTimeOffset endDate)
         {
             var hasVacation = await _context.Vacations.AnyAsync(x =>
                            (x.UserId == userId && (x.VacationStart < startDate) && (startDate < x.VacationEnd))
