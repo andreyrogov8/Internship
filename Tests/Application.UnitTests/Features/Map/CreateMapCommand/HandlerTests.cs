@@ -10,6 +10,7 @@ using MediatR;
 using FluentAssertions;
 using System;
 using Application.Exceptions;
+using System.Linq;
 
 namespace Application.UnitTests.Features.Map.CreateMapCommand
 {
@@ -32,6 +33,9 @@ namespace Application.UnitTests.Features.Map.CreateMapCommand
         public async Task CreateMap_WhenModelIsValid_ReturnsNewMapId()
         {
             // Arrange
+            var map = _context.Maps.FirstOrDefault(x => x.FloorNumber.Equals(1) && x.OfficeId.Equals(1));
+            Assert.Null(map);
+
             var request = new Request
             {
                 FloorNumber =  1, 
@@ -39,10 +43,16 @@ namespace Application.UnitTests.Features.Map.CreateMapCommand
                 HasMeetingRoom = true,
                 OfficeId = 1
             };
+
             // Act
-            var result = await _handler.Handle(request, CancellationToken.None);
+            var result = await _handler.Handle(request, CancellationToken.None);            
+            map = _context.Maps.FirstOrDefault(x => x.FloorNumber.Equals(1) && x.OfficeId.Equals(1));
+
             // Assert
-            result.Id.Should().BeGreaterThan(0);                      
+            result.Id.Should().Be(map.Id);    
+            request.HasKitchen.Should().Be(map.HasKitchen);
+            request.HasMeetingRoom.Should().Be(map.HasMeetingRoom);
+
         }
 
         [Fact]

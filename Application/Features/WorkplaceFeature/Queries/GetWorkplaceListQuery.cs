@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Application.Features.CountryCQ
@@ -17,7 +18,11 @@ namespace Application.Features.CountryCQ
     public class GetWorkplaceListQueryRequest : IRequest <GetWorkplaceListQueryResponse>
     {
         public string MapId { get; set; }
+
+        [JsonIgnore]
         public DateTimeOffset? StartDate { get; set; } = null;
+
+        [JsonIgnore]
         public DateTimeOffset? EndDate { get; set; } = null;
         public bool? HasWindow { get; set; } = null;
         public bool? HasPc { get; set; } = null;
@@ -25,6 +30,8 @@ namespace Application.Features.CountryCQ
         public bool? HasKeyboard { get; set; } = null;
         public bool? HasMouse { get; set; } = null;
         public bool? HasHeadset { get; set; } = null;
+
+        [JsonIgnore]
         public string RecurringDay { get; set; }
     }
 
