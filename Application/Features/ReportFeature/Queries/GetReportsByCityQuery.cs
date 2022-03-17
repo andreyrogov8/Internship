@@ -14,17 +14,9 @@ using System.Threading.Tasks;
 
 namespace Application.Features.ReportFeature.Queries
 {
-    public class GetReportsByCityFilter
-    {
-        public string StartDate { get; set; }
-        public string EndDate { get; set; }
-    }
-
     public class GetReportsByCityQueryRequest : IRequest<GetReportsByCityQueryResponse>
     {   
-        public int Id { get; set; }
-        public DateTimeOffset StartDate { get; set; }
-        public DateTimeOffset EndDate { get; set; }
+        public string City { get; set; }
     }
 
     public class GetReportsByCityQueryHandler : IRequestHandler<GetReportsByCityQueryRequest, GetReportsByCityQueryResponse>
@@ -41,14 +33,7 @@ namespace Application.Features.ReportFeature.Queries
         {
             var bookingList = _context.Bookings.AsQueryable();
 
-            bookingList = bookingList.Where(
-                booking => booking.Workplace.Map.OfficeId == request.Id 
-                && booking.StartDate.Year >= request.StartDate.Year
-                && booking.EndDate.Year >= request.EndDate.Year
-                && booking.StartDate.Month >= request.StartDate.Month
-                && booking.StartDate.Day >= request.StartDate.Day
-                && booking.EndDate.Month <= request.EndDate.Month
-                && booking.EndDate.Day <= request.EndDate.Day);
+            bookingList = bookingList.Where(booking => booking.Workplace.Map.Office.City == request.City);
 
             return new GetReportsByCityQueryResponse
             {
