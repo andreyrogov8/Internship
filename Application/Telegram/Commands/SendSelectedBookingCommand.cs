@@ -32,10 +32,6 @@ namespace Application.Telegram.Commands
             });
 
             string recurringDay = booking.IsRecurring ? $"Recurring Booking, Reccuring Day: {booking.StartDate.ToString("dddd")}" : "Not Recurring Booking";
-            if (booking.IsRecurring)
-            {
-                
-            }
             string message = 
                 $"Your booking details: \n" +
                 $"From: {booking.StartDate.Date.ToShortDateString()} \n" +
