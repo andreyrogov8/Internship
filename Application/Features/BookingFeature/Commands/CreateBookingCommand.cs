@@ -55,8 +55,8 @@ namespace Application.Features.BookingFeature.Commands
                 throw new NotFoundException($"There is no WorkPlace with id={request.WorkplaceId}");
             }
 
-            await EnsureWorkplaceIsFreeAsync(request.WorkplaceId, request.StartDate, request.EndDate);
-            await EnsureUserHasNotBookingThisTimeAsync(request.UserId, request.StartDate, request.EndDate);
+            await EnsureWorkplaceIsFreeAsync(request.WorkplaceId, request.StartDate, request.EndDate, request.IsRecurring);
+            await EnsureUserHasNotBookingThisTimeAsync(request.UserId, request.StartDate, request.EndDate, request.IsRecurring);
             await EnsureUserHasNotVacationForThisPeriodAsync(request.UserId, request.StartDate, request.EndDate);          
 
             var booking = _mapper.Map<Booking>(request);

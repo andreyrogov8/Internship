@@ -1,5 +1,6 @@
 ﻿using Application.Features.BookingFeature.Commands;
 using Application.Interfaces;
+using Application.Telegram;
 using Application.Telegram.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -68,7 +69,7 @@ namespace Application.Features.CountryCQ
                 }
                 else 
                 {
-                    var bookingDays = GetRecurringDays(startDate, endDate);
+                    var bookingDays = Helper.GetRecurringDays(startDate, endDate);
                     List<IQueryable<Workplace>> temporary = new List<IQueryable<Workplace>>();
                     foreach (var item in bookingDays)
                     {
@@ -138,7 +139,7 @@ namespace Application.Features.CountryCQ
 
             foreach (var booking in interestedBookingsRecurring)
             {
-                var busyDaysDate = GetRecurringDays(booking.StartDate, booking.EndDate);
+                var busyDaysDate = Helper.GetRecurringDays(booking.StartDate, booking.EndDate);
                 foreach (var date in busyDaysDate)
                 {
                     if (startDate <= date && date <= endDate)
@@ -151,18 +152,6 @@ namespace Application.Features.CountryCQ
 
             workplaces = workplaces.Where(x => !busyWorkplaces.Contains(x.Id));
             return workplaces;
-        }
-
-        public List<DateTimeOffset> GetRecurringDays( DateTimeOffset start, DateTimeOffset end)
-        {
-            List<DateTimeOffset> days = new List<DateTimeOffset>();
-            DateTimeOffset day = start;
-            while (day <= end)
-            {
-                days.Add(day);
-                day = day.AddDays(7);
-            }
-            return days;
         }
     }
 

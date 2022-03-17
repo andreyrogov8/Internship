@@ -75,5 +75,16 @@ namespace Application.Telegram
             return Date;
         }
 
+        public static List<DateTimeOffset> GetRecurringDays(DateTimeOffset start, DateTimeOffset end)
+        {
+            List<DateTimeOffset> days = new List<DateTimeOffset>();
+            DateTimeOffset day = start;
+            while (day <= end)
+            {
+                days.Add(day);
+                day = day.AddDays(7);
+            }
+            return days;
+        }
     }
 }
