@@ -51,6 +51,7 @@ namespace Application.Telegram
             userInfo[telegramId].HasMouse = false;
             userInfo[telegramId].HasHeadset = false;
             userInfo[telegramId].RecurringDay = null;
+            userInfo[telegramId].RecurringDayWasNotFound = false;
         }
 
         public static UserRole GetUserRole(long telegramId)
@@ -92,6 +93,7 @@ namespace Application.Telegram
                 HasHeadset = userInfo[telegramId].HasHeadset,
                 SelectedBookingId = userInfo[telegramId].SelectedBookingId,
                 RecurringDay = userInfo[telegramId].RecurringDay,
+                RecurringDayWasNotFound = userInfo[telegramId].RecurringDayWasNotFound,
                 StartedActionDateTime = userInfo[telegramId].StartedActionDateTime,
                 CurrentDateTime = userInfo[telegramId].CurrentDateTime,
             };

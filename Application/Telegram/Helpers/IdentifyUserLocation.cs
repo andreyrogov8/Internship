@@ -36,6 +36,9 @@ namespace Application.Telegram.Helpers
             _client.DefaultRequestHeaders.Accept.Clear();
             _client.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
+
+            _client.DefaultRequestHeaders.Add("Accept-Language", "en");
+
             _client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
 
             var response = await _client.GetAsync($"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json");

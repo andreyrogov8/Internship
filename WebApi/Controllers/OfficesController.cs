@@ -1,18 +1,29 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Application.Features.CountriesFeature.Queries;
-using Application.Features;
+﻿using Application.Features.OfficeFeature.Commands;
 using Application.Features.OfficeFeature.Queries;
-using static Application.Features.OfficeFeature.Commands.DeleteOfficeCommand;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using static Application.Features.OfficeFeature.Commands.UpdateOfficeCommand;
 
 namespace WebApi.Controllers
 {
     [Authorize]
     [Route("api/[controller]")]
     public class OfficesController : BaseApiController
-    {        
+    {
+
+        [HttpPost]
+        public async Task<ActionResult<CreateOfficeCommandResponse>> CreateAsync([FromBody]CreateOfficeCommandRequest request)
+        {
+            var result = await Mediator.Send(request);
+            return Ok(result);
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<UpdateOfficeCommandResponse>> UpdateAsync([FromBody] UpdateOfficeCommandRequest request)
+        {
+            var result = await Mediator.Send(request);
+            return Ok(result);
+        }
 
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] GetOfficeListQueryRequest request)

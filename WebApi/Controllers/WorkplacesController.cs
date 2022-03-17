@@ -14,13 +14,24 @@ namespace WebApi.Controllers
     public class WorkplacesController : BaseApiController
     {
 
+
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]GetWorkplaceListQueryRequest request)
+        public async Task<IActionResult> GetAll([FromQuery] Request request)
         {
-            var result = await Mediator.Send(request);
+            var _request = new GetWorkplaceListQueryRequest
+            {
+                MapId = request.MapId,
+                HasWindow = request.HasWindow,
+                HasPc = request.HasPc,
+                HasMonitor = request.HasMonitor,
+                HasKeyboard = request.HasKeyboard,
+                HasMouse = request.HasMouse,
+                HasHeadset = request.HasHeadset
+            };
+            var result = await Mediator.Send(_request);
             return Ok(result);
         }
-
+        
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
