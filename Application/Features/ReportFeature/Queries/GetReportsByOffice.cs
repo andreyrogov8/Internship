@@ -61,6 +61,9 @@ namespace Application.Features.ReportFeature.Queries;
         public int Id { get; set; }
         public int MapId { get; set; }
         public string CityName { get; set; }
+        public string OfficeName { get; set; }
+        public string Country { get; set; }
+        public string Address { get; set; }
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public bool IsRecurring { get; set; }
