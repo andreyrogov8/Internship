@@ -19,7 +19,6 @@ namespace Application.Features.CountryCQ
     {
         public string MapId { get; set; }
 
-
         public bool? HasWindow { get; set; } = null;
         public bool? HasPc { get; set; } = null;
         public bool? HasMonitor { get; set; } = null;

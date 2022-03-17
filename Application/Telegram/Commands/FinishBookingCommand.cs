@@ -31,13 +31,14 @@ namespace Application.Telegram.Commands
                         StartDate = Helper.GetStartDate(callbackQuery),
                         EndDate = Helper.GetEndDate(callbackQuery),
                         IsRecurring = currentUserInfo.RecurringDay is not null,
-                        Frequency = 10
+                        Frequency = 0
                     });
-
+            string recurringDayInfo = (currentUserInfo.RecurringDay is not null) ? $"Recurring Day: {currentUserInfo.RecurringDay}" : String.Empty;
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string>{ "Start New"}, 1, "BACKStartingProcess");
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
                 $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
                 $"To: {currentBooking.EndDate.Date.ToShortDateString()} \n " +
+                $"{recurringDayInfo}  \n" +
                 $"Office Name:{currentBooking.OfficeName}, City:{currentBooking.City}, Country:{currentBooking.Country} \n" +
                 $"Floor: {currentBooking.FloorNumber}, Workplace Number:{currentBooking.WorkplaceNumber} \n" +
                 $"Next to window: {GetAttributeStatus(currentBooking.HasWindow)} \n" +
@@ -45,7 +46,7 @@ namespace Application.Telegram.Commands
                 $"Has Monitor: {GetAttributeStatus(currentBooking.HasMonitor)} \n" +
                 $"Has Keyboard: {GetAttributeStatus(currentBooking.HasKeyboard)} \n" +
                 $"Has Mouse: {GetAttributeStatus(currentBooking.HasMouse)} \n" +
-                $"Has Headset: {GetAttributeStatus(currentBooking.HasHeadset)}"
+                $"Has Headset: {GetAttributeStatus(currentBooking.HasHeadset)}"                
                 , replyMarkup:inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
             UserStateStorage.Clear(callbackQuery.From.Id);

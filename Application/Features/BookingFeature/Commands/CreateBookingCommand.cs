@@ -25,9 +25,6 @@ namespace Application.Features.BookingFeature.Commands
         {
             RuleFor(x => x.UserId).NotEmpty().WithMessage("UserId must not be blank");
             RuleFor(x => x.UserId).NotEmpty().WithMessage("WorkplaceId must not be blank");
-            //will impelment it later
-            //RuleFor(x => x.IsRecurring).Must(x => x == false || x == true).WithMessage("IsRecurring should be whether true or false");
-            //RuleFor(x => x.Frequency).InclusiveBetween(1, 30).WithMessage("Frequency of booking must be range of 1 and 30");
         }
     }
     public class CreateBookingCommandHandler : UpsertBookingCommand, IRequestHandler<CreateBookingCommandRequest, CreateBookingCommandResponse>
@@ -60,6 +57,7 @@ namespace Application.Features.BookingFeature.Commands
 
             await EnsureWorkplaceIsFreeAsync(request.WorkplaceId, request.StartDate, request.EndDate);
             await EnsureUserHasNotBookingThisTimeAsync(request.UserId, request.StartDate, request.EndDate);
+            await EnsureUserHasNotVacationForThisPeriodAsync(request.UserId, request.StartDate, request.EndDate);          
 
             var booking = _mapper.Map<Booking>(request);
             _context.Bookings.Add(booking);
