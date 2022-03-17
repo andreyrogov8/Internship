@@ -8,7 +8,7 @@ namespace WebApi.Controllers
     [ApiController]
     public class ReportController : BaseApiController
     {
-        [HttpGet("report/office/{office_id:int}")]
+        [HttpGet("office/{office_id:int}")]
         public async Task<ActionResult<GetReportsByOfficeResponse>> GetAllAsync(
             [FromQuery] int officeId,
             DateTimeOffset startDate,
@@ -19,6 +19,16 @@ namespace WebApi.Controllers
             var result = await Mediator.Send(request);
             return Ok(result);
         }
-            
+
+        [HttpGet("office")]
+        public async Task<ActionResult<GetReportsByCityQueryResponse>> GetByCity([FromQuery] string city)
+        {
+            var result = await Mediator.Send(new GetReportsByCityQueryRequest
+            {
+                City = city
+            });
+            return Ok(result);
+        }
+
     }
 }
