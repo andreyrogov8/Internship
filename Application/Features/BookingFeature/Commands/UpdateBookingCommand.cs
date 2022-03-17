@@ -65,8 +65,8 @@ namespace Application.Features.BookingFeature.Commands
                 throw new NotFoundException(nameof(booking), request.UserId);
             }
 
-            await EnsureWorkplaceIsFreeAsync(request.WorkplaceId, request.StartDate, request.EndDate);
-            await EnsureUserHasNotBookingThisTimeAsync(request.UserId, request.StartDate, request.EndDate);
+            await EnsureWorkplaceIsFreeAsync(request.WorkplaceId, request.StartDate, request.EndDate, request.IsRecurring);
+            await EnsureUserHasNotBookingThisTimeAsync(request.UserId, request.StartDate, request.EndDate, request.IsRecurring);
             await EnsureUserHasNotVacationForThisPeriodAsync(request.UserId, request.StartDate, request.EndDate);
 
             booking = _mapper.Map(request, booking);

@@ -33,7 +33,7 @@ namespace Application.Telegram.Commands
                         IsRecurring = currentUserInfo.RecurringDay is not null,
                         Frequency = 0
                     });
-            string recurringDayInfo = (currentUserInfo.RecurringDay is not null) ? $"Recurring Day: {currentUserInfo.RecurringDay}" : String.Empty;
+            string recurringDayInfo = (currentUserInfo.RecurringDay is not null) ? $"Recurring Day: {currentUserInfo.RecurringDay}" : "Not Recurring Booking";
             var inlineKeyboard = CommandsListKeyboard.BuildKeyboard(new List<string>{ "Start New"}, 1, "BACKStartingProcess");
             var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, 
                 $"Your booking details: \n From: {currentBooking.StartDate.Date.ToShortDateString()} " +
