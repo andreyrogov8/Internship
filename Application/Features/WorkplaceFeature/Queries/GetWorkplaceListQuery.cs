@@ -15,18 +15,25 @@ using System.Threading.Tasks;
 
 namespace Application.Features.CountryCQ
 {
-    public class GetWorkplaceListQueryRequest : IRequest <GetWorkplaceListQueryResponse>
+    public class Request
     {
         public string MapId { get; set; }
 
-        public DateTimeOffset? StartDate { get; set; } = null;
-        public DateTimeOffset? EndDate { get; set; } = null;
         public bool? HasWindow { get; set; } = null;
         public bool? HasPc { get; set; } = null;
         public bool? HasMonitor { get; set; } = null;
         public bool? HasKeyboard { get; set; } = null;
         public bool? HasMouse { get; set; } = null;
         public bool? HasHeadset { get; set; } = null;
+
+    }
+    public class GetWorkplaceListQueryRequest : Request, IRequest <GetWorkplaceListQueryResponse>
+    {
+
+        public DateTimeOffset? StartDate { get; set; } = null;
+
+        public DateTimeOffset? EndDate { get; set; } = null;
+        
         public string RecurringDay { get; set; }
     }
 

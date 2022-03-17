@@ -1,60 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Application.Interfaces;
-using AutoMapper;
+﻿using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Infrastructure;
 using Application.Exceptions;
-using FluentValidation;
 
 namespace Application.Features.OfficeFeature.Commands
 {
-    public class DeleteOfficeCommand
+    public class DeleteOfficeCommandRequest : IRequest<DeleteOfficeCommandResponse>
     {
-        public class DeleteOfficeCommandRequest : IRequest<DeleteOfficeCommandResponse>
+        public int Id { get; set; }
+    }
+
+    public class DeleteOfficeCommandHandler : IRequestHandler<DeleteOfficeCommandRequest, DeleteOfficeCommandResponse>
+    {
+        private readonly IApplicationDbContext _context;
+
+        public DeleteOfficeCommandHandler(IApplicationDbContext context)
         {
-            public int Id { get; set; }
-        }
-        public class Validator : AbstractValidator<DeleteOfficeCommandRequest>
-        {
-            public Validator()
-            {               
-                RuleFor(x => x.Id).NotEmpty().WithMessage("The office Id can't be empty or null!");
-            }
+            _context = context;
         }
 
-        public class DeleteOfficeCommandHandler : IRequestHandler<DeleteOfficeCommandRequest, DeleteOfficeCommandResponse>
+        public async Task<DeleteOfficeCommandResponse> Handle(DeleteOfficeCommandRequest request, CancellationToken cancellationToken)
         {
-            private readonly IApplicationDbContext _context;
-
-            public DeleteOfficeCommandHandler(IApplicationDbContext context)
+            var office = await _context.Offices.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+            if (office == null)
             {
-                _context = context;
+                throw new NotFoundException(nameof(office), request.Id);
             }
+            office.IsDeleted = true;
+            await _context.SaveChangesAsync(cancellationToken);
 
-            public async Task<DeleteOfficeCommandResponse> Handle(DeleteOfficeCommandRequest request, CancellationToken cancellationToken)
+            return new DeleteOfficeCommandResponse
             {
-                var office = await _context.Offices.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-                if (office == null)
-                {
-                    throw new NotFoundException(nameof(office), request.Id);
-                }
-                office.IsDeleted = true;
-                await _context.SaveChangesAsync(cancellationToken);
-
-                return new DeleteOfficeCommandResponse
-                {
-                    Id = office.Id
-                };
-            }
+                Id = office.Id
+            };
         }
-        public class DeleteOfficeCommandResponse
-        {
-            public int Id { get; set; }
-        }
+    }
+    public class DeleteOfficeCommandResponse
+    {
+        public int Id { get; set; }
     }
 }
