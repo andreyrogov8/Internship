@@ -31,19 +31,24 @@ namespace Application.Features.ReportFeature.Queries;
 
     public async Task<GetReportsByOfficeResponse> Handle(GetReportsByOfficeRequest request, CancellationToken cancellationToken)
     {
-        var bookings = _context.Bookings.Include(b => b.Workplace).Include(b => b.Workplace.Map.Office).Where(
-            b =>  b.Workplace.Map.OfficeId == request.OfficeId && 
-            b.StartDate.Day >= request.StartDate.Day &&
-            b.StartDate.Month >= request.StartDate.Month &&
-            b.StartDate.Year >= request.StartDate.Year &&
-            b.EndDate.Day <= request.EndDate.Day &&
-            b.EndDate.Month <= request.EndDate.Month && 
-            b.EndDate.Year <= request.EndDate.Year
-        );
+        var bookingList = _context.Bookings.AsQueryable();
+
+        if (request.OfficeId > 0)
+        {
+            bookingList = bookingList.Where(b =>
+               b.Workplace.Map.OfficeId == request.OfficeId);
+        }
+
+        if (bookingList.Any() && request.StartDate > DateTimeOffset.MinValue && request.EndDate > DateTimeOffset.MinValue)
+        {
+            bookingList = bookingList.Where(b =>
+                  b.StartDate.Date >= request.StartDate.Date &&
+                  b.EndDate.Date <= request.EndDate.Date);
+        }
 
         return new GetReportsByOfficeResponse
             {
-                Data = await bookings
+                Data = await bookingList
                         .ProjectTo<BookingDTO>(_mapper.ConfigurationProvider)
                         .ToListAsync(cancellationToken)
             };
@@ -67,7 +72,6 @@ namespace Application.Features.ReportFeature.Queries;
         public DateTimeOffset StartDate { get; set; }
         public DateTimeOffset EndDate { get; set; }
         public bool IsRecurring { get; set; }
-        public int Frequency { get; set; }
         public UserDto User { get; set; }
         public int WorkplaceId { get; set; }
     }

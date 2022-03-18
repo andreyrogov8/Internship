@@ -4,17 +4,14 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Application.Features.ReportFeature.Queries
 {
     public class GetReportsByFloorRequest : IRequest<GetReportsByFloorResponse>
     {
         public int FloorId { get; set; }
+        public int OfficeId { get; set; }
         public string OfficeName { get; set; }
         public int FloorNumber { get; set; }
         public DateTimeOffset StartDate { get; set; }
@@ -40,6 +37,13 @@ namespace Application.Features.ReportFeature.Queries
                     b.Workplace.MapId == request.FloorId);
             }
 
+            if (request.OfficeId >0 && request.FloorNumber > 0)
+            {
+                bookingList = bookingList.Where(b =>
+                    b.Workplace.Map.Office.Id == request.OfficeId &&
+                    b.Workplace.Map.FloorNumber == request.FloorNumber);
+            }
+
             if (request.OfficeName is not null && request.FloorNumber > 0 )
             {
                 bookingList = bookingList.Where(b =>
@@ -47,24 +51,24 @@ namespace Application.Features.ReportFeature.Queries
                     b.Workplace.Map.FloorNumber == request.FloorNumber);
             }
 
-            if (bookingList.Count()>0 && request.StartDate>DateTimeOffset.MinValue && request.EndDate > DateTimeOffset.MinValue)
+            if (bookingList.Any() && request.StartDate>DateTimeOffset.MinValue && request.EndDate > DateTimeOffset.MinValue)
             {
                 bookingList = bookingList.Where(b =>
-                      b.StartDate >= request.StartDate &&
-                      b.EndDate <= request.EndDate);
+                      b.StartDate.Date >= request.StartDate.Date &&
+                      b.EndDate.Date <= request.EndDate.Date);
             }               
 
             return new GetReportsByFloorResponse
             {
                 bookings = await bookingList
-                .ProjectTo<BookingDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<BookingDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
             };
         }
     }
     public class GetReportsByFloorResponse
     {
-        public IEnumerable<BookingDto> bookings { get; set; }
+        public IEnumerable<BookingDTO> bookings { get; set; }
     }
 
 }

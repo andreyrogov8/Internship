@@ -1,15 +1,17 @@
 ﻿using Application.Features.ReportFeature.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class ReportController : BaseApiController
+    public class ReportsController : BaseApiController
     {
-        [HttpGet("office/{office_id:int}")]
+        [HttpGet("office/{officeId:int}")]
         public async Task<ActionResult<GetReportsByOfficeResponse>> GetAllAsync(
-            [FromQuery] int officeId,
+            [FromRoute] int officeId,
             DateTimeOffset startDate,
             DateTimeOffset endDate
             )
@@ -19,19 +21,25 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("office")]
-        public async Task<ActionResult<GetReportsByCityQueryResponse>> GetByCity([FromQuery] string city)
+        [HttpGet("office/{cityName}")]
+        public async Task<ActionResult<GetReportsByCityQueryResponse>> GetByCity(
+            [FromRoute] string cityName,
+            DateTimeOffset startDate,
+            DateTimeOffset endDate
+            )
         {
             var result = await Mediator.Send(new GetReportsByCityQueryRequest
             {
-                City = city
+                City = cityName,
+                StartDate = startDate,
+                EndDate = endDate
             });
             return Ok(result);
         }
 
-        [HttpGet("floorId")]
+        [HttpGet("floor/{floorId:int}")]
         public async Task<ActionResult<GetReportsByFloorResponse>> GetByFloor(
-            [FromQuery] int floorId,
+            [FromRoute] int floorId,
             DateTimeOffset startDate,
             DateTimeOffset endDate
             )
@@ -45,10 +53,28 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("floorNumber")]
+        [HttpGet("office/{officeId:int}/floor/{floorNumber}")]
         public async Task<ActionResult<GetReportsByFloorResponse>> GetByFloorNumber(
-            [FromQuery] string officeName,
-            int floorNumber,
+            [FromRoute] int officeId,
+            [FromRoute] int floorNumber,
+            DateTimeOffset startDate,
+            DateTimeOffset endDate
+            )
+        {
+            var result = await Mediator.Send(new GetReportsByFloorRequest
+            {
+                OfficeId = officeId,
+                FloorNumber = floorNumber,
+                StartDate = startDate,
+                EndDate = endDate
+            });
+            return Ok(result);
+        }
+
+        [HttpGet("office/{officeName}/floor/{floorNumber}")]
+        public async Task<ActionResult<GetReportsByFloorResponse>> GetByFloorNumber(
+            [FromRoute] string officeName,
+            [FromRoute] int floorNumber,
             DateTimeOffset startDate,
             DateTimeOffset endDate
             )
