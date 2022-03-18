@@ -17,6 +17,8 @@ namespace Application.Features.ReportFeature.Queries
     public class GetReportsByCityQueryRequest : IRequest<GetReportsByCityQueryResponse>
     {   
         public string City { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
     }
 
     public class GetReportsByCityQueryHandler : IRequestHandler<GetReportsByCityQueryRequest, GetReportsByCityQueryResponse>
@@ -35,16 +37,23 @@ namespace Application.Features.ReportFeature.Queries
 
             bookingList = bookingList.Where(booking => booking.Workplace.Map.Office.City == request.City);
 
+            if (bookingList.Any() && request.StartDate > DateTimeOffset.MinValue && request.EndDate > DateTimeOffset.MinValue)
+            {
+                bookingList = bookingList.Where(b =>
+                      b.StartDate.Date >= request.StartDate.Date &&
+                      b.EndDate.Date <= request.EndDate.Date);
+            }
+
             return new GetReportsByCityQueryResponse
             {
                 bookings = await bookingList
-                .ProjectTo<BookingDto>(_mapper.ConfigurationProvider)
+                .ProjectTo<BookingDTO>(_mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken)
             };
         }
     }
     public class GetReportsByCityQueryResponse
     {
-        public IEnumerable<BookingDto> bookings { get; set; }
+        public IEnumerable<BookingDTO> bookings { get; set; }
     }
 }
