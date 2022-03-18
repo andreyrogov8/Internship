@@ -1,5 +1,4 @@
 ﻿using Application.Features.ReportFeature.Queries;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -26,6 +25,40 @@ namespace WebApi.Controllers
             var result = await Mediator.Send(new GetReportsByCityQueryRequest
             {
                 City = city
+            });
+            return Ok(result);
+        }
+
+        [HttpGet("floorId")]
+        public async Task<ActionResult<GetReportsByFloorResponse>> GetByFloor(
+            [FromQuery] int floorId,
+            DateTimeOffset startDate,
+            DateTimeOffset endDate
+            )
+        {
+            var result = await Mediator.Send(new GetReportsByFloorRequest
+            {
+                FloorId = floorId,
+                StartDate = startDate,
+                EndDate = endDate
+            });
+            return Ok(result);
+        }
+
+        [HttpGet("floorNumber")]
+        public async Task<ActionResult<GetReportsByFloorResponse>> GetByFloorNumber(
+            [FromQuery] string officeName,
+            int floorNumber,
+            DateTimeOffset startDate,
+            DateTimeOffset endDate
+            )
+        {
+            var result = await Mediator.Send(new GetReportsByFloorRequest
+            {
+                OfficeName = officeName,
+                FloorNumber = floorNumber,
+                StartDate = startDate,
+                EndDate = endDate
             });
             return Ok(result);
         }
