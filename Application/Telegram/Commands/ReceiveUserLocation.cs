@@ -23,15 +23,28 @@ namespace Application.Telegram.Commands
         public async Task SendAsync(CallbackQuery callbackQuery)
         {
             var keyboard = ReceiveUserLocationKeyboard.BuildKeyboard();
-            await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "So, you want me to suggest offices using your location. Please, press this button and send me your location.", replyMarkup: keyboard);
+            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "So, you want me to suggest offices using your location. Please, press this button and send me your location.", replyMarkup: keyboard);
+            UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
         public async Task ReceiveLocationAndSendOffices(Message message)
         {
-            var latitude = message.Location.Latitude;
-            var longitude = message.Location.Longitude;
-            var countryName = await new IdentifyUserLocation(_clientFactory).FindCountryAsync(longitude, latitude);
-            await new SendOfficeListCommand(_mediator, _bot).Send(message, query: countryName, sendedQuery:true);
-            UserStateStorage.UpdateUserState(message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
+            if (message.Location is null)
+            {
+                await _bot.DeleteMessageAsync(message.From.Id, message.MessageId);
+                await new ProvideButtons(_bot).SendAsync(
+                        message
+                        , new List<string> { "New Booking" }
+                        , 1);
+                UserStateStorage.UpdateUserState(message.From.Id, UserState.SelectingAction);
+            }
+            else 
+            {
+               var latitude = message.Location.Latitude;
+               var longitude = message.Location.Longitude;
+               var countryName = await new IdentifyUserLocation(_clientFactory).FindCountryAsync(longitude, latitude);
+               await new SendOfficeListCommand(_mediator, _bot).Send(message, query: countryName, sendedQuery:true);
+               UserStateStorage.UpdateUserState(message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
+            }
         }
 
         
