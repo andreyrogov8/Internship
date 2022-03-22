@@ -23,7 +23,10 @@ namespace Application.Telegram.Commands
         public async Task SendAsync(CallbackQuery callbackQuery)
         {
             var keyboard = ReceiveUserLocationKeyboard.BuildKeyboard();
-            var currentMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id, "So, you want me to suggest offices using your location. Please, press this button and send me your location.", replyMarkup: keyboard);
+            var currentMessage = await _bot.SendTextMessageAsync(
+                callbackQuery.Message.Chat.Id,
+                "Suggest offices by location. Please send me your location.",
+                replyMarkup: keyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currentMessage.MessageId);
         }
         public async Task ReceiveLocationAndSendOffices(Message message)
