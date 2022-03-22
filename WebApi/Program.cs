@@ -20,9 +20,14 @@ using System.Reflection;
 using Services.Jobs;
 using Microsoft.Extensions.Options;
 using Application.Configurations;
-
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, config) =>
+{
+    config.ReadFrom.Configuration(builder.Configuration);
+});
 
 // Add services to the container.
 
@@ -126,6 +131,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -136,4 +143,3 @@ app.MapControllers();
 app.Run();
 
 
-public partial class Program { }
