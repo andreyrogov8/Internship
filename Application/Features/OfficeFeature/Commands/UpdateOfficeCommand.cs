@@ -60,15 +60,14 @@ namespace Application.Features.OfficeFeature.Commands
                     throw new NotFoundException($"The office with the ID = {request.Id}");
                 }
 
-                office = _mapper.Map<Office>(request);
-
-                _context.Offices.Update(office);
+                office = _mapper.Map(request, office);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                var response = _mapper.Map<UpdateOfficeCommandResponse>(office);
-
-                return response;
+                return new UpdateOfficeCommandResponse
+                {
+                    Id = office.Id
+                };
             }
         }
 
@@ -76,11 +75,7 @@ namespace Application.Features.OfficeFeature.Commands
         {
 
             public int Id { get; set; }
-            public string Name { get; set; }
-            public string Country { get; set; }
-            public string City { get; set; }
-            public string Address { get; set; }
-            public bool HasFreeParking { get; set; }
+            
         }
     }
 }
