@@ -28,7 +28,7 @@ namespace Application.Telegram.Commands
             var offices = officeResponse.Results;
             var inlineKeyboard = SendOfficeListKeyboard.BuildKeyboard(offices);
             var currnetMessage = await _bot.SendTextMessageAsync(callbackQuery.Message.Chat.Id,
-               callbackQuery.Data.Contains("BACK") ? "Choose Office or type for filtering" : $"You choose: {callbackQuery.Data} \n Choose Office or type for filtering"
+               callbackQuery.Data.Contains("BACK") ? "Choose Office or write for filtering" : $"You choose: {callbackQuery.Data} \n Choose Office or write for filtering"
                ,replyMarkup: inlineKeyboard);
             UserStateStorage.AddMessage(callbackQuery.From.Id, currnetMessage.MessageId);
         }
