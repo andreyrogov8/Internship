@@ -20,7 +20,7 @@ namespace Application.Telegram.MainActions
             {
                 case UserState.NewVacationIsSelected:
                     await new SendYearCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery,
-                        $"Please select start date year", "BACKNewBookingIsSelected", "Start");
+                        $"Please select start date year", "BACKStartingProcess", "Start");
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedSelectingStartDateYear);
                     return;
 
@@ -59,9 +59,9 @@ namespace Application.Telegram.MainActions
                         , "Please select end date day"
                         , "BACKStartingProcess"
                         ,"End");
-
                     UserStateStorage.UpdateUserState(update.CallbackQuery.From.Id, UserState.NewVacationIsSelectedEndDateDay);
                     return;
+
                 case UserState.NewVacationIsSelectedEndDateDay:
                     DateHelper.EndDayUpdater(update.CallbackQuery, ref user);
                     await new CreateVacationCommand(mediator, telegramBotClient).SendAsync(update.CallbackQuery);

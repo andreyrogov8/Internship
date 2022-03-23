@@ -10,7 +10,7 @@ namespace WebApi.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class MapsController : BaseApiController
+    public class FloorsController : BaseApiController
     {
         [HttpGet]
         public async Task<ActionResult<GetMapListQueryRequest>> GetAllAsync()
