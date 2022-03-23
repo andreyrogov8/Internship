@@ -19,7 +19,7 @@ namespace Application.Features.MapFeature.Commands
     {
         public CreateMapCommandValidator()
         {
-            RuleFor(x => x.FloorNumber).NotEmpty().WithMessage("FloorNumber must not be blank");
+            RuleFor(x => x.FloorNumber).Must(x => x > 0).WithMessage("FloorNumber must not be negative number");
             RuleFor(x => x.HasKitchen).Must(x => x == true || x == false).WithMessage("HasKitchen should be whether true or false");
             RuleFor(x => x.HasMeetingRoom).Must(x => x == true || x == false).WithMessage("HasMeetingRoom should be whether true or false");
             RuleFor(x => x.OfficeId).NotEmpty().WithMessage("OfficeId must not be blank");
