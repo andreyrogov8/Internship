@@ -44,7 +44,8 @@ namespace Application.Telegram.Commands
             {
                var latitude = message.Location.Latitude;
                var longitude = message.Location.Longitude;
-               var countryName = await new IdentifyUserLocation(_clientFactory).FindCountryAsync(longitude, latitude);
+               using var identifier = new IdentifyUserLocation(_clientFactory);
+               var countryName = await identifier.FindCountryAsync(longitude, latitude);
                await new SendOfficeListCommand(_mediator, _bot).Send(message, query: countryName, sendedQuery:true);
                UserStateStorage.UpdateUserState(message.From.Id, UserState.NewBookingIsSelectedStartingBooking);
             }
