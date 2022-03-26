@@ -22,13 +22,29 @@ namespace Application.Telegram.Helpers
     }
 
 
-    public class IdentifyUserLocation
+    public class IdentifyUserLocation : IDisposable
     {
         private readonly HttpClient _client;
+        private bool _disposed;
 
         public IdentifyUserLocation(IHttpClientFactory httpClientFactory)
         {
             _client = httpClientFactory.CreateClient();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing && !_disposed)
+            {
+                _client.Dispose();
+            }
+            _disposed = true;
         }
 
         public async Task<string> FindCountryAsync(double longitude, double latitude)
@@ -47,5 +63,7 @@ namespace Application.Telegram.Helpers
 
             return address.Address.Country;
         }
+
+        
     }
 }
