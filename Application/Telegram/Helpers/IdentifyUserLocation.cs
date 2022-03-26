@@ -39,7 +39,7 @@ namespace Application.Telegram.Helpers
 
         private void Dispose(bool disposing)
         {
-            if (disposing && _disposed)
+            if (disposing && !_disposed)
             {
                 _client.Dispose();
             }
